@@ -1,4 +1,4 @@
-package ua.training.controller.Command;
+package ua.training.controller.command;
 
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
