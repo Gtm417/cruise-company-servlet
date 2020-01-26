@@ -60,7 +60,7 @@ public class Servlet extends HttpServlet {
         System.err.println("Servlet:  " + response.getCharacterEncoding());
         String path = request.getRequestURI();
         System.out.println("path 1 :" + path);
-        path = path.replaceAll(".*/" , "");
+        path = path.replaceAll(".*/cruise-company/" , "");
         System.out.println("path 1 :" + path);
         Command command = commands.getOrDefault(path ,
                 (r)->"/index.jsp");
@@ -68,8 +68,8 @@ public class Servlet extends HttpServlet {
         String page = command.execute(request);
         System.out.println("page:  " + page);
         if(page.contains("redirect")){
-            System.out.println("page replace: " + page.replace("redirect:", "/"));
-            response.sendRedirect(page.replace("redirect:", "/"));
+            System.out.println("page replace: " + page.replace("redirect:", "/cruise-company/"));
+            response.sendRedirect(page.replace("redirect:", "/cruise-company/"));
         }else {
             request.getRequestDispatcher(page).forward(request, response);
         }

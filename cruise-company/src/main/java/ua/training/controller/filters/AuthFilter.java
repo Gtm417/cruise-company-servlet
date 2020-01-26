@@ -11,6 +11,7 @@ import java.io.IOException;
 
 
 public class AuthFilter implements Filter {
+    //private static final String DEFAULT_REQUEST = "/cruise-company";
     private static final String LOGIN_REQUEST = "/login";
     private static final String START_PAGE_REQUEST = "/index.jsp";
     private static final String REGISTRATION_REQUEST = "/registration";
@@ -46,10 +47,11 @@ public class AuthFilter implements Filter {
         System.out.println("Context users = " + context.getAttribute("loggedUsers"));
 
 
-        String  path = req.getRequestURI();
+        String path = req.getRequestURI();
         System.out.println("filter  " + path);
         boolean isAccessedRequest = path.contains(LOGIN_REQUEST) || path.contains(LOGOUT_REQUEST)
-                || path.contains(REGISTRATION_REQUEST) || path.contains(START_PAGE_REQUEST) || path.contains(ERROR_REQUEST);
+                || path.contains(REGISTRATION_REQUEST) || path.contains(START_PAGE_REQUEST)
+                || path.contains(ERROR_REQUEST);
 
 
         if((session.getAttribute("login")) == null && !isAccessedRequest){
