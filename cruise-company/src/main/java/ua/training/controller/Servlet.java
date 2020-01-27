@@ -1,10 +1,7 @@
 package ua.training.controller;
 
 
-import ua.training.controller.command.Command;
-import ua.training.controller.command.ExceptionCommand;
-import ua.training.controller.command.LogOutCommand;
-import ua.training.controller.command.LoginCommand;
+import ua.training.controller.command.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -20,7 +17,6 @@ public class Servlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig servletConfig){
-//        LogOutCommand log = new LogOutCommand();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -29,7 +25,10 @@ public class Servlet extends HttpServlet {
                 new LogOutCommand());
         commands.put("login",
                 new LoginCommand());
-        commands.put("exception" , new ExceptionCommand());
+        commands.put("exception" ,
+                new ExceptionCommand());
+        commands.put("registration" ,
+                new RegistrationCommand());
     }
 
 

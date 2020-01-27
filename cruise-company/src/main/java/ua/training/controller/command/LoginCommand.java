@@ -6,9 +6,15 @@ import ua.training.model.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command{
+    UserService userService;
+
+    public LoginCommand() {
+        this.userService = new UserService();
+    }
 
     @Override
     public String execute(HttpServletRequest request) throws Exception {
+        //todo clean Session
         System.out.println(request.getCharacterEncoding());
         String login = request.getParameter("name");
         System.out.println(login);
@@ -19,8 +25,7 @@ public class LoginCommand implements Command{
         }
         System.out.println(login + " " + pass);
 
-        //?
-        UserService userService = new UserService();
+
         // Выкинет ошибку если не существует пользователя в базе (не правильный логин)
         User user =  userService.findUserByLogin(login);
 

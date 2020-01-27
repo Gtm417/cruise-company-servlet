@@ -1,9 +1,11 @@
 package ua.training.model.dao;
 
+import ua.training.model.exception.DuplicateDataBaseException;
+
 import java.util.List;
 
 public interface GenericDao<T> extends AutoCloseable{
-    void create (T entity);
+    boolean create (T entity) throws DuplicateDataBaseException;
     T findById(int id);
     List<T> findAll();
     void update(T entity);
