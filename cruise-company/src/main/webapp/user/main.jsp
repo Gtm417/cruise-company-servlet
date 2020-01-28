@@ -15,29 +15,32 @@
     <title>Main</title>
 </head>
 <body>
-<tr>
-    <th scope="col"> Name</th>
-    <th scope="col"> Description</th>
-    <th scope="col"> DescriptionRu</th>
-
-</tr>
-</thead>
-
-<tbody>
-<c:forEach var="cruise" items="${cruises}">
+<a href="${pageContext.request.contextPath}/balance"> replenish</a>
+<table class="table table-striped table-responsive-md btn-table">
+    <thead class="thead-dark">
     <tr>
-    <td>${cruise.getCruiseName}</td>
-    <td>${cruise.getDescriptionEng}</td>
-    <td>${cruise.getDescriptionRu}</td>
-    <%--            <td>--%>
-    <%--                <form action="user" method="post">--%>
-    <%--                    <input type="hidden" name="command" value="processExposition"/>--%>
-    <%--                    <input type="hidden" name="expositionId" value="${exposition.getId()}"/>--%>
-    <%--                    <button type="submit" class="btn btn-success"><fmt:message key="user.showExpositions.order"/></button>--%>
-    <%--                </form>--%>
-    <%--            </td>--%>
+        <th scope="col"> Name</th>
+        <th scope="col"> Description</th>
+        <th scope="col"> DescriptionRu</th>
     </tr>
-</c:forEach>
-</tbody>
+    </thead>
+
+    <tbody>
+    <c:forEach var="cruise" items="${cruises}">
+        <tr>
+            <td>${cruise.cruiseName}</td>
+            <td>${cruise.descriptionEng}</td>
+            <td>${cruise.descriptionRu}</td>
+                <%--            <td>--%>
+                <%--                <form action="user" method="post">--%>
+                <%--                    <input type="hidden" name="command" value="processExposition"/>--%>
+                <%--                    <input type="hidden" name="expositionId" value="${exposition.getId()}"/>--%>
+                <%--                    <button type="submit" class="btn btn-success"><fmt:message key="user.showExpositions.order"/></button>--%>
+                <%--                </form>--%>
+                <%--            </td>--%>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
 </body>
 </html>

@@ -20,6 +20,7 @@ public class AuthFilter implements Filter {
     private static final String ADMIN_REQUEST = "/admin";
     private static final String USER_REQUEST = "/user";
     public static final String MAIN_REQUEST = "/main";
+    public static final String BALANCE_REQUEST = "/balance";
 
 
     @Override
@@ -75,7 +76,7 @@ public class AuthFilter implements Filter {
             }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
                 System.out.println("Third if");
                 filterChain.doFilter(request,response);
-            }else if(path.contains(MAIN_REQUEST)) {
+            }else if(path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)) {
                 System.out.println("MAIN IF");
                 filterChain.doFilter(request,response);
             }

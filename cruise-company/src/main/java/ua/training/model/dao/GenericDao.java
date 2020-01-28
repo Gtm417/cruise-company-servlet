@@ -8,6 +8,6 @@ public interface GenericDao<T> extends AutoCloseable{
     boolean create (T entity) throws DuplicateDataBaseException;
     T findById(int id);
     List<T> findAll();
-    void update(T entity);
+    boolean update(T entity);
     void delete(int id);
 }

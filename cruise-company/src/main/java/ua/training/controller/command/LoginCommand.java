@@ -35,7 +35,7 @@ public class LoginCommand implements Command{
         }
 
         if(checkInputPassword(pass, user.getPassword())){
-            CommandUtility.setUserRole(request, user.getRole(), login);
+            CommandUtility.setUserRole(request, user, login);
             return "redirect:main";
         }
         else {

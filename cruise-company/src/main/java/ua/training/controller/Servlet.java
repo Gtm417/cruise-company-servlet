@@ -31,6 +31,8 @@ public class Servlet extends HttpServlet {
                 new RegistrationCommand());
         commands.put("main" ,
                 new MainCommand());
+        commands.put("balance" ,
+                new BalanceCommand());
     }
 
 

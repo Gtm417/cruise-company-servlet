@@ -7,6 +7,7 @@
     <title>Admin Main</title>
 </head>
 <body>
+
 <table class="table table-striped table-responsive-md btn-table">
     <thead class="thead-dark">
     <tr>
@@ -33,5 +34,6 @@
     </c:forEach>
     </tbody>
 </table>
+<a href="${pageContext.request.contextPath}/balance"> </a>
 </body>
 </html>

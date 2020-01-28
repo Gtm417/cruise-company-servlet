@@ -6,7 +6,6 @@ import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.ShipMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
-import ua.training.model.entity.User;
 import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.sql.*;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class JDBCCruiseDao implements CruiseDao {
-    private static final String FIND_ALL_QUERY2 = "SELECT * FROM cruises";
     private static final String FIND_ALL_QUERY = "SELECT * FROM cruises inner join ships ON cruises.id = ships.id;";
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -56,8 +54,7 @@ public class JDBCCruiseDao implements CruiseDao {
     }
 
     @Override
-    public void update(Cruise entity) {
-
+    public boolean update(Cruise entity) {return false;
     }
 
     @Override

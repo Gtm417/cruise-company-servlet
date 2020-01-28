@@ -11,6 +11,17 @@ import java.util.HashSet;
 
 class CommandUtility {
     static void setUserRole(HttpServletRequest request,
+                            User user, String name) {
+        HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
+        loginUserInContext(request, name);
+        context.setAttribute("userName", name);
+        session.setAttribute("role", user.getRole());
+        session.setAttribute("login", name);
+        session.setAttribute("user", user);
+    }
+    //todo delete
+    static void setUserRole(HttpServletRequest request,
                             User.ROLE role, String name) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();

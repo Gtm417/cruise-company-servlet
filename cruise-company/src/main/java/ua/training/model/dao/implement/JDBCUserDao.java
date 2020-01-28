@@ -18,6 +18,8 @@ public class JDBCUserDao implements UserDao {
     private final static String FIND_ALL_USERS = "select * from cruise_company_servlet.users";
     private final static String FIND_USER_BY_LOGIN= "select * from cruise_company_servlet.users where login = ?";
     private final static String SAVE_USER = "insert into cruise_company_servlet.users(login, password) values(?,?)";
+    private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET id = ?, login = ?, password = ?, balance = ?, role = ?" +
+            "WHERE id = ?;";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -83,8 +85,21 @@ public class JDBCUserDao implements UserDao {
 
 
     @Override
-    public void update(User entity) {
-
+    public boolean update(User entity) {
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement pst = connection.prepareStatement(UPDATE_USER)){
+            pst.setLong(1, entity.getId());
+            pst.setString(2, entity.getLogin());
+            pst.setString(3, entity.getPassword());
+            pst.setLong(4, entity.getBalance());
+            pst.setString(5, entity.getRole().name());
+            pst.setLong(6, entity.getId());
+            return  pst.executeUpdate() != 0;
+        }catch(SQLException ex){
+            //todo delete
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     @Override

@@ -10,12 +10,10 @@ import ua.training.model.exception.DuplicateDataBaseException;
 
 
 public class UserService {
-    private DaoFactory daoFactory;
     private final UserDao userDao;
 
     public UserService() {
         this.userDao = DaoFactory.getInstance().createUserDao(ConnectionPoolHolder.pool());
-        //this.daoFactory = DaoFactory.getInstance();
     }
 
     public boolean saveNewUser (@NonNull User user) throws DuplicateDataBaseException {
@@ -41,4 +39,8 @@ public class UserService {
         }
     }
 
+    public boolean addBalance(User user,long value) {
+        user.setBalance(value);
+        return userDao.update(user);
+    }
 }
