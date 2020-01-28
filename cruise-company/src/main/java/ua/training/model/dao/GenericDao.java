@@ -4,7 +4,7 @@ import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.util.List;
 
-public interface GenericDao<T> extends AutoCloseable{
+public interface GenericDao<T>{
     boolean create (T entity) throws DuplicateDataBaseException;
     T findById(int id);
     List<T> findAll();

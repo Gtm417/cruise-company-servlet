@@ -11,6 +11,7 @@ public abstract class DaoFactory {
 
     public abstract UserDao createUserDao(ConnectionPoolHolder connectionPoolHolder);
     public abstract CruiseDao createCruiseDao(ConnectionPoolHolder connectionPoolHolder);
+    public abstract OrderDao createOrderDao(ConnectionPoolHolder connectionPoolHolder);
 
     public static DaoFactory getInstance(){
         if( daoFactory == null ){

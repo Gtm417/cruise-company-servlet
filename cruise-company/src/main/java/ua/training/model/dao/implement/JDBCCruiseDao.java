@@ -62,8 +62,4 @@ public class JDBCCruiseDao implements CruiseDao {
 
     }
 
-    @Override
-    public void close() throws Exception {
-        System.out.println("CLOOOOSE");
-    }
 }

@@ -19,7 +19,7 @@ public class JDBCUserDao implements UserDao {
     private final static String FIND_USER_BY_LOGIN= "select * from cruise_company_servlet.users where login = ?";
     private final static String SAVE_USER = "insert into cruise_company_servlet.users(login, password) values(?,?)";
     private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET id = ?, login = ?, password = ?, balance = ?, role = ?" +
-            "WHERE id = ?;";
+            "WHERE id = ?";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -107,8 +107,4 @@ public class JDBCUserDao implements UserDao {
 
     }
 
-    @Override
-    public void close(){
-        System.out.println("CLOOOOSE USER");
-    }
 }
