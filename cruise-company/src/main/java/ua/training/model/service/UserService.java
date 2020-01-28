@@ -11,27 +11,30 @@ import ua.training.model.exception.DuplicateDataBaseException;
 
 public class UserService {
     private DaoFactory daoFactory;
+    private final UserDao userDao;
 
     public UserService() {
-        this.daoFactory = DaoFactory.getInstance();
+        this.userDao = DaoFactory.getInstance().createUserDao(ConnectionPoolHolder.pool());
+        //this.daoFactory = DaoFactory.getInstance();
     }
 
     public boolean saveNewUser (@NonNull User user) throws DuplicateDataBaseException {
         //user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        try (UserDao dao = daoFactory.createUserDao(ConnectionPoolHolder.pool().connect())){
-            return dao.create(user);
+        try {
+            return userDao.create(user);
         }catch (DuplicateDataBaseException ex) {
-            throw new DuplicateDataBaseException(ex);        }
-        catch (Exception e){
+            throw new DuplicateDataBaseException(ex);
+        } catch (Exception e){
             throw new RuntimeException(e);
         }
     }
 
 
     public User findUserByLogin(String login) {
-        try(UserDao dao = daoFactory.createUserDao(ConnectionPoolHolder.pool().connect())){
+        try{
+            System.out.println("im in service");
             //TODO Exception user  not exist
-            return dao.findByLogin(login).orElseThrow(RuntimeException::new);
+            return userDao.findByLogin(login).orElseThrow(RuntimeException::new);
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException(e);

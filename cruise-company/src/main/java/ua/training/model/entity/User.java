@@ -11,13 +11,12 @@ public class User {
     private ROLE role;
     private long balance;
 
-    public User(long id, String login, String password, ROLE role, long balance) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-
-        this.balance = balance;
+    public User(Builder builder) {
+        this.id = builder.id;
+        this.login = builder.login;
+        this.password = builder.password;
+        this.role = builder.role;
+        this.balance = builder.balance;
     }
 
     public long getId() {
@@ -92,7 +91,7 @@ public class User {
             return this;
         }
         public User build(){
-            return  new User(id, login, password, role, balance);
+            return  new User(this);
         }
     }
 

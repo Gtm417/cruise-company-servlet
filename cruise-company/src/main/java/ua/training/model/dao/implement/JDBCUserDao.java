@@ -19,15 +19,16 @@ public class JDBCUserDao implements UserDao {
     private final static String FIND_USER_BY_LOGIN= "select * from cruise_company_servlet.users where login = ?";
     private final static String SAVE_USER = "insert into cruise_company_servlet.users(login, password) values(?,?)";
 
-    private final Connection connection;
+    private final ConnectionPoolHolder connectionPoolHolder;
 
-    public JDBCUserDao(final Connection connection) {
-        this.connection = connection;
+    public JDBCUserDao(final ConnectionPoolHolder connectionPoolHolder) {
+        this.connectionPoolHolder = connectionPoolHolder;
     }
 
     @Override
     public boolean create(User entity) throws DuplicateDataBaseException {
-        try (PreparedStatement pst = connection.prepareStatement(SAVE_USER)){
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement pst = connection.prepareStatement(SAVE_USER)){
             pst.setString(1, entity.getLogin());
             pst.setString(2, entity.getPassword());
             return  pst.executeUpdate() != 0;
@@ -44,7 +45,8 @@ public class JDBCUserDao implements UserDao {
     //todo: norm exception
     @Override
     public Optional<User> findByLogin(String login) {
-        try(PreparedStatement ps = connection.prepareStatement(FIND_USER_BY_LOGIN)){
+        try(Connection connection = connectionPoolHolder.getConnection();
+                PreparedStatement ps = connection.prepareStatement(FIND_USER_BY_LOGIN)){
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -66,7 +68,8 @@ public class JDBCUserDao implements UserDao {
         List<User> resultList = new ArrayList<>();
         //TODo mb export in constr
         ObjectMapper<User> mapper = new UserMapper();
-        try (Statement ps = connection.createStatement()){
+        try (Connection connection = connectionPoolHolder.getConnection();
+                Statement ps = connection.createStatement()){
             ResultSet rs = ps.executeQuery(FIND_ALL_USERS);
             while ( rs.next() ){
                 resultList.add(mapper.extractFromResultSet(rs));
@@ -91,6 +94,6 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void close(){
-
+        System.out.println("CLOOOOSE USER");
     }
 }

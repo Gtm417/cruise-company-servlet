@@ -11,11 +11,11 @@ public class CruiseMapper implements ObjectMapper<Cruise>{
     @Override
     public Cruise extractFromResultSet(ResultSet rs) throws SQLException {
         return Cruise.builder().id(rs.getInt("id"))
-                .name(rs.getString("cruiseName"))
-                .departureDate(rs.getTimestamp("departureDate").toLocalDateTime().toLocalDate())
-                .arrivalDate(rs.getTimestamp("arrivalDate").toLocalDateTime().toLocalDate())
+                .name(rs.getString("cruise_name"))
+                .departureDate(rs.getTimestamp("departure_date").toLocalDateTime().toLocalDate())
+                .arrivalDate(rs.getTimestamp("arrival_date").toLocalDateTime().toLocalDate())
                 .descriptionEng(rs.getString("description_eng"))
-                .descriptionEng(rs.getString("description_ru"))
+                .descriptionRu(rs.getString("description_ru"))
                 .build();
     }
 

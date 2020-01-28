@@ -29,6 +29,8 @@ public class Servlet extends HttpServlet {
                 new ExceptionCommand());
         commands.put("registration" ,
                 new RegistrationCommand());
+        commands.put("main" ,
+                new MainCommand());
     }
 
 
@@ -53,8 +55,7 @@ public class Servlet extends HttpServlet {
         }
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         System.out.println("im in servlet");
         System.err.println("Servlet:  " + response.getCharacterEncoding());
         String path = request.getRequestURI();
@@ -65,6 +66,7 @@ public class Servlet extends HttpServlet {
                 (r)->"/index.jsp");
         System.out.println("command: " + command.getClass().getName());
         String page = command.execute(request);
+        System.out.println("execute end");
         System.out.println("page:  " + page);
         if(page.contains("redirect")){
             System.out.println("page replace: " + page.replace("redirect:", "/cruise-company/"));

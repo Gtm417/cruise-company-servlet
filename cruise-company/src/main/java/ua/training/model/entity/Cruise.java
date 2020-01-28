@@ -11,22 +11,19 @@ public class Cruise {
         private List<Ticket> tickets;
         private LocalDate departureDate;
         private LocalDate arrivalDate;
-        private String description_eng;
-        private String description_ru;
+        private String descriptionEng;
+        private String descriptionRu;
 
-    public Cruise(Long id, String cruiseName, Ship ship,
-                  List<Port> ports, List<Ticket> tickets,
-                  LocalDate departureDate, LocalDate arrivalDate,
-                  String description_eng, String description_ru) {
-        this.id = id;
-        this.cruiseName = cruiseName;
-        this.ship = ship;
-        this.ports = ports;
-        this.tickets = tickets;
-        this.departureDate = departureDate;
-        this.arrivalDate = arrivalDate;
-        this.description_eng = description_eng;
-        this.description_ru = description_ru;
+    public Cruise(Builder builder) {
+        this.id = builder.id;
+        this.cruiseName = builder.cruiseName;
+        this.ship = builder.ship;
+        this.ports = builder.ports;
+        this.tickets = builder.tickets;
+        this.departureDate = builder.departureDate;
+        this.arrivalDate = builder.arrivalDate;
+        this.descriptionEng = builder.descriptionEng;
+        this.descriptionRu = builder.descriptionRu;
     }
 
     public Long getId() {
@@ -85,24 +82,37 @@ public class Cruise {
         this.arrivalDate = arrivalDate;
     }
 
-    public String getDescription_eng() {
-        return description_eng;
+    public String getDescriptionEng() {
+        return descriptionEng;
     }
 
-    public void setDescription_eng(String description_eng) {
-        this.description_eng = description_eng;
+    public void setDescriptionEng(String descriptionEng) {
+        this.descriptionEng = descriptionEng;
     }
 
-    public String getDescription_ru() {
-        return description_ru;
+    public String getDescriptionRu() {
+        return descriptionRu;
     }
 
-    public void setDescription_ru(String description_ru) {
-        this.description_ru = description_ru;
+    public void setDescriptionRu(String descriptionRu) {
+        this.descriptionRu = descriptionRu;
     }
 
     public static Builder builder(){
         return new Builder();
+    }
+
+    @Override
+    public String toString() {
+        return "Cruise{" +
+                "id=" + id +
+                ", cruiseName='" + cruiseName + '\'' +
+                ", ship=" + ship +
+                ", departureDate=" + departureDate +
+                ", arrivalDate=" + arrivalDate +
+                ", descriptionEng='" + descriptionEng + '\'' +
+                ", descriptionRu='" + descriptionRu + '\'' +
+                '}';
     }
 
     public static class Builder{
@@ -158,8 +168,7 @@ public class Cruise {
         }
 
         public Cruise build(){
-            return  new Cruise(id,cruiseName,ship,ports,tickets,
-                    departureDate,arrivalDate,descriptionEng,descriptionRu);
+            return  new Cruise(this);
         }
     }
 }

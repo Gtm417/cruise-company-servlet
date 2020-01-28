@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
     private static final String ERROR_REQUEST = "/error.jsp";
     private static final String ADMIN_REQUEST = "/admin";
     private static final String USER_REQUEST = "/user";
-
+    public static final String MAIN_REQUEST = "/main";
 
 
     @Override
@@ -69,13 +69,17 @@ public class AuthFilter implements Filter {
         }
         else if(session.getAttribute("login") != null){
             System.out.println("ELSE");
-            if(path.contains(ADMIN_REQUEST) && session.getAttribute("role").equals(User.ROLE.ADMIN)){
+            if(path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)){
                 System.out.println("Sec if");
                 filterChain.doFilter(request,response);
-            }else if(path.contains(USER_REQUEST) && session.getAttribute("role").equals(User.ROLE.USER)){
+            }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
                 System.out.println("Third if");
                 filterChain.doFilter(request,response);
-            }else {
+            }else if(path.contains(MAIN_REQUEST)) {
+                System.out.println("MAIN IF");
+                filterChain.doFilter(request,response);
+            }
+            else {
                 System.out.println("Access Denied");
                 response.getWriter().println("Access Denied");
             }
