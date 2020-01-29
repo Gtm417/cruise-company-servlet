@@ -3,7 +3,6 @@ package ua.training.controller.command;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 public class BalanceCommand implements Command {

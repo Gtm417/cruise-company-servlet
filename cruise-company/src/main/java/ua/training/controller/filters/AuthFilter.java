@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 public class AuthFilter implements Filter {
-    //private static final String DEFAULT_REQUEST = "/cruise-company";
+
     private static final String LOGIN_REQUEST = "/login";
     private static final String START_PAGE_REQUEST = "/index.jsp";
     private static final String REGISTRATION_REQUEST = "/registration";
@@ -21,6 +21,7 @@ public class AuthFilter implements Filter {
     private static final String USER_REQUEST = "/user";
     public static final String MAIN_REQUEST = "/main";
     public static final String BALANCE_REQUEST = "/balance";
+    public static final String BUY_REQUEST = "/buy";
 
 
     @Override
@@ -76,7 +77,7 @@ public class AuthFilter implements Filter {
             }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
                 System.out.println("Third if");
                 filterChain.doFilter(request,response);
-            }else if(path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)) {
+            }else if(path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST) || path.contains(BUY_REQUEST)) {
                 System.out.println("MAIN IF");
                 filterChain.doFilter(request,response);
             }

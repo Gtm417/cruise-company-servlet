@@ -31,13 +31,12 @@
             <td>${cruise.cruiseName}</td>
             <td>${cruise.descriptionEng}</td>
             <td>${cruise.descriptionRu}</td>
-                <%--            <td>--%>
-                <%--                <form action="user" method="post">--%>
-                <%--                    <input type="hidden" name="command" value="processExposition"/>--%>
-                <%--                    <input type="hidden" name="expositionId" value="${exposition.getId()}"/>--%>
-                <%--                    <button type="submit" class="btn btn-success"><fmt:message key="user.showExpositions.order"/></button>--%>
-                <%--                </form>--%>
-                <%--            </td>--%>
+            <td>
+                <form action ="${pageContext.request.contextPath}/buy-form">
+                    <input hidden name="cruiseId" value="${cruise.id}">
+                    <input class="button" type="submit" value="Войти">
+                </form>
+            </td>
         </tr>
     </c:forEach>
     </tbody>

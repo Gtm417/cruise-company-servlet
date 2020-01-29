@@ -23,6 +23,12 @@
             <td>${cruise.cruiseName}</td>
             <td>${cruise.descriptionEng}</td>
             <td>${cruise.descriptionRu}</td>
+            <td>
+                <form action ="${pageContext.request.contextPath}/buy-form">
+                    <input hidden name="cruiseId" value="${cruise.id}">
+                    <input class="button" type="submit" value="Войти">
+                </form>
+            </td>
 <%--            <td>--%>
 <%--                <form action="user" method="post">--%>
 <%--                    <input type="hidden" name="command" value="processExposition"/>--%>

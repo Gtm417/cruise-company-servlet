@@ -33,6 +33,12 @@ public class Servlet extends HttpServlet {
                 new MainCommand());
         commands.put("balance" ,
                 new BalanceCommand());
+        commands.put("buy-form" ,
+                new BuyCruiseFormCommand());
+        commands.put("buy" ,
+                new BuyCruiseCommand());
+        commands.put("buy-submit" ,
+                new SubmitBuyCommand());
     }
 
 
@@ -40,21 +46,14 @@ public class Servlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException {
-        try {
             processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        try {
             processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

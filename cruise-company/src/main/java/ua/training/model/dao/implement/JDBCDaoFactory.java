@@ -1,26 +1,33 @@
 package ua.training.model.dao.implement;
 
 
-import ua.training.model.dao.CruiseDao;
-import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.OrderDao;
-import ua.training.model.dao.UserDao;
+import ua.training.model.dao.*;
 
 
 public class JDBCDaoFactory extends DaoFactory {
+    private final ConnectionPoolHolder connectionPoolHolder;
+
+    public JDBCDaoFactory(ConnectionPoolHolder connectionPoolHolder) {
+        this.connectionPoolHolder = connectionPoolHolder;
+    }
 
     @Override
-    public UserDao createUserDao(ConnectionPoolHolder connectionPoolHolder) {
+    public UserDao createUserDao() {
         return new JDBCUserDao(connectionPoolHolder);
     }
 
     @Override
-    public CruiseDao createCruiseDao(ConnectionPoolHolder connectionPoolHolder) {
+    public CruiseDao createCruiseDao() {
         return new JDBCCruiseDao(connectionPoolHolder);
     }
 
     @Override
-    public OrderDao createOrderDao(ConnectionPoolHolder connectionPoolHolder) {
+    public OrderDao createOrderDao() {
         return new JDBCOrderDao(connectionPoolHolder);
+    }
+
+    @Override
+    public TicketDao createTicketDao() {
+        return new JDBCTicketDao(connectionPoolHolder);
     }
 }

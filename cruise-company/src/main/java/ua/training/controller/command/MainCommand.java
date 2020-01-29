@@ -20,6 +20,7 @@ public class MainCommand implements Command {
     @Override
     public String execute(HttpServletRequest request){
         System.out.println("im in main command");
+        System.out.println("Main cruise id" + request.getParameter("cruiseId"));
         List<Cruise> cruises = cruiseService.getAllCruises();
         request.setAttribute("cruises", cruises);
         System.out.println("Cruises " + cruises);

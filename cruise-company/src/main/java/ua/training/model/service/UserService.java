@@ -13,7 +13,7 @@ public class UserService {
     private final UserDao userDao;
 
     public UserService() {
-        this.userDao = DaoFactory.getInstance().createUserDao(ConnectionPoolHolder.pool());
+        this.userDao = DaoFactory.getInstance().createUserDao();
     }
 
     public boolean saveNewUser (@NonNull User user) throws DuplicateDataBaseException {
@@ -40,7 +40,7 @@ public class UserService {
     }
 
     public boolean addBalance(User user,long value) {
-        user.setBalance(value);
+        user.setBalance(user.getBalance() + value);
         return userDao.update(user);
     }
 }
