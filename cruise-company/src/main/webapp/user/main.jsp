@@ -34,7 +34,7 @@
             <td>
                 <form action ="${pageContext.request.contextPath}/buy-form">
                     <input hidden name="cruiseId" value="${cruise.id}">
-                    <input class="button" type="submit" value="Войти">
+                    <input class="button" type="submit" value="Buy">
                 </form>
             </td>
         </tr>

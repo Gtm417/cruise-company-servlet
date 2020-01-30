@@ -1,11 +1,14 @@
 package ua.training.model.dto;
 
-public class TicketDTO {
+import ua.training.model.entity.Cruise;
+
+public class TicketCruiseDTO {
     private long id;
     private String ticketName;
     private long priceWithDiscount;
+    private Cruise cruise;
 
-    public TicketDTO(long id, String ticketName, long priceWithDiscount) {
+    public TicketCruiseDTO(long id, String ticketName, long priceWithDiscount) {
         this.id = id;
         this.ticketName = ticketName;
         this.priceWithDiscount = priceWithDiscount;
@@ -37,12 +40,21 @@ public class TicketDTO {
         this.priceWithDiscount = priceWithDiscount;
     }
 
+    public Cruise getCruise() {
+        return cruise;
+    }
+
+    public void setCruise(Cruise cruise) {
+        this.cruise = cruise;
+    }
+
     @Override
     public String toString() {
-        return "TicketDTO{" +
+        return "TicketCruiseDTO{" +
                 "id=" + id +
                 ", ticketName='" + ticketName + '\'' +
                 ", priceWithDiscount=" + priceWithDiscount +
+                ", cruise=" + cruise +
                 '}';
     }
 }

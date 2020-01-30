@@ -14,6 +14,7 @@ public abstract class DaoFactory {
     public abstract CruiseDao createCruiseDao();
     public abstract OrderDao createOrderDao();
     public abstract TicketDao createTicketDao();
+    public abstract ExcursionDao createExcursionDao();
 
     public static DaoFactory getInstance(){
         if( daoFactory == null ){

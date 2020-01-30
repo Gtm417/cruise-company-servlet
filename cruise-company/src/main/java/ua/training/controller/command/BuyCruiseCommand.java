@@ -1,15 +1,11 @@
 package ua.training.controller.command;
 
-import org.apache.logging.log4j.core.util.JsonUtils;
 import ua.training.model.dto.OrderDTO;
-import ua.training.model.dto.TicketDTO;
-import ua.training.model.entity.Ticket;
 import ua.training.model.entity.User;
 import ua.training.model.exception.NotEnoughMoney;
 import ua.training.model.service.BuyCruiseService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class BuyCruiseCommand implements Command {
     private final BuyCruiseService buyCruiseService;
@@ -44,11 +40,14 @@ public class BuyCruiseCommand implements Command {
             ex.printStackTrace();
             return "redirect:main";
         }
+        //todo сделать через єнтити
         OrderDTO orderDTO = new OrderDTO(cruiseId, user.getId(), ticketId, firstName, secondName);
+        orderDTO.setPrice(price);
         request.getSession().setAttribute("order", orderDTO);
-        buyCruiseService.buyCruise(user, orderDTO);
+        CommandUtility.setSelectedExcursionsListToSession(request);
+        //buyCruiseService.buyCruise(user, orderDTO);
         System.out.println("request complete");
-        return "redirect:buy-form";
+        return "redirect:buy-submit-form";
     }
 
     private long subUserBalance(User user, long price) throws NotEnoughMoney {

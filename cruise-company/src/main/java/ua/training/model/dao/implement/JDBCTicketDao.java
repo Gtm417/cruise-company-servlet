@@ -1,7 +1,10 @@
 package ua.training.model.dao.implement;
 
 import ua.training.model.dao.TicketDao;
-import ua.training.model.dto.TicketDTO;
+import ua.training.model.dao.mapper.CruiseMapper;
+import ua.training.model.dao.mapper.ObjectMapper;
+import ua.training.model.dto.TicketCruiseDTO;
+import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 import ua.training.model.exception.DuplicateDataBaseException;
 
@@ -10,10 +13,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class JDBCTicketDao implements TicketDao {
-    private static final String TICKETS_PRICE_WITH_DISCOUNT = "SELECT id, ticket_name, price - price * discount/100 as price FROM tickets WHERE cruise_id = ?";
+    private static final String TICKETS_PRICE_WITH_DISCOUNT = "SELECT tickets.id, ticket_name, price - price * discount/100 as price, " +
+            "cruises.id, cruise_name, arrival_date, departure_date, description_eng, description_ru FROM tickets " +
+            "INNER JOIN cruises ON tickets.cruise_id = cruises.id " +
+            "WHERE cruise_id = ?";
 
     private final ConnectionPoolHolder connectionPoolHolder;
     public JDBCTicketDao(ConnectionPoolHolder connectionPoolHolder) {
@@ -51,17 +58,21 @@ public class JDBCTicketDao implements TicketDao {
     }
 
     @Override
-    public List<TicketDTO> getTicketsPriceByCruiseId(long id) {
-      List<TicketDTO> tickets = new ArrayList<>();
+    public List<TicketCruiseDTO> getTicketsPriceByCruiseId(long id) {
+      List<TicketCruiseDTO> tickets = new ArrayList<>();
+      HashMap<Long, Cruise> cruises = new HashMap<>();
         try(Connection connection = connectionPoolHolder.getConnection();
             PreparedStatement ps = connection.prepareStatement(TICKETS_PRICE_WITH_DISCOUNT)){
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            ObjectMapper<Cruise> mapper = new CruiseMapper();
             while(rs.next()){
-                TicketDTO ticketDTO = new TicketDTO(rs.getLong("id"),
+                TicketCruiseDTO ticketCruiseDTO = new TicketCruiseDTO(rs.getLong("id"),
                         rs.getString("ticket_name"),
                         rs.getLong("price"));
-                tickets.add(ticketDTO);
+                Cruise cruise = mapper.extractFromResultSet(rs);
+                ticketCruiseDTO.setCruise(mapper.makeUnique(cruises,cruise));
+                tickets.add(ticketCruiseDTO);
             }
         } catch (SQLException e){
             e.printStackTrace();

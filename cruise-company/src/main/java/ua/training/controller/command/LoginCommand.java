@@ -15,6 +15,9 @@ public class LoginCommand implements Command{
     @Override
     public String execute(HttpServletRequest request) {
         //todo clean Session
+        if(request.getSession().getAttribute("user") != null){
+            return "redirect:logout";
+        }
         System.out.println(request.getCharacterEncoding());
         String login = request.getParameter("name");
         System.out.println(login);

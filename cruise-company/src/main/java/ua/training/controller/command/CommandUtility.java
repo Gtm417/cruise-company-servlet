@@ -2,12 +2,15 @@ package ua.training.controller.command;
 
 
 
+import ua.training.model.entity.Excursion;
 import ua.training.model.entity.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 class CommandUtility {
     static void setUserRole(HttpServletRequest request,
@@ -58,5 +61,14 @@ class CommandUtility {
                 .setAttribute("loggedUsers", loggedUsers);
 
         return true;
+    }
+
+    public static void setSelectedExcursionsListToSession(HttpServletRequest request) {
+        request.getSession().setAttribute("selectedExcursions", new ArrayList<Excursion>());
+    }
+
+    public static long countSelectedExcursionsPrice(HttpServletRequest request){
+        List<Excursion> excursionList  = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
+        return excursionList.stream().mapToLong(Excursion::getPrice).sum();
     }
 }

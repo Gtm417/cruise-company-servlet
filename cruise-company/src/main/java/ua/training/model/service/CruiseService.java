@@ -3,7 +3,7 @@ package ua.training.model.service;
 import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.TicketDao;
-import ua.training.model.dto.TicketDTO;
+import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Cruise;
 import ua.training.model.exception.TicketsEmptyListException;
 
@@ -26,8 +26,8 @@ public class CruiseService {
             throw new RuntimeException(ex);
         }
     }
-    public List<TicketDTO> showTicketsForBuy(long id) throws TicketsEmptyListException {
-        List<TicketDTO> tickets = ticketDao.getTicketsPriceByCruiseId(id);
+    public List<TicketCruiseDTO> showTicketsForBuy(long id) throws TicketsEmptyListException {
+        List<TicketCruiseDTO> tickets = ticketDao.getTicketsPriceByCruiseId(id);
         if(tickets.isEmpty()){
             throw new TicketsEmptyListException("There is no tickets on this cruise");
         }

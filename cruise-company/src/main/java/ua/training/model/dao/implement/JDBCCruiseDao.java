@@ -42,8 +42,7 @@ public class JDBCCruiseDao implements CruiseDao {
             ResultSet rs = pst.executeQuery(FIND_ALL_QUERY);
             while(rs.next()) {
                 Cruise cruise = cruiseMapper.extractFromResultSet(rs);
-                Ship ship = shipMapper.extractFromResultSet(rs);
-                cruise.setShip(shipMapper.makeUnique(ships, ship));
+                cruise.setShip(shipMapper.extractFromResultSet(rs));
                 resultList.add(cruise);
             }
             return resultList;

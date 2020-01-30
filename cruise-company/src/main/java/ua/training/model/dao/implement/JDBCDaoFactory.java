@@ -30,4 +30,9 @@ public class JDBCDaoFactory extends DaoFactory {
     public TicketDao createTicketDao() {
         return new JDBCTicketDao(connectionPoolHolder);
     }
+
+    @Override
+    public ExcursionDao createExcursionDao() {
+        return new JDBCExcursionDao(connectionPoolHolder);
+    }
 }

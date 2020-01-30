@@ -6,6 +6,7 @@ public class OrderDTO {
     private long ticketId;
     private String firstName;
     private String secondName;
+    private long price;
 
     public OrderDTO(long cruiseId, long userId, long ticketId, String firstName, String secondName) {
         this.cruiseId = cruiseId;
@@ -53,5 +54,13 @@ public class OrderDTO {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }

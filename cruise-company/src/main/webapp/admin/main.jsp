@@ -7,7 +7,7 @@
     <title>Admin Main</title>
 </head>
 <body>
-
+<a href="${pageContext.request.contextPath}/balance"> replenish</a>
 <table class="table table-striped table-responsive-md btn-table">
     <thead class="thead-dark">
     <tr>
@@ -26,7 +26,7 @@
             <td>
                 <form action ="${pageContext.request.contextPath}/buy-form">
                     <input hidden name="cruiseId" value="${cruise.id}">
-                    <input class="button" type="submit" value="Войти">
+                    <input class="button" type="submit" value="Buy">
                 </form>
             </td>
 <%--            <td>--%>
