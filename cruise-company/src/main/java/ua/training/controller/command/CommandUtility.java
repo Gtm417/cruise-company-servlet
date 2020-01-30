@@ -71,4 +71,12 @@ class CommandUtility {
         List<Excursion> excursionList  = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
         return excursionList.stream().mapToLong(Excursion::getPrice).sum();
     }
+
+    public static List<Excursion> addExcursionToSelectedList(HttpServletRequest request,Excursion excursion) {
+        List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
+        if(selectedExcursions.stream().noneMatch(excursion::equals)){
+            selectedExcursions.add(excursion);
+        }
+        return (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
+    }
 }

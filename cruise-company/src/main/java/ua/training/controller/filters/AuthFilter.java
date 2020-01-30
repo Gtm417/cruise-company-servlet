@@ -23,6 +23,8 @@ public class AuthFilter implements Filter {
     public static final String BALANCE_REQUEST = "/balance";
     public static final String BUY_REQUEST = "/buy";
     public static final String BUY_SUBMIT_REQUEST = "/buy-submit";
+    public static final String ADD_EXCURSION_REQUEST = "/add-excursion";
+    public static final String REMOVE_EXCURSION_REQUEST = "/remove-excursion";
 
 
     @Override
@@ -79,7 +81,8 @@ public class AuthFilter implements Filter {
                 System.out.println("Third if");
                 filterChain.doFilter(request,response);
             }else if(path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
-                    || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)) {
+                    || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
+                    || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)) {
                 System.out.println("MAIN IF");
                 filterChain.doFilter(request,response);
             } else {

@@ -1,6 +1,7 @@
 package ua.training.model.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 public class Excursion {
     private long id;
@@ -55,6 +56,22 @@ public class Excursion {
 
     public void setPort(Port port) {
         this.port = port;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Excursion excursion = (Excursion) o;
+        return id == excursion.id &&
+                duration == excursion.duration &&
+                price == excursion.price &&
+                excursionName.equals(excursion.excursionName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, excursionName, duration, price);
     }
 
     public static Builder builder() {

@@ -50,12 +50,13 @@
             <td>${excursion.price}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/add-excursion">
+                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>
+                    <input hidden name="id" value = "${excursion.id}"/>
+                    <input hidden name="duration" value = "${excursion.duration}"/>
+                    <input hidden name="price" value = "${excursion.price}"/>
+                    <input hidden name="portId" value = "${excursion.port.id}"/>
+                    <input hidden name="portName" value = "${excursion.port.portName}"/>
                     <button class="btn btn-success">Add</button>
-                </form>
-            </td>
-            <td>
-                <form action="${pageContext.request.contextPath}/remove-excursion">
-                    <button class="btn btn-danger">Remove</button>
                 </form>
             </td>
         </tr>
@@ -79,6 +80,12 @@
             <td>${selectedExcursion.price}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/remove-excursion">
+                    <input hidden name="excursionName" value = "${selectedExcursion.excursionName}"/>
+                    <input hidden name="id" value = "${selectedExcursion.id}"/>
+                    <input hidden name="duration" value = "${selectedExcursion.duration}"/>
+                    <input hidden name="price" value = "${selectedExcursion.price}"/>
+                    <input hidden name="portId" value = "${selectedExcursion.port.id}"/>
+                    <input hidden name="portName" value = "${selectedExcursion.port.portName}"/>
                     <button class="btn btn-danger">Remove</button>
                 </form>
             </td>

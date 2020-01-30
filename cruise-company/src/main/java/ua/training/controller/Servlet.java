@@ -41,6 +41,8 @@ public class Servlet extends HttpServlet {
                 new SubmitBuyCommand());
         commands.put("buy-submit-form" ,
                 new SubmitBuyFormCommand());
+        commands.put("add-excursion",
+                new AddExcursionCommand());
     }
 
 
