@@ -79,4 +79,9 @@ class CommandUtility {
         }
         return (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
     }
+
+    public static void deleteExcursionFromSelectedList(HttpServletRequest request, Excursion excursion) {
+        List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
+        selectedExcursions.remove(excursion);
+    }
 }

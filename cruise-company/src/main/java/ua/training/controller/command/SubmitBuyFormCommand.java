@@ -17,6 +17,12 @@ public class SubmitBuyFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+
+        if(request.getSession().getAttribute("order") == null
+                || request.getSession().getAttribute("cruise") == null
+                || request.getSession().getAttribute("selectedExcursions") == null){
+            return "redirect:main";
+        }
         //((List<Excursion>)request.getSession().getAttribute("selectedExcursions")).add(Excursion.builder().excursionName("name").price(100).build());
         request.setAttribute("resultPrice", CommandUtility.countSelectedExcursionsPrice(request)
                 + ((OrderDTO) request.getSession().getAttribute("order")).getPrice());

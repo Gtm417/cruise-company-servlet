@@ -21,6 +21,9 @@ public class MainCommand implements Command {
     public String execute(HttpServletRequest request){
         System.out.println("im in main command");
         System.out.println("Main cruise id" + request.getParameter("cruiseId"));
+        request.getSession().removeAttribute("cruise");
+        request.getSession().removeAttribute("order");
+        request.getSession().removeAttribute("selectedExcursions");
         List<Cruise> cruises = cruiseService.getAllCruises();
         request.setAttribute("cruises", cruises);
         System.out.println("Cruises " + cruises);

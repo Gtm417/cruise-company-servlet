@@ -64,12 +64,13 @@ public class JDBCOrderDao implements OrderDao {
                 psOrder.setLong(2, orderDTO.getUserId());
                 psOrder.setLong(3, orderDTO.getTicketId());
                 psOrder.setString(4, orderDTO.getFirstName());
-                psOrder.setString(6, orderDTO.getSecondName());
+                psOrder.setString(5, orderDTO.getSecondName());
                 psOrder.executeUpdate();
                 connection.commit();
                 connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 connection.rollback();
+                ex.printStackTrace();
                 //todo throw Exception Юзер не знает что не добавился ордер
             }
         } catch (SQLException e) {

@@ -22,6 +22,10 @@
     </ul>
 
         <h1><fmt:message key="button.login"/></h1><br/>
+    <c:if test="${sessionScope.exception == true}">
+        <label class="alert alert-info" > <fmt:message key="alert.wrong.password.or.login"/></label>
+    </c:if>
+    <c:remove var="exception" scope="session"/>
         <form method="post" action="${pageContext.request.contextPath}/login">
 
             <input type="text" name="name"><br/>

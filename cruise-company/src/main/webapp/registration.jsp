@@ -19,6 +19,11 @@
         <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
     </ul>
     <h1><fmt:message key="button.registration"/></h1><br/>
+
+    <c:if test="${sessionScope.exception == true}">
+        <label class="alert alert-info" > <fmt:message key="alert.user.already.exist"/></label>
+    </c:if>
+    <c:remove var="exception" scope="session"/>
     <form method="post" action="${pageContext.request.contextPath}/registration">
 
         <input type="text" required name="name"><br/>

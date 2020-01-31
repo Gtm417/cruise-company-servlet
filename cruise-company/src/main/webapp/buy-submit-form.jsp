@@ -9,11 +9,26 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+
+<c:if test ="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}"  scope="session" />
+</c:if>
+
+<fmt:setBundle basename="message" />
+<html  lang="${param.lang}">
 <head>
     <title>Submit Buy Form</title>
 </head>
 <body>
+<ul>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+</ul>
+<c:if test="${sessionScope.exception == true}">
+    <label class="alert alert-info" > <fmt:message key="alert.not.enough.money"/></label>
+</c:if>
+<c:remove var="exception" scope="session"/>
 <h1>Receipt</h1>
 
 <table cellspacing="0">
@@ -61,6 +76,7 @@
             </td>
         </tr>
 
+
     </c:forEach>
     </tbody>
 </table>
@@ -94,8 +110,8 @@
     </tbody>
 </table>
 <form action="${pageContext.request.contextPath}/buy-submit">
-
-
+    <button class="btn btn-success" value="Submit">Submit</button>
+    <input hidden name="resultPrice" value="${resultPrice}">
 </form>
 
 </body>

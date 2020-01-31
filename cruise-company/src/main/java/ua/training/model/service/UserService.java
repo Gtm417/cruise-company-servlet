@@ -7,6 +7,7 @@ import ua.training.model.dao.UserDao;
 import ua.training.model.dao.implement.ConnectionPoolHolder;
 import ua.training.model.entity.User;
 import ua.training.model.exception.DuplicateDataBaseException;
+import ua.training.model.exception.UserNotFoundException;
 
 
 public class UserService {
@@ -22,20 +23,19 @@ public class UserService {
             return userDao.create(user);
         }catch (DuplicateDataBaseException ex) {
             throw new DuplicateDataBaseException(ex);
-        } catch (Exception e){
-            throw new RuntimeException(e);
         }
     }
 
 
-    public User findUserByLogin(String login) {
+    public User findUserByLogin(String login) throws UserNotFoundException {
         try{
             System.out.println("im in service");
             //TODO Exception user  not exist
             return userDao.findByLogin(login).orElseThrow(RuntimeException::new);
         }catch (Exception e){
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new UserNotFoundException();
+            //throw new RuntimeException(e);
         }
     }
 

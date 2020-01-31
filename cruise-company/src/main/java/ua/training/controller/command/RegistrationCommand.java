@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import ua.training.controller.command.handler.ExceptionHandler;
 import ua.training.model.entity.User;
 import ua.training.model.exception.DuplicateDataBaseException;
 import ua.training.model.service.UserService;
@@ -30,9 +31,8 @@ public class RegistrationCommand implements Command{
         try {
             userService.saveNewUser(user);
         } catch (DuplicateDataBaseException e) {
-            //todo: return with error
-            System.out.println(e.getMessage());
-            return "redirect:registration.jsp";
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e,"registration.jsp");
+            return exceptionHandler.handling(request);
         }
         return "redirect:login";
     }

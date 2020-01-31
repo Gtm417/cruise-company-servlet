@@ -35,7 +35,7 @@ public class Servlet extends HttpServlet {
                 new BalanceCommand());
         commands.put("buy-form" ,
                 new BuyCruiseFormCommand());
-        commands.put("buy" ,
+        commands.put("buy",
                 new BuyCruiseCommand());
         commands.put("buy-submit" ,
                 new SubmitBuyCommand());
@@ -43,6 +43,8 @@ public class Servlet extends HttpServlet {
                 new SubmitBuyFormCommand());
         commands.put("add-excursion",
                 new AddExcursionCommand());
+        commands.put("remove-excursion",
+                new RemoveExcursionCommand());
     }
 
 

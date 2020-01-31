@@ -2,11 +2,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+
+
+<c:if test ="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}"  scope="session" />
+</c:if>
+
+<fmt:setBundle basename="message" />
+<html  lang="${param.lang}">
 <head>
     <title>Admin Main</title>
 </head>
 <body>
+<ul>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+</ul>
 <a href="${pageContext.request.contextPath}/balance"> replenish</a>
 <table class="table table-striped table-responsive-md btn-table">
     <thead class="thead-dark">

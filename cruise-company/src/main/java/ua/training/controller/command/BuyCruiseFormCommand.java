@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 
+import ua.training.controller.command.handler.ExceptionHandler;
 import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.exception.TicketsEmptyListException;
 import ua.training.model.service.CruiseService;
@@ -30,7 +31,8 @@ public class BuyCruiseFormCommand implements Command {
             request.setAttribute("tickets", cruiseTickets);
             request.getSession().setAttribute("cruise", cruiseTickets.get(0).getCruise());
         } catch (TicketsEmptyListException e) {
-            e.printStackTrace();
+            ExceptionHandler exceptionHandler =  new ExceptionHandler(e, "buy.jsp");
+            return exceptionHandler.handling(request);
         }
         request.setAttribute("cruiseId", cruiseId);
         return "buy.jsp";
