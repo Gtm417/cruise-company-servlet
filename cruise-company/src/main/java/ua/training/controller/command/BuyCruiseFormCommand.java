@@ -8,6 +8,7 @@ import ua.training.model.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 public class BuyCruiseFormCommand implements Command {
     private final TicketService ticketService;
@@ -20,7 +21,7 @@ public class BuyCruiseFormCommand implements Command {
     public String execute(HttpServletRequest request) {
         String stringCruiseId = request.getParameter("cruiseId");
         System.out.println("cruise id  " + stringCruiseId);
-        if(stringCruiseId == null) {
+        if (Objects.isNull(stringCruiseId)) {
             //человек не понятным образом попал на запрос buyform, круиза в запросе не было поэтому он возвращается на мейн
             request.getSession().setAttribute("notFoundCruise", true);
             return "redirect:main";
@@ -31,7 +32,8 @@ public class BuyCruiseFormCommand implements Command {
             request.setAttribute("tickets", cruiseTickets);
             request.getSession().setAttribute("cruise", cruiseTickets.get(0).getCruise());
         } catch (TicketsEmptyListException e) {
-            ExceptionHandler exceptionHandler =  new ExceptionHandler(e, "buy.jsp");
+            //todo buy jsp bed
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy.jsp");
             return exceptionHandler.handling(request);
         }
         request.setAttribute("cruiseId", cruiseId);

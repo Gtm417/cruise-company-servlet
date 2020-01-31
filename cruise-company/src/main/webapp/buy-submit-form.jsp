@@ -24,6 +24,7 @@
 <ul>
     <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+
 </ul>
 <c:if test="${sessionScope.exception == true}">
     <label class="alert alert-info" > <fmt:message key="alert.not.enough.money"/></label>
@@ -33,17 +34,34 @@
 
 <table cellspacing="0">
     <tr>
+        <td>First name</td>
+        <td>${sessionScope.order.firstName}</td>
+    </tr>
+    <tr>
+        <td>First name</td>
+        <td>${sessionScope.order.secondName}</td>
+    </tr>
+    <tr>
         <td>Cruise</td>
         <td>${sessionScope.cruise.cruiseName}</td>
     </tr>
     <tr>
-        <td>Ticket</td>
-        <td>${sessionScope.order.ticketId}</td>
+        <td>Ticket Name</td>
+        <td>${sessionScope.order.ticket.ticketName}</td>
     </tr>
     <tr>
-        <td>Price</td>
-        <td>${sessionScope.order.price}</td>
-        <td>${resultPrice}</td>
+        <td>Ticket Price</td>
+        <td>${sessionScope.order.ticket.price} <fmt:message key="currency.info"/> </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Ticket Discount</td>
+        <td>${sessionScope.order.ticket.discount}%</td>
+    </tr>
+    <tr>
+        <td>Total</td>
+<%--        <td>${sessionScope.order.orderPrice}</td>--%>
+        <td>${resultPrice} <fmt:message key="currency.info"/></td>
     </tr>
 </table>
 

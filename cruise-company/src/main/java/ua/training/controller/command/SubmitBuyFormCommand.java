@@ -1,12 +1,10 @@
 package ua.training.controller.command;
 
-import ua.training.model.dto.OrderDTO;
 import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Excursion;
+import ua.training.model.entity.Order;
 import ua.training.model.service.ExcursionService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Objects;
 
 public class SubmitBuyFormCommand implements Command {
@@ -26,7 +24,7 @@ public class SubmitBuyFormCommand implements Command {
             return "redirect:main";
         }
         request.setAttribute("resultPrice", CommandUtility.countSelectedExcursionsPrice(request)
-                + ((OrderDTO) request.getSession().getAttribute("order")).getPrice());
+                + ((Order) request.getSession().getAttribute("order")).getOrderPrice());
         Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
         request.setAttribute("excursions", excursionService.showAllExcursionsInCruise(cruise.getId()));
         System.out.println(request.getSession().getAttribute("selectedExcursions"));

@@ -2,7 +2,6 @@ package ua.training.model.service;
 
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.OrderDao;
-import ua.training.model.dto.OrderDTO;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 import ua.training.model.exception.EmptyPassengerList;
@@ -16,8 +15,8 @@ public class OrderService {
         this.orderDao = DaoFactory.getInstance().createOrderDao();
     }
 
-    public void buyCruise(User user, OrderDTO orderDTO){
-        orderDao.buyCruiseChanges(user, orderDTO);
+    public void buyCruise(User user, Order order){
+        orderDao.buyCruiseChanges(user, order);
     }
 
     public List<Order> showAllPassengersOnCruise(long id) throws EmptyPassengerList {

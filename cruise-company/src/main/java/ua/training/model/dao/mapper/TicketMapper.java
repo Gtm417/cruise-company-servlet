@@ -11,7 +11,7 @@ public class TicketMapper implements ObjectMapper<Ticket> {
     public Ticket extractFromResultSet(ResultSet rs) throws SQLException {
         return Ticket.builder()
                 .id(rs.getLong("tickets.id"))
-                .price(rs.getLong("price"))
+                .price(rs.getLong("tickets.price"))
                 .discount(rs.getInt("discount"))
                 .ticketName(rs.getString("ticket_name"))
                 .build();

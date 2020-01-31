@@ -1,7 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
-import ua.training.model.dto.OrderDTO;
+import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 import ua.training.model.exception.NotEnoughMoney;
 import ua.training.model.exception.UnreachableRequest;
@@ -20,9 +20,8 @@ public class SubmitBuyCommand implements Command{
     public String execute(HttpServletRequest request) {
         valid(request);
         long resultPrice = Long.parseLong(request.getParameter("resultPrice"));
-
-        OrderDTO orderDTO = (OrderDTO)request.getSession().getAttribute("order");
-        orderDTO.setPrice(resultPrice);
+        Order order = (Order)request.getSession().getAttribute("order");
+        order.setOrderPrice(resultPrice);
         User user = (User) request.getSession().getAttribute("user");
         try {
             user.setBalance(subUserBalance(user, resultPrice));
@@ -31,7 +30,7 @@ public class SubmitBuyCommand implements Command{
             ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit-form");
             return exceptionHandler.handling(request);
         }
-        orderService.buyCruise(user, orderDTO);
+        orderService.buyCruise(user, order);
         return "redirect:main";
     }
 

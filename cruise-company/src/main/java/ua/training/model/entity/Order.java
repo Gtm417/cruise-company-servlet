@@ -7,6 +7,7 @@ public class Order {
     private User user;
     private Cruise cruise;
     private Ticket ticket;
+    private long orderPrice;
 
     public Order(Builder builder) {
         this.id = builder.id;
@@ -15,6 +16,7 @@ public class Order {
         this.user = builder.user;
         this.cruise = builder.cruise;
         this.ticket = builder.ticket;
+        this.orderPrice = builder.orderPrice;
     }
 
     public long getId() {
@@ -65,6 +67,14 @@ public class Order {
         this.ticket = ticket;
     }
 
+    public long getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(long orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
@@ -87,6 +97,8 @@ public class Order {
         private User user;
         private Cruise cruise;
         private Ticket ticket;
+        private long orderPrice;
+
 
         public Builder id(long id) {
             this.id = id;
@@ -115,6 +127,12 @@ public class Order {
 
         public Builder ticket(Ticket ticket) {
             this.ticket = ticket;
+            return this;
+        }
+
+
+        public Builder orderPrice(long price) {
+            this.orderPrice = price;
             return this;
         }
         public Order build(){

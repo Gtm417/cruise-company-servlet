@@ -6,6 +6,7 @@ import ua.training.model.dao.TicketDao;
 import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Ticket;
 import ua.training.model.exception.DuplicateDataBaseException;
+import ua.training.model.exception.TicketNotFound;
 import ua.training.model.exception.TicketsEmptyListException;
 
 import java.util.List;
@@ -29,4 +30,8 @@ public class TicketService {
         return tickets;
     }
 
+    public Ticket findTicketById(long ticketId) throws TicketNotFound {
+        return ticketDao.findById(ticketId)
+                .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
+    }
 }

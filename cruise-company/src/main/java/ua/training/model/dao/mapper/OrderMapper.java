@@ -14,6 +14,7 @@ public class OrderMapper implements ObjectMapper<Order> {
                 .id(rs.getLong("orders.id"))
                 .firstName(rs.getString("first_name"))
                 .secondName(rs.getString("second_name"))
+                .orderPrice(rs.getLong("orders.price"))
                 .build();
     }
 
