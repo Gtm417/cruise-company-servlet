@@ -2,8 +2,10 @@ package ua.training.controller.command;
 
 
 
+import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.User;
+import ua.training.model.exception.AccessDenied;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +14,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-class CommandUtility {
-    static void setUserRole(HttpServletRequest request,
-                            User user, String name) {
+public class CommandUtility {
+
+    static void setUserInSession(HttpServletRequest request,
+                                 User user, String name) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
         loginUserInContext(request, name);
@@ -23,16 +26,7 @@ class CommandUtility {
         session.setAttribute("login", name);
         session.setAttribute("user", user);
     }
-    //todo delete
-    static void setUserRole(HttpServletRequest request,
-                            User.ROLE role, String name) {
-        HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
-        loginUserInContext(request, name);
-        context.setAttribute("userName", name);
-        session.setAttribute("role", role);
-        session.setAttribute("login", name);
-    }
+
     private static void loginUserInContext(HttpServletRequest request, String login){
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
@@ -83,5 +77,13 @@ class CommandUtility {
     public static void deleteExcursionFromSelectedList(HttpServletRequest request, Excursion excursion) {
         List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
         selectedExcursions.remove(excursion);
+    }
+
+    public static Cruise checkCruiseInSession(HttpServletRequest request){
+        if(request.getSession().getAttribute("cruise") == null){
+            request.setAttribute("cruiseNotFound", true);
+            throw new AccessDenied("You didn't choose the cruise");
+        }
+        return (Cruise)request.getSession().getAttribute("cruise");
     }
 }

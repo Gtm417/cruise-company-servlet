@@ -64,7 +64,7 @@
             <td>${excursion.duration}</td>
             <td>${excursion.price}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/add-excursion">
+                <form action="${pageContext.request.contextPath}/add-excursion" method="post">
                     <input hidden name="excursionName" value = "${excursion.excursionName}"/>
                     <input hidden name="id" value = "${excursion.id}"/>
                     <input hidden name="duration" value = "${excursion.duration}"/>
@@ -95,7 +95,7 @@
             <td>${selectedExcursion.excursionName}</td>
             <td>${selectedExcursion.price}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/remove-excursion">
+                <form action="${pageContext.request.contextPath}/remove-excursion" method="post">
                     <input hidden name="excursionName" value = "${selectedExcursion.excursionName}"/>
                     <input hidden name="id" value = "${selectedExcursion.id}"/>
                     <input hidden name="duration" value = "${selectedExcursion.duration}"/>

@@ -71,6 +71,16 @@ public class Ticket {
         return new Builder();
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", ticketName='" + ticketName + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                '}';
+    }
+
     public static class Builder{
         private long id;
         private String ticketName;

@@ -80,15 +80,17 @@ public class AuthFilter implements Filter {
             }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
                 System.out.println("Third if");
                 filterChain.doFilter(request,response);
-            }else if(path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
-                    || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
-                    || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)) {
+            }else if(path.matches(".*/cruise-company/.*")) {
+//                path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
+//                        || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
+//                        || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)
                 System.out.println("MAIN IF");
                 filterChain.doFilter(request,response);
             } else {
                 System.out.println("Access Denied");
                 response.getWriter().println("Access Denied");
             }
+
         }
           //filterChain.doFilter(request,response);
         System.out.println("im out filter");

@@ -4,6 +4,7 @@ package ua.training.model.dao.implement;
 import ua.training.model.dao.UserDao;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.UserMapper;
+import ua.training.model.entity.Cruise;
 import ua.training.model.entity.User;
 import ua.training.model.exception.DuplicateDataBaseException;
 
@@ -40,7 +41,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public User findById(int id) {
+    public Optional<User> findById(long id) {
         return null;
     }
 

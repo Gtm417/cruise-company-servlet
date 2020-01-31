@@ -4,6 +4,7 @@ import ua.training.model.dao.ExcursionDao;
 import ua.training.model.dao.mapper.ExcursionMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.PortMapper;
+import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Port;
 import ua.training.model.exception.DuplicateDataBaseException;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCExcursionDao implements ExcursionDao {
     private final static String FIND_ALL_EXCURSION_FOR_CRUISE = "SELECT excursions.id,excursion_name,price,duration, ports.id, port_name FROM ports_cruises " +
@@ -34,7 +36,7 @@ public class JDBCExcursionDao implements ExcursionDao {
     }
 
     @Override
-    public Excursion findById(int id) {
+    public Optional<Excursion> findById(long id) {
         return null;
     }
 

@@ -2,6 +2,10 @@ package ua.training.controller;
 
 
 import ua.training.controller.command.*;
+import ua.training.controller.command.admin.AddTicketCommand;
+import ua.training.controller.command.admin.AllPassengersCommand;
+import ua.training.controller.command.admin.CruiseDescriptionCommand;
+import ua.training.controller.command.admin.CruiseEditCommand;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -45,6 +49,14 @@ public class Servlet extends HttpServlet {
                 new AddExcursionCommand());
         commands.put("remove-excursion",
                 new RemoveExcursionCommand());
+        commands.put("admin/edit-cruise",
+                new CruiseEditCommand());
+        commands.put("admin/edit-description",
+                new CruiseDescriptionCommand());
+        commands.put("admin/add-ticket",
+                new AddTicketCommand());
+        commands.put("admin/all-passengers",
+                new AllPassengersCommand());
     }
 
 
@@ -70,7 +82,7 @@ public class Servlet extends HttpServlet {
         path = path.replaceAll(".*/cruise-company/" , "");
         System.out.println("path 1 :" + path);
         Command command = commands.getOrDefault(path ,
-                (r)->"/index.jsp");
+                (r)->"/WEB-INF/404.jsp");
         System.out.println("command: " + command.getClass().getName());
         String page = command.execute(request);
         System.out.println("execute end");

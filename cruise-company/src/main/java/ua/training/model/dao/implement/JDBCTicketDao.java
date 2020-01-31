@@ -8,19 +8,19 @@ import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 import ua.training.model.exception.DuplicateDataBaseException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCTicketDao implements TicketDao {
     private static final String TICKETS_PRICE_WITH_DISCOUNT = "SELECT tickets.id, ticket_name, price - price * discount/100 as price, " +
             "cruises.id, cruise_name, arrival_date, departure_date, description_eng, description_ru FROM tickets " +
             "INNER JOIN cruises ON tickets.cruise_id = cruises.id " +
             "WHERE cruise_id = ?";
+    private static final String INSERT_TICKET = "INSERT INTO tickets(ticket_name, discount, price, cruise_id) VALUES (?,?,?,?)";
+
 
     private final ConnectionPoolHolder connectionPoolHolder;
     public JDBCTicketDao(ConnectionPoolHolder connectionPoolHolder) {
@@ -29,11 +29,29 @@ public class JDBCTicketDao implements TicketDao {
 
     @Override
     public boolean create(Ticket entity) throws DuplicateDataBaseException {
-        return false;
+        try(Connection connection = connectionPoolHolder.getConnection();
+        PreparedStatement ps = connection.prepareStatement(INSERT_TICKET)){
+            extractPrepareStatement(entity, ps);
+            return true;
+        }catch (SQLIntegrityConstraintViolationException ex){
+            throw  new DuplicateDataBaseException("Cruise already has such ticket", entity);
+        } catch (SQLException e) {
+            //todo status 500 exception
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void extractPrepareStatement(Ticket entity, PreparedStatement ps) throws SQLException {
+        ps.setString(1, entity.getTicketName());
+        ps.setInt(2, entity.getDiscount());
+        ps.setLong(3, entity.getPrice());
+        ps.setLong(4, entity.getCruise().getId());
+        ps.executeUpdate();
     }
 
     @Override
-    public Ticket findById(int id) {
+    public Optional<Ticket> findById(long id) {
         return null;
     }
 
@@ -50,11 +68,6 @@ public class JDBCTicketDao implements TicketDao {
     @Override
     public void delete(int id) {
 
-    }
-
-    @Override
-    public List<Long> getTicketsPriceWithDiscountByCruiseId(Long id) {
-        return null;
     }
 
     @Override

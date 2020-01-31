@@ -10,6 +10,6 @@ public class RemoveExcursionCommand implements Command {
         //todo вытаскивание экскурсии по айди и полное сравнивание с тем что пришло в запросе
         Excursion excursion = ExcursionCommandUtility.validAndGetExcursion(request);
         CommandUtility.deleteExcursionFromSelectedList(request,excursion);
-        return "buy-submit-form";
+        return "redirect:buy-submit-form";
     }
 }

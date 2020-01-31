@@ -69,6 +69,17 @@ public class Order {
         return new Builder();
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", user=" + user +
+                ", cruise=" + cruise +
+                ", ticket=" + ticket +
+                '}';
+    }
+
     public static class Builder{
         private long id;
         private String firstName;

@@ -10,7 +10,7 @@ public class AddExcursionCommand implements Command {
         //todo вытаскивание экскурсии по айди и полное сравнивание с тем что пришло в запросе
         Excursion excursion = ExcursionCommandUtility.validAndGetExcursion(request);
         CommandUtility.addExcursionToSelectedList(request,excursion);
-        return "buy-submit-form";
+        return "redirect:buy-submit-form";
     }
 
 }

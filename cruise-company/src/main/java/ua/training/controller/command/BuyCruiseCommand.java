@@ -1,10 +1,7 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
 import ua.training.model.dto.OrderDTO;
 import ua.training.model.entity.User;
-import ua.training.model.exception.NotEnoughMoney;
-import ua.training.model.service.BuyCruiseService;
 
 import javax.servlet.http.HttpServletRequest;
 

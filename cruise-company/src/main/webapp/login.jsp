@@ -26,6 +26,11 @@
         <label class="alert alert-info" > <fmt:message key="alert.wrong.password.or.login"/></label>
     </c:if>
     <c:remove var="exception" scope="session"/>
+    <c:if test="${sessionScope.success == true}">
+        <label class="alert alert-info" > <fmt:message key="alert.success.sing.up"/></label>
+    </c:if>
+    <c:remove var="success" scope="session"/>
+
         <form method="post" action="${pageContext.request.contextPath}/login">
 
             <input type="text" name="name"><br/>

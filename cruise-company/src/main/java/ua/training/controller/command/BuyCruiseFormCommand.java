@@ -4,30 +4,30 @@ package ua.training.controller.command;
 import ua.training.controller.command.handler.ExceptionHandler;
 import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.exception.TicketsEmptyListException;
-import ua.training.model.service.CruiseService;
+import ua.training.model.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class BuyCruiseFormCommand implements Command {
-    private final CruiseService cruiseService;
+    private final TicketService ticketService;
 
     public BuyCruiseFormCommand() {
-        this.cruiseService = new CruiseService();
+        this.ticketService = new TicketService();
     }
 
     @Override
     public String execute(HttpServletRequest request) {
         String stringCruiseId = request.getParameter("cruiseId");
         System.out.println("cruise id  " + stringCruiseId);
-
         if(stringCruiseId == null) {
             //человек не понятным образом попал на запрос buyform, круиза в запросе не было поэтому он возвращается на мейн
+            request.getSession().setAttribute("notFoundCruise", true);
             return "redirect:main";
         }
         long cruiseId = Long.parseLong(stringCruiseId);
         try {
-            List<TicketCruiseDTO> cruiseTickets = cruiseService.showTicketsForBuy(cruiseId);
+            List<TicketCruiseDTO> cruiseTickets = ticketService.showTicketsForBuy(cruiseId);
             request.setAttribute("tickets", cruiseTickets);
             request.getSession().setAttribute("cruise", cruiseTickets.get(0).getCruise());
         } catch (TicketsEmptyListException e) {

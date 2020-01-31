@@ -34,6 +34,7 @@ public class RegistrationCommand implements Command{
             ExceptionHandler exceptionHandler = new ExceptionHandler(e,"registration.jsp");
             return exceptionHandler.handling(request);
         }
+        request.getSession().setAttribute("success", true);
         return "redirect:login";
     }
 }

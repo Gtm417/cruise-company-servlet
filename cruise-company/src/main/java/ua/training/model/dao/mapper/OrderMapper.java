@@ -11,7 +11,7 @@ public class OrderMapper implements ObjectMapper<Order> {
     @Override
     public Order extractFromResultSet(ResultSet rs) throws SQLException {
         return Order.builder()
-                .id(rs.getLong("id"))
+                .id(rs.getLong("orders.id"))
                 .firstName(rs.getString("first_name"))
                 .secondName(rs.getString("second_name"))
                 .build();

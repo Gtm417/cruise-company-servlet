@@ -4,6 +4,7 @@ import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 public class BalanceCommand implements Command {
 
@@ -15,7 +16,7 @@ public class BalanceCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String stringValue = request.getParameter("balance");
-        if(stringValue == null) {
+        if(Objects.isNull(stringValue)) {
             return "balance.jsp";
         }
         long value = Long.parseLong(request.getParameter("balance"));

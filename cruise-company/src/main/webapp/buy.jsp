@@ -70,7 +70,7 @@
         </thead>
         <tbody>
         <c:forEach var="ticket" items="${tickets}">
-            <form action="${pageContext.request.contextPath}/buy">
+            <form action="${pageContext.request.contextPath}/buy" method="post">
                 <tr>
                     <td><input type="text" required name="firstName"></td>
                     <td><input type="text" required name="secondName"></td>

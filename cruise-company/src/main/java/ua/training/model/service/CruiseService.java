@@ -2,21 +2,17 @@ package ua.training.model.service;
 
 import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.TicketDao;
-import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Cruise;
-import ua.training.model.exception.TicketsEmptyListException;
+import ua.training.model.exception.CruiseNotFoundException;
 
 import java.util.List;
 
 public class CruiseService {
     private final CruiseDao cruiseDao;
-    private final TicketDao ticketDao;
 
     public CruiseService()
     {
         this.cruiseDao = DaoFactory.getInstance().createCruiseDao();
-        this.ticketDao = DaoFactory.getInstance().createTicketDao();
     }
 
     public List<Cruise> getAllCruises(){
@@ -26,11 +22,14 @@ public class CruiseService {
             throw new RuntimeException(ex);
         }
     }
-    public List<TicketCruiseDTO> showTicketsForBuy(long id) throws TicketsEmptyListException {
-        List<TicketCruiseDTO> tickets = ticketDao.getTicketsPriceByCruiseId(id);
-        if(tickets.isEmpty()){
-            throw new TicketsEmptyListException("There is no tickets on this cruise");
-        }
-        return tickets;
+
+
+    public Cruise findById(long id) throws CruiseNotFoundException {
+        return cruiseDao.findById(id)
+                .orElseThrow(() -> new CruiseNotFoundException("Cruise not found with id: ", id));
+    }
+
+    public boolean updateCruise(Cruise cruise) {
+        return cruiseDao.update(cruise);
     }
 }

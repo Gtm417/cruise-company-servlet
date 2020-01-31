@@ -12,9 +12,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class JDBCCruiseDao implements CruiseDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM cruises inner join ships ON cruises.id = ships.id;";
+    private static final String FIND_BY_ID = "SELECT * FROM cruises WHERE id = ?";
+    private static final String UPDATE_CRUISE = "UPDATE cruises SET cruise_name = ?, " +
+            "description_eng = ?, description_ru = ?, departure_date = ?, arrival_date = ? WHERE id = ?";
     private final ConnectionPoolHolder connectionPoolHolder;
 
     public JDBCCruiseDao(final ConnectionPoolHolder connectionPoolHolder) {
@@ -27,8 +31,20 @@ public class JDBCCruiseDao implements CruiseDao {
     }
 
     @Override
-    public Cruise findById(int id) {
-        return null;
+    public Optional<Cruise> findById(long id) {
+        ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
+        try(Connection connection = connectionPoolHolder.getConnection();
+        PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)){
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return Optional.of(cruiseMapper.extractFromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            //todo throw new runtime DBException handling in web.xml
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -53,7 +69,21 @@ public class JDBCCruiseDao implements CruiseDao {
     }
 
     @Override
-    public boolean update(Cruise entity) {return false;
+    public boolean update(Cruise entity) {
+        try(Connection connection = connectionPoolHolder.getConnection();
+        PreparedStatement ps = connection.prepareStatement(UPDATE_CRUISE)) {
+            ps.setString(1, entity.getCruiseName());
+            ps.setString(2, entity.getDescriptionEng());
+            ps.setString(3, entity.getDescriptionRu());
+            ps.setTimestamp(4, Timestamp.valueOf(entity.getDepartureDate().atStartOfDay()));
+            ps.setTimestamp(5, Timestamp.valueOf(entity.getDepartureDate().atStartOfDay()));
+            ps.setLong(6, entity.getId());
+            return ps.executeUpdate() != 0;
+        } catch (SQLException e) {
+            //todo throw db Exception runtime status 500 for user
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

@@ -43,11 +43,11 @@ public class LoginCommand implements Command {
         System.out.println(user);
         System.out.println("AFTER TRY");
         if (CommandUtility.checkUserIsLogged(request, login)) {
-            return "redirect:error.jsp";
+            return "WEB-INF/error.jsp";
         }
 
         if (checkInputPassword(pass, user.getPassword())) {
-            CommandUtility.setUserRole(request, user, login);
+            CommandUtility.setUserInSession(request, user, login);
             return "redirect:main";
         } else {
             request.getSession().setAttribute("exception", true);

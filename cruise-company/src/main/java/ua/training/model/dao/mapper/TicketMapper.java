@@ -10,7 +10,7 @@ public class TicketMapper implements ObjectMapper<Ticket> {
     @Override
     public Ticket extractFromResultSet(ResultSet rs) throws SQLException {
         return Ticket.builder()
-                .id(rs.getLong("id"))
+                .id(rs.getLong("tickets.id"))
                 .price(rs.getLong("price"))
                 .discount(rs.getInt("discount"))
                 .ticketName(rs.getString("ticket_name"))

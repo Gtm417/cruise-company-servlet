@@ -1,21 +1,20 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
-import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dto.OrderDTO;
 import ua.training.model.entity.User;
 import ua.training.model.exception.NotEnoughMoney;
 import ua.training.model.exception.UnreachableRequest;
-import ua.training.model.service.BuyCruiseService;
+import ua.training.model.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 public class SubmitBuyCommand implements Command{
-    private final BuyCruiseService buyCruiseService;
+    private final OrderService orderService;
 
     public SubmitBuyCommand() {
-        this.buyCruiseService = new BuyCruiseService();
+        this.orderService = new OrderService();
     }
     @Override
     public String execute(HttpServletRequest request) {
@@ -29,13 +28,13 @@ public class SubmitBuyCommand implements Command{
             user.setBalance(subUserBalance(user, resultPrice));
         } catch (NotEnoughMoney ex) {
             System.err.println("Not Enough Money");
-            //todo return to buy.jsp with error
             ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit-form");
             return exceptionHandler.handling(request);
         }
-        buyCruiseService.buyCruise(user, orderDTO);
+        orderService.buyCruise(user, orderDTO);
         return "redirect:main";
     }
+
     private boolean valid(HttpServletRequest request){
         if(Objects.isNull(request.getParameter("resultPrice"))
                 || Objects.isNull(request.getSession().getAttribute("order"))){
