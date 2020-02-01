@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Tima
-  Date: 31.01.2020
-  Time: 20:11
+  Date: 01.02.2020
+  Time: 11:31
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -17,7 +17,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info" > <fmt:message key="alert.passenger.list.is.empty"/></label>
+    <label class="alert alert-info" > <fmt:message key="alert.orders.list.is.empty"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <table class="table table-striped table-responsive-md btn-table">
@@ -32,9 +32,9 @@
     </thead>
 
     <tbody>
-    <c:forEach var="pass" items="${passengers}">
+    <c:forEach var="pass" items="${orders}">
         <tr>
-            <td>${sessionScope.cruise.cruiseName}</td>
+            <td>${pass.cruise.cruiseName}</td>
             <td>${pass.firstName}</td>
             <td>${pass.secondName}</td>
             <td>${pass.ticket.ticketName}</td>
@@ -45,3 +45,4 @@
 </table>
 </body>
 </html>
+

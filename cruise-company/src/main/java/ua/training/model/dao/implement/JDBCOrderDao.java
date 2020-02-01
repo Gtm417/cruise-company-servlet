@@ -1,9 +1,11 @@
 package ua.training.model.dao.implement;
 
 import ua.training.model.dao.OrderDao;
+import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.OrderMapper;
 import ua.training.model.dao.mapper.TicketMapper;
+import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.Ticket;
 import ua.training.model.entity.User;
@@ -24,6 +26,11 @@ public class JDBCOrderDao implements OrderDao {
     private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * from orders " +
             "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
             "WHERE orders.cruise_id = ?;";
+
+    private static final String FIND_ALL_BY_USER_ID = "SELECT * from orders " +
+            "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
+            "INNER JOIN cruises ON orders.cruise_id = cruises.id " +
+            "WHERE orders.user_id = ?;";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -97,10 +104,12 @@ public class JDBCOrderDao implements OrderDao {
         psUser.executeUpdate();
     }
 
+    @Override
     public List<Order> findAllOrdersByCruise(long id) {
         List<Order> orders = new ArrayList<>();
         ObjectMapper<Order> orderMapper = new OrderMapper();
         ObjectMapper<Ticket> ticketMapper = new TicketMapper();
+
 
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_CRUISE_ID)) {
@@ -109,6 +118,30 @@ public class JDBCOrderDao implements OrderDao {
             while (rs.next()) {
                 Order order = orderMapper.extractFromResultSet(rs);;
                 order.setTicket(ticketMapper.extractFromResultSet(rs));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            //todo db exception
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllOrdersByUser(long id) {
+        List<Order> orders = new ArrayList<>();
+        ObjectMapper<Order> orderMapper = new OrderMapper();
+        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
+        ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
+
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_USER_ID)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = orderMapper.extractFromResultSet(rs);;
+                order.setTicket(ticketMapper.extractFromResultSet(rs));
+                order.setCruise(cruiseMapper.extractFromResultSet(rs));
                 orders.add(order);
             }
         } catch (SQLException e) {

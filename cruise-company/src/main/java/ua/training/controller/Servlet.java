@@ -57,6 +57,8 @@ public class Servlet extends HttpServlet {
                 new AddTicketCommand());
         commands.put("admin/all-passengers",
                 new AllPassengersCommand());
+        commands.put("all-orders",
+                new AllOrdersCommand());
     }
 
 

@@ -19,6 +19,8 @@
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
 </ul>
 <a href="${pageContext.request.contextPath}/balance"> Replenish</a>
+<a href="${pageContext.request.contextPath}/all-orders"> Orders</a>
+
 <button></button>
 
 <c:if test="${sessionScope.notFoundCruise}">
