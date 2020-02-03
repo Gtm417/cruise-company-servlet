@@ -18,7 +18,7 @@ public class RegistrationCommand implements Command{
     public String execute(HttpServletRequest request){
         String login = request.getParameter("name");
         String pass = request.getParameter("pass");
-        System.out.println(login + " " + pass);
+
 
         if( login == null || login.equals("") || pass == null || pass.equals("")  ){
             return "/registration.jsp";

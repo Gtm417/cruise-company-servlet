@@ -20,9 +20,8 @@ public class LoginCommand implements Command {
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
-        System.out.println(request.getCharacterEncoding());
+
         String login = request.getParameter("name");
-        System.out.println(login);
         String pass = request.getParameter("pass");
 
         if (login == null || login.equals("") || pass == null || pass.equals("")) {
@@ -39,9 +38,6 @@ public class LoginCommand implements Command {
             return exceptionHandler.handling(request);
         }
 
-
-        System.out.println(user);
-        System.out.println("AFTER TRY");
         if (CommandUtility.checkUserIsLogged(request, login)) {
             return "WEB-INF/error.jsp";
         }

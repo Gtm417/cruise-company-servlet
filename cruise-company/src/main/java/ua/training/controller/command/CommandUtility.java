@@ -48,8 +48,6 @@ public class CommandUtility {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
-        System.out.println("delete userName " + userName);
-
         loggedUsers.remove(userName);
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);

@@ -20,7 +20,6 @@ public class BuyCruiseFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String stringCruiseId = request.getParameter("cruiseId");
-        System.out.println("cruise id  " + stringCruiseId);
         if (Objects.isNull(stringCruiseId)) {
             //человек не понятным образом попал на запрос buyform, круиза в запросе не было поэтому он возвращается на мейн
             request.getSession().setAttribute("notFoundCruise", true);

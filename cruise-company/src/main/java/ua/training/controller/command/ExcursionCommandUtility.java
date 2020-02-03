@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 public class ExcursionCommandUtility {
-    //todo refactoring
-    //i can all take from request
-    // first valid after getExcursion
     static Excursion validAndGetExcursion(HttpServletRequest request) {
         String id = request.getParameter("id");
         String excursionName = request.getParameter("excursionName");
@@ -22,7 +19,7 @@ public class ExcursionCommandUtility {
         boolean validData = Objects.isNull(id) ||  Objects.isNull(excursionName)
                 ||  Objects.isNull(portId) ||  Objects.isNull(duration)
                 ||  Objects.isNull(price) ||  Objects.isNull(portName);
-        System.out.println("VALID: " + validData);
+
 
         if(validData || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))){
             request.getSession().setAttribute("notEnoughData", true);

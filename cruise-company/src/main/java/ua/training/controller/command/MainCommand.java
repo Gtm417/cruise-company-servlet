@@ -19,15 +19,11 @@ public class MainCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request){
-        System.out.println("im in main command");
-        System.out.println("Main cruise id" + request.getParameter("cruiseId"));
         request.getSession().removeAttribute("cruise");
         request.getSession().removeAttribute("order");
         request.getSession().removeAttribute("selectedExcursions");
         List<Cruise> cruises = cruiseService.getAllCruises();
         request.setAttribute("cruises", cruises);
-        System.out.println("Cruises " + cruises);
-        System.out.println("Session " + request.getParameter("cruises"));
         User.ROLE role =(User.ROLE) request.getSession().getAttribute("role");
         if(role == User.ROLE.USER){
             return "user/main.jsp";

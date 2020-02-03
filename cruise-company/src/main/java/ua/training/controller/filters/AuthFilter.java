@@ -46,54 +46,38 @@ public class AuthFilter implements Filter {
         ServletContext context = request.getServletContext();
 
 
-        System.out.println(session);
-        System.out.println("Session role = " + session.getAttribute("role"));
-        System.out.println("Session login = " + session.getAttribute("login"));
-        System.out.println("Context users = " + context.getAttribute("loggedUsers"));
-
-
         String path = req.getRequestURI();
-        System.out.println("filter  " + path);
+
         boolean isAccessedRequest = path.contains(LOGIN_REQUEST) || path.contains(LOGOUT_REQUEST)
                 || path.contains(REGISTRATION_REQUEST) || path.contains(START_PAGE_REQUEST)
                 || path.contains(ERROR_REQUEST);
 
 
         if((session.getAttribute("login")) == null && !isAccessedRequest){
-            System.out.println("Not Login filter");
-            System.out.println(START_PAGE_REQUEST);
             res.sendRedirect(context.getContextPath() + START_PAGE_REQUEST);
-            System.out.println("filter redirect");
             return;
             //req.getRequestDispatcher(START_PAGE_REQUEST);
             //filterChain.doFilter(request,response);
         }
         if(isAccessedRequest){
-            System.out.println("First if");
             filterChain.doFilter(request,response);
         }
         else if(session.getAttribute("login") != null){
-            System.out.println("ELSE");
             if(path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)){
-                System.out.println("Sec if");
                 filterChain.doFilter(request,response);
             }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
-                System.out.println("Third if");
                 filterChain.doFilter(request,response);
             }else if(path.matches(".*/cruise-company/.*")) {
 //                path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
 //                        || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
 //                        || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)
-                System.out.println("MAIN IF");
                 filterChain.doFilter(request,response);
             } else {
-                System.out.println("Access Denied");
                 response.getWriter().println("Access Denied");
             }
 
         }
           //filterChain.doFilter(request,response);
-        System.out.println("im out filter");
     }
 
     @Override

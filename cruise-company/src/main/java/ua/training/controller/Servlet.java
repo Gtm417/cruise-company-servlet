@@ -77,20 +77,12 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        System.out.println("im in servlet");
-        System.err.println("Servlet:  " + response.getCharacterEncoding());
         String path = request.getRequestURI();
-        System.out.println("path 1 :" + path);
         path = path.replaceAll(".*/cruise-company/" , "");
-        System.out.println("path 1 :" + path);
         Command command = commands.getOrDefault(path ,
                 (r)->"/WEB-INF/404.jsp");
-        System.out.println("command: " + command.getClass().getName());
         String page = command.execute(request);
-        System.out.println("execute end");
-        System.out.println("page:  " + page);
         if(page.contains("redirect")){
-            System.out.println("page replace: " + page.replace("redirect:", "/cruise-company/"));
             response.sendRedirect(page.replace("redirect:", "/cruise-company/"));
         }else {
             request.getRequestDispatcher(page).forward(request, response);

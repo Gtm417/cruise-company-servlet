@@ -19,7 +19,6 @@ public class BuyCruiseCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        System.out.println("BuyCruiseCommand");
         String firstName = request.getParameter("firstName");
         String secondName = request.getParameter("secondName");
         String ticketParam = request.getParameter("ticket");
@@ -29,7 +28,6 @@ public class BuyCruiseCommand implements Command {
             //todo тут должно быть сообщение на форме что пользователь не всё ввёл
             return "redirect:buy-form";
         }
-        System.out.println("After if");
         long ticketId = Long.parseLong(ticketParam);
         long cruiseId = Long.parseLong(stringCruiseId);
         long price = Long.parseLong(priceParameter);
@@ -54,7 +52,6 @@ public class BuyCruiseCommand implements Command {
 
         request.getSession().setAttribute("order", order);
         CommandUtility.setSelectedExcursionsListToSession(request);
-        System.out.println("request complete");
         return "redirect:buy-submit-form";
     }
 
