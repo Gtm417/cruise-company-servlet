@@ -1,6 +1,6 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
-public class CruiseNotFoundException extends Exception{
+public class CruiseNotFoundException extends Exception {
     private long id;
 
     public CruiseNotFoundException(long id) {

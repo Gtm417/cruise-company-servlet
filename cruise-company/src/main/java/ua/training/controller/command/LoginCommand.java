@@ -1,17 +1,17 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
-import ua.training.model.exception.UserNotFoundException;
-import ua.training.model.service.UserService;
+import ua.training.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
     UserService userService;
 
-    public LoginCommand() {
-        this.userService = new UserService();
+    public LoginCommand(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -27,14 +27,13 @@ public class LoginCommand implements Command {
         if (login == null || login.equals("") || pass == null || pass.equals("")) {
             return "/login.jsp";
         }
-        System.out.println(login + " " + pass);
 
         // Выкинет ошибку если не существует пользователя в базе (не правильный логин)
         User user;
         try {
             user = userService.findUserByLogin(login);
         } catch (UserNotFoundException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e,"login.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "login.jsp");
             return exceptionHandler.handling(request);
         }
 
@@ -42,7 +41,7 @@ public class LoginCommand implements Command {
             return "WEB-INF/error.jsp";
         }
 
-        if (checkInputPassword(pass, user.getPassword())) {
+        if (userService.checkInputPassword(pass, user.getPassword())) {
             CommandUtility.setUserInSession(request, user, login);
             return "redirect:main";
         } else {
@@ -53,8 +52,6 @@ public class LoginCommand implements Command {
 
     }
 
-    private boolean checkInputPassword(String inputPassword, String userPassword) {
-        return userPassword.equals(inputPassword);
-    }
+
 
 }

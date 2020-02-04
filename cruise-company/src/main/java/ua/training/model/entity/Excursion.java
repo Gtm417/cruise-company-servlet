@@ -1,6 +1,5 @@
 package ua.training.model.entity;
 
-import javax.persistence.*;
 import java.util.Objects;
 
 public class Excursion {
@@ -110,7 +109,7 @@ public class Excursion {
             return this;
         }
 
-        public Excursion build(){
+        public Excursion build() {
             return new Excursion(this);
         }
     }

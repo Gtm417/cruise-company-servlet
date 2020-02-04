@@ -1,7 +1,8 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
-public class NotEnoughMoney extends Exception{
+public class NotEnoughMoney extends Exception {
     private long balance;
+
     public NotEnoughMoney(String message, long balance) {
         super(message);
         this.balance = balance;

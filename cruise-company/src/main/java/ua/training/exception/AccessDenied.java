@@ -1,4 +1,4 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
 public class AccessDenied extends RuntimeException {
     public AccessDenied(String message) {

@@ -1,6 +1,5 @@
 package ua.training.model.entity;
 
-import javax.persistence.*;
 import java.util.List;
 
 public class Port {
@@ -48,7 +47,7 @@ public class Port {
         this.cruises = cruises;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -71,22 +70,22 @@ public class Port {
             return this;
         }
 
-        public  Builder  portName(String portName) {
+        public Builder portName(String portName) {
             this.portName = portName;
             return this;
         }
 
-        public  Builder  excursions(List<Excursion> excursions) {
+        public Builder excursions(List<Excursion> excursions) {
             this.excursions = excursions;
             return this;
         }
 
-        public  Builder  cruises(List<Cruise> cruises) {
+        public Builder cruises(List<Cruise> cruises) {
             this.cruises = cruises;
             return this;
         }
 
-        public Port build(){
+        public Port build() {
             return new Port(this);
         }
     }

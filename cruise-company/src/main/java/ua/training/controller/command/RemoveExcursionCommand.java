@@ -9,7 +9,7 @@ public class RemoveExcursionCommand implements Command {
     public String execute(HttpServletRequest request) {
         //todo вытаскивание экскурсии по айди и полное сравнивание с тем что пришло в запросе
         Excursion excursion = ExcursionCommandUtility.validAndGetExcursion(request);
-        CommandUtility.deleteExcursionFromSelectedList(request,excursion);
+        CommandUtility.deleteExcursionFromSelectedList(request, excursion);
         return "redirect:buy-submit-form";
     }
 }

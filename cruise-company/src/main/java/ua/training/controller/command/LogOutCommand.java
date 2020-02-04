@@ -1,9 +1,6 @@
 package ua.training.controller.command;
 
 
-
-import ua.training.model.entity.User;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class LogOutCommand implements Command {

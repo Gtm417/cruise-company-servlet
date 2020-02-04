@@ -1,4 +1,4 @@
-package ua.training.controller.filters;
+package ua.training.controller.filter;
 
 
 import ua.training.model.entity.User;
@@ -53,31 +53,26 @@ public class AuthFilter implements Filter {
                 || path.contains(ERROR_REQUEST);
 
 
-        if((session.getAttribute("login")) == null && !isAccessedRequest){
+        if ((session.getAttribute("login")) == null && !isAccessedRequest) {
             res.sendRedirect(context.getContextPath() + START_PAGE_REQUEST);
             return;
             //req.getRequestDispatcher(START_PAGE_REQUEST);
             //filterChain.doFilter(request,response);
         }
-        if(isAccessedRequest){
-            filterChain.doFilter(request,response);
-        }
-        else if(session.getAttribute("login") != null){
-            if(path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)){
-                filterChain.doFilter(request,response);
-            }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
-                filterChain.doFilter(request,response);
-            }else if(path.matches(".*/cruise-company/.*")) {
-//                path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
-//                        || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
-//                        || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)
-                filterChain.doFilter(request,response);
+        if (isAccessedRequest) {
+            filterChain.doFilter(request, response);
+        } else if (session.getAttribute("login") != null) {
+            if (path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)) {
+                filterChain.doFilter(request, response);
+            } else if (path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)) {
+                filterChain.doFilter(request, response);
+            } else if (path.matches(".*/cruise-company/.*")) {
+                filterChain.doFilter(request, response);
             } else {
                 response.getWriter().println("Access Denied");
             }
 
         }
-          //filterChain.doFilter(request,response);
     }
 
     @Override

@@ -1,13 +1,13 @@
 package ua.training.model.dao.implement;
 
+import ua.training.exception.DuplicateDataBaseException;
+import ua.training.model.dao.ConnectionPoolHolder;
 import ua.training.model.dao.ExcursionDao;
 import ua.training.model.dao.mapper.ExcursionMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.PortMapper;
-import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Port;
-import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -76,7 +76,6 @@ public class JDBCExcursionDao implements ExcursionDao {
         }
         return excursions;
     }
-
 
 
 }

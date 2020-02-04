@@ -1,10 +1,10 @@
-package ua.training.model.service;
+package ua.training.service;
 
+import ua.training.exception.EmptyOrderListException;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.OrderDao;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
-import ua.training.model.exception.EmptyOrderListException;
 
 import java.util.List;
 
@@ -15,13 +15,13 @@ public class OrderService {
         this.orderDao = DaoFactory.getInstance().createOrderDao();
     }
 
-    public void buyCruise(User user, Order order){
+    public void buyCruise(User user, Order order) {
         orderDao.buyCruiseChanges(user, order);
     }
 
     public List<Order> showAllPassengersOnCruise(long id) throws EmptyOrderListException {
         List<Order> orders = orderDao.findAllOrdersByCruise(id);
-        if(orders.isEmpty()){
+        if (orders.isEmpty()) {
             throw new EmptyOrderListException("Orders list is empty");
         }
         return orders;
@@ -29,10 +29,10 @@ public class OrderService {
 
     public List<Order> showAllUserOrders(long id) throws EmptyOrderListException {
         List<Order> orders = orderDao.findAllOrdersByUser(id);
-        if(orders.isEmpty()){
+        if (orders.isEmpty()) {
             throw new EmptyOrderListException("Orders list is empty");
         }
-        return  orders;
+        return orders;
 
     }
 }

@@ -1,5 +1,7 @@
 package ua.training.model.dao.implement;
 
+import ua.training.exception.DuplicateDataBaseException;
+import ua.training.model.dao.ConnectionPoolHolder;
 import ua.training.model.dao.TicketDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
@@ -7,7 +9,6 @@ import ua.training.model.dao.mapper.TicketMapper;
 import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
-import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.sql.*;
 import java.util.ArrayList;

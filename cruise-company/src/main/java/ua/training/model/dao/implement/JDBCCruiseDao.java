@@ -1,12 +1,13 @@
 package ua.training.model.dao.implement;
 
+import ua.training.exception.DuplicateDataBaseException;
+import ua.training.model.dao.ConnectionPoolHolder;
 import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.ShipMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
-import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,11 +34,11 @@ public class JDBCCruiseDao implements CruiseDao {
     @Override
     public Optional<Cruise> findById(long id) {
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-        try(Connection connection = connectionPoolHolder.getConnection();
-        PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)){
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return Optional.of(cruiseMapper.extractFromResultSet(rs));
             }
         } catch (SQLException e) {
@@ -54,15 +55,15 @@ public class JDBCCruiseDao implements CruiseDao {
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
         ObjectMapper<Ship> shipMapper = new ShipMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
-                Statement pst = connection.createStatement()){
+             Statement pst = connection.createStatement()) {
             ResultSet rs = pst.executeQuery(FIND_ALL_QUERY);
-            while(rs.next()) {
+            while (rs.next()) {
                 Cruise cruise = cruiseMapper.extractFromResultSet(rs);
                 cruise.setShip(shipMapper.extractFromResultSet(rs));
                 resultList.add(cruise);
             }
             return resultList;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
             throw new RuntimeException();
         }
@@ -70,8 +71,8 @@ public class JDBCCruiseDao implements CruiseDao {
 
     @Override
     public boolean update(Cruise entity) {
-        try(Connection connection = connectionPoolHolder.getConnection();
-        PreparedStatement ps = connection.prepareStatement(UPDATE_CRUISE)) {
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement ps = connection.prepareStatement(UPDATE_CRUISE)) {
             ps.setString(1, entity.getCruiseName());
             ps.setString(2, entity.getDescriptionEng());
             ps.setString(3, entity.getDescriptionRu());

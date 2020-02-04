@@ -1,4 +1,4 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
 public class TicketNotFound extends Exception {
     public TicketNotFound(String message, long ticketId) {

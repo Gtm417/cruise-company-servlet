@@ -1,4 +1,4 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
 public class UnreachableRequest extends RuntimeException {
     public UnreachableRequest() {

@@ -6,6 +6,8 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
+import ua.training.service.UserService;
+import ua.training.service.encoder.PasswordEncoder;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -20,7 +22,9 @@ import java.util.Map;
 public class Servlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
 
-    public void init(ServletConfig servletConfig){
+    public void init(ServletConfig servletConfig) {
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
+        UserService userService = new UserService(passwordEncoder);
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -28,22 +32,22 @@ public class Servlet extends HttpServlet {
         commands.put("logout",
                 new LogOutCommand());
         commands.put("login",
-                new LoginCommand());
-        commands.put("exception" ,
+                new LoginCommand(userService));
+        commands.put("exception",
                 new ExceptionCommand());
-        commands.put("registration" ,
-                new RegistrationCommand());
-        commands.put("main" ,
+        commands.put("registration",
+                new RegistrationCommand(userService));
+        commands.put("main",
                 new MainCommand());
-        commands.put("balance" ,
-                new BalanceCommand());
-        commands.put("buy-form" ,
+        commands.put("balance",
+                new BalanceCommand(userService));
+        commands.put("buy-form",
                 new BuyCruiseFormCommand());
         commands.put("buy",
                 new BuyCruiseCommand());
-        commands.put("buy-submit" ,
+        commands.put("buy-submit",
                 new SubmitBuyCommand());
-        commands.put("buy-submit-form" ,
+        commands.put("buy-submit-form",
                 new SubmitBuyFormCommand());
         commands.put("add-excursion",
                 new AddExcursionCommand());
@@ -62,29 +66,28 @@ public class Servlet extends HttpServlet {
     }
 
 
-
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException {
-            processRequest(request, response);
+        processRequest(request, response);
     }
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-            processRequest(request, response);
+        processRequest(request, response);
 
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String path = request.getRequestURI();
-        path = path.replaceAll(".*/cruise-company/" , "");
-        Command command = commands.getOrDefault(path ,
-                (r)->"/WEB-INF/404.jsp");
+        path = path.replaceAll(".*/cruise-company/", "");
+        Command command = commands.getOrDefault(path,
+                (r) -> "/WEB-INF/404.jsp");
         String page = command.execute(request);
-        if(page.contains("redirect")){
+        if (page.contains("redirect")) {
             response.sendRedirect(page.replace("redirect:", "/cruise-company/"));
-        }else {
+        } else {
             request.getRequestDispatcher(page).forward(request, response);
         }
     }

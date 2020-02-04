@@ -1,12 +1,12 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.exception.TicketNotFound;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.Ticket;
 import ua.training.model.entity.User;
-import ua.training.model.exception.TicketNotFound;
-import ua.training.model.service.TicketService;
+import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
 

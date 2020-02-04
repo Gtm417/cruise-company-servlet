@@ -1,4 +1,4 @@
-package ua.training.model.exception;
+package ua.training.exception;
 
 
 public class DuplicateDataBaseException extends Exception {

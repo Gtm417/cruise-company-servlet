@@ -13,7 +13,7 @@
 
   <filter>
     <filter-name>EncodingFilter</filter-name>
-    <filter-class>ua.training.controller.filters.EncodingFilter</filter-class>
+    <filter-class>ua.training.controller.filter.EncodingFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>EncodingFilter</filter-name>
@@ -22,7 +22,7 @@
 
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>ua.training.controller.filters.AuthFilter</filter-class>
+        <filter-class>ua.training.controller.filter.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
@@ -45,12 +45,12 @@
   </error-page>
 
   <error-page>
-    <exception-type>ua.training.model.exception.UnreachableRequest</exception-type>
+    <exception-type>ua.training.exception.UnreachableRequest</exception-type>
     <location>/WEB-INF/404.jsp</location>
   </error-page>
 
   <error-page>
-    <exception-type>ua.training.model.exception.AccessDenied</exception-type>
+    <exception-type>ua.training.exception.AccessDenied</exception-type>
     <location>/WEB-INF/access-denied.jsp</location>
   </error-page>
 

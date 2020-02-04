@@ -1,6 +1,5 @@
 package ua.training.model.dao.mapper;
 
-import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
 
 import java.sql.ResultSet;

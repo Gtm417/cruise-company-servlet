@@ -1,5 +1,7 @@
 package ua.training.model.dao.implement;
 
+import ua.training.exception.DuplicateDataBaseException;
+import ua.training.model.dao.ConnectionPoolHolder;
 import ua.training.model.dao.OrderDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
@@ -9,7 +11,6 @@ import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.Ticket;
 import ua.training.model.entity.User;
-import ua.training.model.exception.DuplicateDataBaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -116,7 +117,8 @@ public class JDBCOrderDao implements OrderDao {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.extractFromResultSet(rs);;
+                Order order = orderMapper.extractFromResultSet(rs);
+                ;
                 order.setTicket(ticketMapper.extractFromResultSet(rs));
                 orders.add(order);
             }
@@ -139,7 +141,8 @@ public class JDBCOrderDao implements OrderDao {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.extractFromResultSet(rs);;
+                Order order = orderMapper.extractFromResultSet(rs);
+                ;
                 order.setTicket(ticketMapper.extractFromResultSet(rs));
                 order.setCruise(cruiseMapper.extractFromResultSet(rs));
                 orders.add(order);

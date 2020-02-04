@@ -3,9 +3,9 @@ package ua.training.controller.command.admin;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.CommandUtility;
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.exception.EmptyOrderListException;
 import ua.training.model.entity.Cruise;
-import ua.training.model.exception.EmptyOrderListException;
-import ua.training.model.service.OrderService;
+import ua.training.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 

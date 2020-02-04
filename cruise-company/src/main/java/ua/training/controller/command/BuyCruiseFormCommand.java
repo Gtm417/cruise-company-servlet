@@ -2,9 +2,9 @@ package ua.training.controller.command;
 
 
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.exception.TicketsEmptyListException;
 import ua.training.model.dto.TicketCruiseDTO;
-import ua.training.model.exception.TicketsEmptyListException;
-import ua.training.model.service.TicketService;
+import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.training.model.service;
+package ua.training.service;
 
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.ExcursionDao;
@@ -13,7 +13,7 @@ public class ExcursionService {
         this.excursionDao = DaoFactory.getInstance().createExcursionDao();
     }
 
-    public List<Excursion> showAllExcursionsInCruise(long cruiseId){
+    public List<Excursion> showAllExcursionsInCruise(long cruiseId) {
         //todo Exception if list empty
         return excursionDao.findAllExcursionsByCruiseId(cruiseId);
     }

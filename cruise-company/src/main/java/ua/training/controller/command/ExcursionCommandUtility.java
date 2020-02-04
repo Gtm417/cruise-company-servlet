@@ -1,8 +1,8 @@
 package ua.training.controller.command;
 
+import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Port;
-import ua.training.model.exception.UnreachableRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -16,12 +16,12 @@ public class ExcursionCommandUtility {
         String portId = request.getParameter("portId");
         String portName = request.getParameter("portName");
 
-        boolean validData = Objects.isNull(id) ||  Objects.isNull(excursionName)
-                ||  Objects.isNull(portId) ||  Objects.isNull(duration)
-                ||  Objects.isNull(price) ||  Objects.isNull(portName);
+        boolean validData = Objects.isNull(id) || Objects.isNull(excursionName)
+                || Objects.isNull(portId) || Objects.isNull(duration)
+                || Objects.isNull(price) || Objects.isNull(portName);
 
 
-        if(validData || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))){
+        if (validData || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))) {
             request.getSession().setAttribute("notEnoughData", true);
             throw new UnreachableRequest();
         }

@@ -1,4 +1,5 @@
 package ua.training.model.entity;
+
 import java.util.List;
 
 public class Ticket {
@@ -67,7 +68,8 @@ public class Ticket {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-    public static Builder builder(){
+
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -81,7 +83,7 @@ public class Ticket {
                 '}';
     }
 
-    public static class Builder{
+    public static class Builder {
         private long id;
         private String ticketName;
         private long price;
@@ -119,7 +121,7 @@ public class Ticket {
             return this;
         }
 
-        public Ticket build(){
+        public Ticket build() {
             return new Ticket(this);
         }
     }

@@ -3,10 +3,10 @@ package ua.training.controller.command.admin;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.CommandUtility;
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.exception.DuplicateDataBaseException;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
-import ua.training.model.exception.DuplicateDataBaseException;
-import ua.training.model.service.TicketService;
+import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -24,7 +24,7 @@ public class AddTicketCommand implements Command {
         String ticketName = request.getParameter("ticketName");
         String priceParam = request.getParameter("price");
         String discountParam = request.getParameter("discount");
-        if(!valid(ticketName,priceParam,discountParam)){
+        if (!valid(ticketName, priceParam, discountParam)) {
             return "add-ticket.jsp";
         }
         try {
@@ -39,12 +39,12 @@ public class AddTicketCommand implements Command {
             return exceptionHandler.handling(request);
 
         }
-        request.getSession().setAttribute("success",true);
+        request.getSession().setAttribute("success", true);
         return "add-ticket.jsp";
     }
 
     private boolean valid(String ticketName, String price, String discount) {
-        if (Objects.isNull(ticketName) || Objects.isNull(price)  || Objects.isNull(discount)) {
+        if (Objects.isNull(ticketName) || Objects.isNull(price) || Objects.isNull(discount)) {
             return false;
         }
         return true;

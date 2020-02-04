@@ -2,7 +2,7 @@ package ua.training.controller.command;
 
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
-import ua.training.model.service.ExcursionService;
+import ua.training.service.ExcursionService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;

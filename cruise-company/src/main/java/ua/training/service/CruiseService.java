@@ -1,24 +1,23 @@
-package ua.training.model.service;
+package ua.training.service;
 
+import ua.training.exception.CruiseNotFoundException;
 import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.entity.Cruise;
-import ua.training.model.exception.CruiseNotFoundException;
 
 import java.util.List;
 
 public class CruiseService {
     private final CruiseDao cruiseDao;
 
-    public CruiseService()
-    {
+    public CruiseService() {
         this.cruiseDao = DaoFactory.getInstance().createCruiseDao();
     }
 
-    public List<Cruise> getAllCruises(){
-        try{
+    public List<Cruise> getAllCruises() {
+        try {
             return cruiseDao.findAll();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
