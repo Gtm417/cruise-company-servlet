@@ -13,8 +13,8 @@ import java.util.Objects;
 public class SubmitBuyCommand implements Command {
     private final OrderService orderService;
 
-    public SubmitBuyCommand() {
-        this.orderService = new OrderService();
+    public SubmitBuyCommand(OrderService orderService){
+        this.orderService = orderService;
     }
 
     @Override

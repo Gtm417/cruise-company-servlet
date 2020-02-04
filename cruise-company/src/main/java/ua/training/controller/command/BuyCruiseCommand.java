@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 public class BuyCruiseCommand implements Command {
     private final TicketService ticketService;
 
-    public BuyCruiseCommand() {
-        this.ticketService = new TicketService();
+    public BuyCruiseCommand(TicketService ticketService) {
+
+        this.ticketService = ticketService;
     }
 
     @Override

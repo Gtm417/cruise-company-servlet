@@ -6,7 +6,7 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
-import ua.training.service.UserService;
+import ua.training.service.*;
 import ua.training.service.encoder.PasswordEncoder;
 
 import javax.servlet.ServletConfig;
@@ -25,6 +25,10 @@ public class Servlet extends HttpServlet {
     public void init(ServletConfig servletConfig) {
         PasswordEncoder passwordEncoder = new PasswordEncoder();
         UserService userService = new UserService(passwordEncoder);
+        CruiseService cruiseService = new CruiseService();
+        ExcursionService excursionService = new ExcursionService();
+        OrderService orderService = new OrderService();
+        TicketService ticketService = new TicketService();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -38,31 +42,31 @@ public class Servlet extends HttpServlet {
         commands.put("registration",
                 new RegistrationCommand(userService));
         commands.put("main",
-                new MainCommand());
+                new MainCommand(cruiseService));
         commands.put("balance",
                 new BalanceCommand(userService));
         commands.put("buy-form",
-                new BuyCruiseFormCommand());
+                new BuyCruiseFormCommand(ticketService));
         commands.put("buy",
-                new BuyCruiseCommand());
+                new BuyCruiseCommand(ticketService));
         commands.put("buy-submit",
-                new SubmitBuyCommand());
+                new SubmitBuyCommand(orderService));
         commands.put("buy-submit-form",
-                new SubmitBuyFormCommand());
+                new SubmitBuyFormCommand(excursionService));
         commands.put("add-excursion",
                 new AddExcursionCommand());
         commands.put("remove-excursion",
                 new RemoveExcursionCommand());
         commands.put("admin/edit-cruise",
-                new CruiseEditCommand());
+                new CruiseEditCommand(cruiseService));
         commands.put("admin/edit-description",
-                new CruiseDescriptionCommand());
+                new CruiseDescriptionCommand(cruiseService));
         commands.put("admin/add-ticket",
-                new AddTicketCommand());
+                new AddTicketCommand(ticketService));
         commands.put("admin/all-passengers",
-                new AllPassengersCommand());
+                new AllPassengersCommand(orderService));
         commands.put("all-orders",
-                new AllOrdersCommand());
+                new AllOrdersCommand(orderService));
     }
 
 

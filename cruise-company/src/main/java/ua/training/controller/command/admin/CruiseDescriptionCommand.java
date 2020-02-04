@@ -11,8 +11,9 @@ import java.util.Objects;
 public class CruiseDescriptionCommand implements Command {
     private final CruiseService cruiseService;
 
-    public CruiseDescriptionCommand() {
-        this.cruiseService = new CruiseService();
+    public CruiseDescriptionCommand(CruiseService cruiseService) {
+
+        this.cruiseService = cruiseService;
     }
 
     @Override

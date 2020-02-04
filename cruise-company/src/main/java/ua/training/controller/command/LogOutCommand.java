@@ -8,7 +8,6 @@ public class LogOutCommand implements Command {
     public String execute(HttpServletRequest request) {
         CommandUtility.deleteUserFromContext(request, String.valueOf(request.getSession().getAttribute("login")));
         request.getSession().invalidate();
-        //CommandUtility.setUserRole(request, User.ROLE.UNKNOWN, "Guest");
         return "redirect:index.jsp";
     }
 }

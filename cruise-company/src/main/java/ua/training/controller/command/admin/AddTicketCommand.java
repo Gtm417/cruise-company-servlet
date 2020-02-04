@@ -14,8 +14,8 @@ import java.util.Objects;
 public class AddTicketCommand implements Command {
     private final TicketService ticketService;
 
-    public AddTicketCommand() {
-        this.ticketService = new TicketService();
+    public AddTicketCommand(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
     @Override

@@ -11,8 +11,9 @@ import java.util.List;
 public class MainCommand implements Command {
     private final CruiseService cruiseService;
 
-    public MainCommand() {
-        this.cruiseService = new CruiseService();
+    public MainCommand(CruiseService cruiseService) {
+
+        this.cruiseService = cruiseService;
     }
 
 

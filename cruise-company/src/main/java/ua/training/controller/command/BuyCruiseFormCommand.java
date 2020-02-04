@@ -13,8 +13,9 @@ import java.util.Objects;
 public class BuyCruiseFormCommand implements Command {
     private final TicketService ticketService;
 
-    public BuyCruiseFormCommand() {
-        this.ticketService = new TicketService();
+    public BuyCruiseFormCommand(TicketService ticketService) {
+
+        this.ticketService = ticketService;
     }
 
     @Override

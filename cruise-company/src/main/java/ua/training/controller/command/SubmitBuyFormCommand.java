@@ -10,8 +10,9 @@ import java.util.Objects;
 public class SubmitBuyFormCommand implements Command {
     private final ExcursionService excursionService;
 
-    public SubmitBuyFormCommand() {
-        this.excursionService = new ExcursionService();
+    public SubmitBuyFormCommand(ExcursionService excursionService) {
+
+        this.excursionService = excursionService;
     }
 
     @Override

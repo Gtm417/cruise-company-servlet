@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 public class AllOrdersCommand implements Command {
     private final OrderService orderService;
 
-    public AllOrdersCommand() {
-        this.orderService = new OrderService();
+    public AllOrdersCommand(OrderService orderService) {
+
+        this.orderService = orderService;
     }
 
     @Override
