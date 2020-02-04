@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 public class AuthFilter implements Filter {
-    //private static final String DEFAULT_REQUEST = "/cruise-company";
+
     private static final String LOGIN_REQUEST = "/login";
     private static final String START_PAGE_REQUEST = "/index.jsp";
     private static final String REGISTRATION_REQUEST = "/registration";
@@ -19,7 +19,12 @@ public class AuthFilter implements Filter {
     private static final String ERROR_REQUEST = "/error.jsp";
     private static final String ADMIN_REQUEST = "/admin";
     private static final String USER_REQUEST = "/user";
-
+    public static final String MAIN_REQUEST = "/main";
+    public static final String BALANCE_REQUEST = "/balance";
+    public static final String BUY_REQUEST = "/buy";
+    public static final String BUY_SUBMIT_REQUEST = "/buy-submit";
+    public static final String ADD_EXCURSION_REQUEST = "/add-excursion";
+    public static final String REMOVE_EXCURSION_REQUEST = "/remove-excursion";
 
 
     @Override
@@ -41,47 +46,38 @@ public class AuthFilter implements Filter {
         ServletContext context = request.getServletContext();
 
 
-        System.out.println(session);
-        System.out.println("Session role = " + session.getAttribute("role"));
-        System.out.println("Session login = " + session.getAttribute("login"));
-        System.out.println("Context users = " + context.getAttribute("loggedUsers"));
-
-
         String path = req.getRequestURI();
-        System.out.println("filter  " + path);
+
         boolean isAccessedRequest = path.contains(LOGIN_REQUEST) || path.contains(LOGOUT_REQUEST)
                 || path.contains(REGISTRATION_REQUEST) || path.contains(START_PAGE_REQUEST)
                 || path.contains(ERROR_REQUEST);
 
 
         if((session.getAttribute("login")) == null && !isAccessedRequest){
-            System.out.println("Not Login filter");
-            System.out.println(START_PAGE_REQUEST);
             res.sendRedirect(context.getContextPath() + START_PAGE_REQUEST);
-            System.out.println("filter redirect");
             return;
             //req.getRequestDispatcher(START_PAGE_REQUEST);
             //filterChain.doFilter(request,response);
         }
         if(isAccessedRequest){
-            System.out.println("First if");
             filterChain.doFilter(request,response);
         }
         else if(session.getAttribute("login") != null){
-            System.out.println("ELSE");
-            if(path.contains(ADMIN_REQUEST) && session.getAttribute("role").equals(User.ROLE.ADMIN)){
-                System.out.println("Sec if");
+            if(path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)){
                 filterChain.doFilter(request,response);
-            }else if(path.contains(USER_REQUEST) && session.getAttribute("role").equals(User.ROLE.USER)){
-                System.out.println("Third if");
+            }else if(path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)){
                 filterChain.doFilter(request,response);
-            }else {
-                System.out.println("Access Denied");
+            }else if(path.matches(".*/cruise-company/.*")) {
+//                path.contains(MAIN_REQUEST) || path.contains(BALANCE_REQUEST)
+//                        || path.contains(BUY_REQUEST) || path.contains(BUY_SUBMIT_REQUEST)
+//                        || path.contains(ADD_EXCURSION_REQUEST) || path.contains(REMOVE_EXCURSION_REQUEST)
+                filterChain.doFilter(request,response);
+            } else {
                 response.getWriter().println("Access Denied");
             }
+
         }
           //filterChain.doFilter(request,response);
-        System.out.println("im out filter");
     }
 
     @Override

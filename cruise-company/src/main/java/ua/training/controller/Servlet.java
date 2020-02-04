@@ -1,10 +1,11 @@
 package ua.training.controller;
 
 
-import ua.training.controller.Command.Command;
-import ua.training.controller.Command.ExceptionCommand;
-import ua.training.controller.Command.LogOutCommand;
-import ua.training.controller.Command.LoginCommand;
+import ua.training.controller.command.*;
+import ua.training.controller.command.admin.AddTicketCommand;
+import ua.training.controller.command.admin.AllPassengersCommand;
+import ua.training.controller.command.admin.CruiseDescriptionCommand;
+import ua.training.controller.command.admin.CruiseEditCommand;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -20,7 +21,6 @@ public class Servlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig servletConfig){
-        LogOutCommand log = new LogOutCommand();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -29,7 +29,36 @@ public class Servlet extends HttpServlet {
                 new LogOutCommand());
         commands.put("login",
                 new LoginCommand());
-        commands.put("exception" , new ExceptionCommand());
+        commands.put("exception" ,
+                new ExceptionCommand());
+        commands.put("registration" ,
+                new RegistrationCommand());
+        commands.put("main" ,
+                new MainCommand());
+        commands.put("balance" ,
+                new BalanceCommand());
+        commands.put("buy-form" ,
+                new BuyCruiseFormCommand());
+        commands.put("buy",
+                new BuyCruiseCommand());
+        commands.put("buy-submit" ,
+                new SubmitBuyCommand());
+        commands.put("buy-submit-form" ,
+                new SubmitBuyFormCommand());
+        commands.put("add-excursion",
+                new AddExcursionCommand());
+        commands.put("remove-excursion",
+                new RemoveExcursionCommand());
+        commands.put("admin/edit-cruise",
+                new CruiseEditCommand());
+        commands.put("admin/edit-description",
+                new CruiseDescriptionCommand());
+        commands.put("admin/add-ticket",
+                new AddTicketCommand());
+        commands.put("admin/all-passengers",
+                new AllPassengersCommand());
+        commands.put("all-orders",
+                new AllOrdersCommand());
     }
 
 
@@ -37,38 +66,23 @@ public class Servlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response)
             throws IOException, ServletException {
-        try {
             processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        try {
             processRequest(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        System.out.println("im in servlet");
-        System.err.println("Servlet:  " + response.getCharacterEncoding());
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String path = request.getRequestURI();
-        System.out.println("path 1 :" + path);
         path = path.replaceAll(".*/cruise-company/" , "");
-        System.out.println("path 1 :" + path);
         Command command = commands.getOrDefault(path ,
-                (r)->"/index.jsp");
-        System.out.println("command: " + command.getClass().getName());
+                (r)->"/WEB-INF/404.jsp");
         String page = command.execute(request);
-        System.out.println("page:  " + page);
         if(page.contains("redirect")){
-            System.out.println("page replace: " + page.replace("redirect:", "/cruise-company/"));
             response.sendRedirect(page.replace("redirect:", "/cruise-company/"));
         }else {
             request.getRequestDispatcher(page).forward(request, response);

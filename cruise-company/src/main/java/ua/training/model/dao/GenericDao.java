@@ -1,11 +1,15 @@
 package ua.training.model.dao;
 
-import java.util.List;
+import ua.training.model.entity.Cruise;
+import ua.training.model.exception.DuplicateDataBaseException;
 
-public interface GenericDao<T> extends AutoCloseable{
-    void create (T entity);
-    T findById(int id);
+import java.util.List;
+import java.util.Optional;
+
+public interface GenericDao<T>{
+    boolean create (T entity) throws DuplicateDataBaseException;
+    Optional<T> findById(long id);
     List<T> findAll();
-    void update(T entity);
+    boolean update(T entity);
     void delete(int id);
 }
