@@ -30,7 +30,7 @@ public class LoginCommand implements Command {
         System.out.println(login + " " + pass);
 
         // Выкинет ошибку если не существует пользователя в базе (не правильный логин)
-        User user = new User();
+        User user;
         try {
             user = userService.findUserByLogin(login);
         } catch (UserNotFoundException e) {
