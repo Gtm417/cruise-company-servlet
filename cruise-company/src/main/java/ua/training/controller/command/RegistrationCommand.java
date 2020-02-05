@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.model.entity.User;
 import ua.training.service.UserService;
@@ -8,10 +9,13 @@ import ua.training.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 public class RegistrationCommand implements Command {
-    UserService userService;
+    private final UserService userService;
+    private final RequestMapper<User> userRequestMapper;
 
-    public RegistrationCommand(UserService userService) {
+
+    public RegistrationCommand(UserService userService, RequestMapper<User> userRequestMapper) {
         this.userService = userService;
+        this.userRequestMapper = userRequestMapper;
     }
 
     @Override
@@ -19,17 +23,14 @@ public class RegistrationCommand implements Command {
         String login = request.getParameter("name");
         String pass = request.getParameter("pass");
 
-
+        //todo valid regex
+        //todo default null valid
         if (login == null || login.equals("") || pass == null || pass.equals("")) {
             return "/registration.jsp";
         }
 
-        User user = User.builder()
-                .login(login)
-                .password(pass)
-                .build();
         try {
-            userService.saveNewUser(user);
+            userService.saveNewUser(userRequestMapper.mapToEntity(request));
         } catch (DuplicateDataBaseException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "registration.jsp");
             return exceptionHandler.handling(request);

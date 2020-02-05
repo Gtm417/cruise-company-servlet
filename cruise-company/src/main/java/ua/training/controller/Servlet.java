@@ -6,6 +6,8 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
+import ua.training.controller.mapper.*;
+import ua.training.model.entity.User;
 import ua.training.service.*;
 import ua.training.service.encoder.PasswordEncoder;
 
@@ -29,6 +31,8 @@ public class Servlet extends HttpServlet {
         ExcursionService excursionService = new ExcursionService();
         OrderService orderService = new OrderService();
         TicketService ticketService = new TicketService();
+        RequestMapper<User> userRequestMapper = new UserRequestMapper();
+        ExcursionCommandUtility excursionCommandUtility = new ExcursionCommandUtility(new ExcursionRequestMapper());
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -36,11 +40,11 @@ public class Servlet extends HttpServlet {
         commands.put("logout",
                 new LogOutCommand());
         commands.put("login",
-                new LoginCommand(userService));
+                new LoginCommand(userService, userRequestMapper));
         commands.put("exception",
                 new ExceptionCommand());
         commands.put("registration",
-                new RegistrationCommand(userService));
+                new RegistrationCommand(userService, userRequestMapper));
         commands.put("main",
                 new MainCommand(cruiseService));
         commands.put("balance",
@@ -48,21 +52,21 @@ public class Servlet extends HttpServlet {
         commands.put("buy-form",
                 new BuyCruiseFormCommand(ticketService));
         commands.put("buy",
-                new BuyCruiseCommand(ticketService));
+                new BuyCruiseCommand(ticketService, new OrderRequestMapper()));
         commands.put("buy-submit",
                 new SubmitBuyCommand(orderService));
         commands.put("buy-submit-form",
                 new SubmitBuyFormCommand(excursionService));
         commands.put("add-excursion",
-                new AddExcursionCommand());
+                new AddExcursionCommand(excursionCommandUtility));
         commands.put("remove-excursion",
-                new RemoveExcursionCommand());
+                new RemoveExcursionCommand(excursionCommandUtility));
         commands.put("admin/edit-cruise",
                 new CruiseEditCommand(cruiseService));
         commands.put("admin/edit-description",
                 new CruiseDescriptionCommand(cruiseService));
         commands.put("admin/add-ticket",
-                new AddTicketCommand(ticketService));
+                new AddTicketCommand(ticketService, new TicketRequestMapper()));
         commands.put("admin/all-passengers",
                 new AllPassengersCommand(orderService));
         commands.put("all-orders",

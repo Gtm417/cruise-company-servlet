@@ -38,7 +38,7 @@
         <td>${sessionScope.order.firstName}</td>
     </tr>
     <tr>
-        <td>First name</td>
+        <td>Second name</td>
         <td>${sessionScope.order.secondName}</td>
     </tr>
     <tr>

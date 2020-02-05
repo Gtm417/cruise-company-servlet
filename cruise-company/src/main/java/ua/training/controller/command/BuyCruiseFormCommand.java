@@ -14,7 +14,6 @@ public class BuyCruiseFormCommand implements Command {
     private final TicketService ticketService;
 
     public BuyCruiseFormCommand(TicketService ticketService) {
-
         this.ticketService = ticketService;
     }
 
@@ -32,7 +31,6 @@ public class BuyCruiseFormCommand implements Command {
             request.setAttribute("tickets", cruiseTickets);
             request.getSession().setAttribute("cruise", cruiseTickets.get(0).getCruise());
         } catch (TicketsEmptyListException e) {
-            //todo buy jsp bed
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy.jsp");
             return exceptionHandler.handling(request);
         }

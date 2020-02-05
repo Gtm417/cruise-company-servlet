@@ -16,13 +16,12 @@ import java.util.List;
 public class CommandUtility {
 
     static void setUserInSession(HttpServletRequest request,
-                                 User user, String name) {
+                                 User user) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
-        loginUserInContext(request, name);
-        context.setAttribute("userName", name);
+        loginUserInContext(request, user.getLogin());
         session.setAttribute("role", user.getRole());
-        session.setAttribute("login", name);
+        session.setAttribute("login",user.getLogin());
         session.setAttribute("user", user);
     }
 
@@ -42,16 +41,13 @@ public class CommandUtility {
         return loggedUsers.stream().anyMatch(userName::equals);
     }
 
-    //todo: norm return bool or HashSet;
-    static boolean deleteUserFromContext(HttpServletRequest request, String userName) {
+    static void deleteUserFromContext(HttpServletRequest request, String userName) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
         loggedUsers.remove(userName);
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
-
-        return true;
     }
 
     public static void setSelectedExcursionsListToSession(HttpServletRequest request) {
@@ -83,4 +79,10 @@ public class CommandUtility {
         }
         return (Cruise) request.getSession().getAttribute("cruise");
     }
+
+    public static void resetSessionPurchaseData(HttpServletRequest request) {
+         request.getSession().removeAttribute("cruise");
+         request.getSession().removeAttribute("order");
+         request.getSession().removeAttribute("selectedExcursions");
+     }
 }

@@ -1,14 +1,22 @@
 package ua.training.controller.command;
 
+import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Port;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 public class ExcursionCommandUtility {
-    static Excursion validAndGetExcursion(HttpServletRequest request) {
+    private final RequestMapper<Excursion> excursionRequestMapper;
+
+    public ExcursionCommandUtility(RequestMapper<Excursion> excursionRequestMapper) {
+        this.excursionRequestMapper = excursionRequestMapper;
+    }
+
+     public Excursion validAndGetExcursion(HttpServletRequest request) {
+
+        //todo ExcursionRequestMapper
         String id = request.getParameter("id");
         String excursionName = request.getParameter("excursionName");
         String price = request.getParameter("price");
@@ -20,22 +28,14 @@ public class ExcursionCommandUtility {
                 || Objects.isNull(portId) || Objects.isNull(duration)
                 || Objects.isNull(price) || Objects.isNull(portName);
 
-
+        //todo Validator Excursion
         if (validData || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))) {
             request.getSession().setAttribute("notEnoughData", true);
             throw new UnreachableRequest();
         }
 
-        return Excursion.builder()
-                .id(Long.parseLong(id))
-                .excursionName(excursionName)
-                .price(Long.parseLong(price))
-                .duration(Integer.parseInt(duration))
-                .port(Port.builder()
-                        .id(Long.parseLong(portId))
-                        .portName(portName)
-                        .build())
-                .build();
+
+        return excursionRequestMapper.mapToEntity(request);
     }
 
 }

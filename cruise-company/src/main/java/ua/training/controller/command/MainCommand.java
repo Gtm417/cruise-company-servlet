@@ -16,15 +16,16 @@ public class MainCommand implements Command {
         this.cruiseService = cruiseService;
     }
 
-
     @Override
     public String execute(HttpServletRequest request) {
-        request.getSession().removeAttribute("cruise");
-        request.getSession().removeAttribute("order");
-        request.getSession().removeAttribute("selectedExcursions");
+        CommandUtility.resetSessionPurchaseData(request);
         List<Cruise> cruises = cruiseService.getAllCruises();
         request.setAttribute("cruises", cruises);
         User.ROLE role = (User.ROLE) request.getSession().getAttribute("role");
+        return getMainPage(role);
+    }
+
+    private String getMainPage(User.ROLE role) {
         if (role == User.ROLE.USER) {
             return "user/main.jsp";
         }

@@ -111,14 +111,12 @@ public class JDBCOrderDao implements OrderDao {
         ObjectMapper<Order> orderMapper = new OrderMapper();
         ObjectMapper<Ticket> ticketMapper = new TicketMapper();
 
-
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_CRUISE_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = orderMapper.extractFromResultSet(rs);
-                ;
                 order.setTicket(ticketMapper.extractFromResultSet(rs));
                 orders.add(order);
             }

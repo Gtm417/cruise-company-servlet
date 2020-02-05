@@ -31,9 +31,6 @@ public class CruiseDescriptionCommand implements Command {
     }
 
     private boolean valid(String descriptionEng, String descriptionRu) {
-        if (Objects.isNull(descriptionEng) || Objects.isNull(descriptionRu)) {
-            return false;
-        }
-        return true;
+        return !Objects.isNull(descriptionEng) && !Objects.isNull(descriptionRu);
     }
 }

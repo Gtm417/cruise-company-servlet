@@ -17,6 +17,7 @@ public class BalanceCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String stringValue = request.getParameter("balance");
+        //todo valid
         if (Objects.isNull(stringValue)) {
             return "balance.jsp";
         }

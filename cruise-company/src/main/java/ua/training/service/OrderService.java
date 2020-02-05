@@ -1,6 +1,7 @@
 package ua.training.service;
 
 import ua.training.exception.EmptyOrderListException;
+import ua.training.exception.NotEnoughMoney;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.OrderDao;
 import ua.training.model.entity.Order;
@@ -34,5 +35,15 @@ public class OrderService {
         }
         return orders;
 
+    }
+
+    //убрать отсюда
+    public long subUserBalance(User user, long price) throws NotEnoughMoney {
+        long total = user.getBalance() - price;
+        System.out.println(total);
+        if (total < 0) {
+            throw new NotEnoughMoney("Not enough money ", user.getBalance());
+        }
+        return total;
     }
 }

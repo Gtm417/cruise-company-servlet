@@ -5,9 +5,6 @@ public class User {
     private String login;
     private String password;
 
-    public User() {
-
-    }
 
     public enum ROLE {
         USER, ADMIN
@@ -15,6 +12,10 @@ public class User {
 
     private ROLE role;
     private long balance;
+
+    public User() {
+
+    }
 
     public User(Builder builder) {
         this.id = builder.id;
@@ -62,6 +63,15 @@ public class User {
 
     public void setBalance(long balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public static Builder builder() {

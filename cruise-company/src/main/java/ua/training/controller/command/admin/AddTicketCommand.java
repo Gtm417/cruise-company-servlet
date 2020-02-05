@@ -3,8 +3,8 @@ package ua.training.controller.command.admin;
 import ua.training.controller.command.Command;
 import ua.training.controller.command.CommandUtility;
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 import ua.training.service.TicketService;
 
@@ -13,14 +13,18 @@ import java.util.Objects;
 
 public class AddTicketCommand implements Command {
     private final TicketService ticketService;
+    private final RequestMapper<Ticket> ticketRequestMapper;
 
-    public AddTicketCommand(TicketService ticketService) {
+    public AddTicketCommand(TicketService ticketService, RequestMapper<Ticket> ticketRequestMapper) {
         this.ticketService = ticketService;
+        this.ticketRequestMapper = ticketRequestMapper;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
         CommandUtility.checkCruiseInSession(request);
+
+        //todo request Ticket Mapper
         String ticketName = request.getParameter("ticketName");
         String priceParam = request.getParameter("price");
         String discountParam = request.getParameter("discount");
@@ -28,12 +32,7 @@ public class AddTicketCommand implements Command {
             return "add-ticket.jsp";
         }
         try {
-            ticketService.addNewTicket(Ticket.builder()
-                    .ticketName(ticketName)
-                    .price(Long.parseLong(priceParam))
-                    .discount(Integer.parseInt(discountParam))
-                    .cruise((Cruise) request.getSession().getAttribute("cruise"))
-                    .build());
+            ticketService.addNewTicket(ticketRequestMapper.mapToEntity(request));
         } catch (DuplicateDataBaseException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "admin/add-ticket.jsp");
             return exceptionHandler.handling(request);
@@ -44,9 +43,6 @@ public class AddTicketCommand implements Command {
     }
 
     private boolean valid(String ticketName, String price, String discount) {
-        if (Objects.isNull(ticketName) || Objects.isNull(price) || Objects.isNull(discount)) {
-            return false;
-        }
-        return true;
+        return !Objects.isNull(ticketName) && !Objects.isNull(price) && !Objects.isNull(discount);
     }
 }

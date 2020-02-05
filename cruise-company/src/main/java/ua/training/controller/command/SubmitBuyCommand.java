@@ -13,7 +13,7 @@ import java.util.Objects;
 public class SubmitBuyCommand implements Command {
     private final OrderService orderService;
 
-    public SubmitBuyCommand(OrderService orderService){
+    public SubmitBuyCommand(OrderService orderService) {
         this.orderService = orderService;
     }
 
@@ -21,13 +21,15 @@ public class SubmitBuyCommand implements Command {
     public String execute(HttpServletRequest request) {
         valid(request);
         long resultPrice = Long.parseLong(request.getParameter("resultPrice"));
+
         Order order = (Order) request.getSession().getAttribute("order");
         order.setOrderPrice(resultPrice);
+
         User user = (User) request.getSession().getAttribute("user");
+
         try {
-            user.setBalance(subUserBalance(user, resultPrice));
+            user.setBalance(orderService.subUserBalance(user, resultPrice));
         } catch (NotEnoughMoney ex) {
-            System.err.println("Not Enough Money");
             ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit-form");
             return exceptionHandler.handling(request);
         }
@@ -35,6 +37,7 @@ public class SubmitBuyCommand implements Command {
         return "redirect:main";
     }
 
+    //todo default null validator
     private boolean valid(HttpServletRequest request) {
         if (Objects.isNull(request.getParameter("resultPrice"))
                 || Objects.isNull(request.getSession().getAttribute("order"))) {
@@ -43,12 +46,4 @@ public class SubmitBuyCommand implements Command {
         return true;
     }
 
-    private long subUserBalance(User user, long price) throws NotEnoughMoney {
-        long total = user.getBalance() - price;
-        System.out.println(total);
-        if (total < 0) {
-            throw new NotEnoughMoney("Not enough money ", user.getBalance());
-        }
-        return total;
-    }
 }

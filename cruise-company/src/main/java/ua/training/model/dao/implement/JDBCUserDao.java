@@ -52,12 +52,10 @@ public class JDBCUserDao implements UserDao {
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                System.out.println("There is user");
                 //TODo mb export in constr
                 ObjectMapper<User> mapper = new UserMapper();
                 return Optional.of(mapper.extractFromResultSet(rs));
             }
-            System.out.println("Empty user");
             return Optional.empty();
         } catch (SQLException ex) {
             //TODO: UserNotFoundException

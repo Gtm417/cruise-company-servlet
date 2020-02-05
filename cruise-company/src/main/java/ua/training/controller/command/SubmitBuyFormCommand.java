@@ -17,7 +17,7 @@ public class SubmitBuyFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
+        // todo default null validator
         if (Objects.isNull(request.getSession().getAttribute("order"))
                 || Objects.isNull(request.getSession().getAttribute("cruise"))
                 || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))) {
