@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginCommand implements Command {
     private final UserService userService;
     private final RequestMapper<User> userRequestMapper;
-    private final RequestParameterValidator<User> userValidator;
+    private final RequestParameterValidator userValidator;
 
-    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator<User> userValidator) {
+    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator userValidator) {
         this.userService = userService;
         this.userRequestMapper = userRequestMapper;
         this.userValidator = userValidator;
@@ -29,13 +29,14 @@ public class LoginCommand implements Command {
 
         if(!userValidator.validate(request).isEmpty()){
             request.setAttribute("errors", userValidator.getValidationMessages());
-            System.out.println("valid");
             return "/login.jsp";
         }
 
-        User user = userRequestMapper.mapToEntity(request);
+        User userFromRequest = userRequestMapper.mapToEntity(request);
+        System.out.println(userFromRequest);
+        User user;
         try {
-            user = userService.findUserByLogin(user.getLogin());
+            user = userService.findUserByLogin(userFromRequest.getLogin());
         } catch (UserNotFoundException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "login.jsp");
             return exceptionHandler.handling(request);
@@ -45,7 +46,8 @@ public class LoginCommand implements Command {
             return "WEB-INF/error.jsp";
         }
 
-        if (userService.checkInputPassword(user.getPassword(), user.getPassword())) {
+        if (userService.checkInputPassword(userFromRequest.getPassword(), user.getPassword())) {
+
             CommandUtility.setUserInSession(request, user);
             return "redirect:main";
         } else {

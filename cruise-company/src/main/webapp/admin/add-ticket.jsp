@@ -26,17 +26,19 @@
 <form action="${pageContext.request.contextPath}/admin/add-ticket" method="post">
     <div class="form-group">
         <label> name</label>
-        <input type="text"  class="form-control" required name="ticketName">
+        <input type="text"  class="form-control"  name="ticketName">
     </div>
 
     <div class="form-group">
         <label>price</label>
-        <input type="number" min="0" step="10" placeholder="0" required class="form-control" name="price">
+<%--        <input type="number" min="0" step="10" placeholder="0" required class="form-control" name="price">--%>
+        <input type="text"  class="form-control" name="price">
     </div>
 
     <div class="form-group">
         <label>discount</label>
-        <input type="number" min="0" max="100" step="10" placeholder="0" required class="form-control" name="discount">
+<%--        <input type="number" min="0" max="100" step="10" placeholder="0" required class="form-control" name="discount">--%>
+        <input type="text" class="form-control" name="discount">
     </div>
 
     <button type="submit" class="btn btn-default">Submit</button>

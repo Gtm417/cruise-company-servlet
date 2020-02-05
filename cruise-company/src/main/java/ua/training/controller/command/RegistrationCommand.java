@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 public class RegistrationCommand implements Command {
     private final UserService userService;
     private final RequestMapper<User> userRequestMapper;
-    private final RequestParameterValidator<User> userValidator;
+    private final RequestParameterValidator userValidator;
 
 
-    public RegistrationCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator<User> userValidator) {
+    public RegistrationCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator userValidator) {
         this.userService = userService;
         this.userRequestMapper = userRequestMapper;
         this.userValidator = userValidator;
@@ -26,10 +26,8 @@ public class RegistrationCommand implements Command {
 
         if (!userValidator.validate(request).isEmpty()) {
             request.setAttribute("errors", userValidator.getValidationMessages());
-            System.out.println("valid");
             return "/registration.jsp";
         }
-
         try {
             userService.saveNewUser(userRequestMapper.mapToEntity(request));
         } catch (DuplicateDataBaseException e) {

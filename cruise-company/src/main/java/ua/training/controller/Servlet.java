@@ -7,6 +7,7 @@ import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
 import ua.training.controller.command.validation.RequestParameterValidator;
+import ua.training.controller.command.validation.TicketRequestParameterValidator;
 import ua.training.controller.command.validation.UserRequestParameterValidator;
 import ua.training.controller.mapper.*;
 import ua.training.model.entity.User;
@@ -35,7 +36,7 @@ public class Servlet extends HttpServlet {
         TicketService ticketService = new TicketService();
         RequestMapper<User> userRequestMapper = new UserRequestMapper();
         ExcursionCommandUtility excursionCommandUtility = new ExcursionCommandUtility(new ExcursionRequestMapper());
-        RequestParameterValidator<User> userValidator = new UserRequestParameterValidator();
+        RequestParameterValidator userValidator = new UserRequestParameterValidator();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -69,7 +70,7 @@ public class Servlet extends HttpServlet {
         commands.put("admin/edit-description",
                 new CruiseDescriptionCommand(cruiseService));
         commands.put("admin/add-ticket",
-                new AddTicketCommand(ticketService, new TicketRequestMapper()));
+                new AddTicketCommand(ticketService, new TicketRequestMapper(), new TicketRequestParameterValidator()));
         commands.put("admin/all-passengers",
                 new AllPassengersCommand(orderService));
         commands.put("all-orders",
