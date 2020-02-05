@@ -19,6 +19,7 @@ public class CruiseEditCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String cruiseIdParam = request.getParameter("cruiseId");
+        //mb not needed
         if (Objects.isNull(cruiseIdParam)) {
             request.getSession().setAttribute("notFoundCruise", true);
             return "redirect:main";

@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.command.validation.RequestParameterValidator;
 import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
@@ -11,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginCommand implements Command {
     private final UserService userService;
     private final RequestMapper<User> userRequestMapper;
+    private final RequestParameterValidator<User> userValidator;
 
-    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper) {
+    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator<User> userValidator) {
         this.userService = userService;
         this.userRequestMapper = userRequestMapper;
+        this.userValidator = userValidator;
     }
 
     @Override
@@ -23,17 +26,12 @@ public class LoginCommand implements Command {
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
-
-        String login = request.getParameter("name");
-        String pass = request.getParameter("pass");
-
-        //todo regex valid
-        //todo default valid on null
-        if (login == null || login.equals("") || pass == null || pass.equals("")) {
+        if(userValidator.validate(request).isEmpty()){
+            request.setAttribute("errors", userValidator.getValidationMessages());
+            System.out.println("valid");
             return "/login.jsp";
         }
 
-        // Выкинет ошибку если не существует пользователя в базе (не правильный логин)
         User user = userRequestMapper.mapToEntity(request);
         try {
             user = userService.findUserByLogin(user.getLogin());
@@ -46,7 +44,7 @@ public class LoginCommand implements Command {
             return "WEB-INF/error.jsp";
         }
 
-        if (userService.checkInputPassword(pass, user.getPassword())) {
+        if (userService.checkInputPassword(user.getPassword(), user.getPassword())) {
             CommandUtility.setUserInSession(request, user);
             return "redirect:main";
         } else {

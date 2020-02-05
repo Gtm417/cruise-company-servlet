@@ -29,6 +29,7 @@ public class ExcursionCommandUtility {
                 || Objects.isNull(price) || Objects.isNull(portName);
 
         //todo Validator Excursion
+         //todo selectedExcursions check in  commandUtillity
         if (validData || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))) {
             request.getSession().setAttribute("notEnoughData", true);
             throw new UnreachableRequest();
