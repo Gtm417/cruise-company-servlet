@@ -26,7 +26,8 @@ public class LoginCommand implements Command {
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
-        if(userValidator.validate(request).isEmpty()){
+
+        if(!userValidator.validate(request).isEmpty()){
             request.setAttribute("errors", userValidator.getValidationMessages());
             System.out.println("valid");
             return "/login.jsp";

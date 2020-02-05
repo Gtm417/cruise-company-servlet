@@ -23,12 +23,12 @@ public class RegistrationCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        System.out.println("reg");
-        if(userValidator.validate(request).isEmpty()){
+
+        if (!userValidator.validate(request).isEmpty()) {
             request.setAttribute("errors", userValidator.getValidationMessages());
             System.out.println("valid");
             return "/registration.jsp";
-    }
+        }
 
         try {
             userService.saveNewUser(userRequestMapper.mapToEntity(request));
