@@ -1,28 +1,31 @@
 package ua.training.controller.command;
 
+import ua.training.controller.command.validation.RequestParameterValidator;
 import ua.training.model.entity.User;
 import ua.training.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.validation.Validator;
 import java.util.Objects;
 
 public class BalanceCommand implements Command {
 
-    UserService userService;
+    private final UserService userService;
+    private final RequestParameterValidator balanceValidator;
 
-    public BalanceCommand(UserService userService) {
+    public BalanceCommand(UserService userService, RequestParameterValidator balanceValidator) {
         this.userService = userService;
+        this.balanceValidator = balanceValidator;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        String stringValue = request.getParameter("balance");
-        //todo valid
-        if (Objects.isNull(stringValue)) {
+        if(!balanceValidator.validate(request).isEmpty()){
+            request.setAttribute("exception", true);
             return "balance.jsp";
         }
-        long value = Long.parseLong(request.getParameter("balance"));
-        userService.addBalance((User) request.getSession().getAttribute("user"), value);
+        userService.addBalance((User) request.getSession().getAttribute("user"),
+                Long.parseLong(request.getParameter("balance")));
         return "success-replenish.jsp";
     }
 }

@@ -6,6 +6,7 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
+import ua.training.controller.command.validation.BalanceRequestValidator;
 import ua.training.controller.command.validation.RequestParameterValidator;
 import ua.training.controller.command.validation.TicketRequestParameterValidator;
 import ua.training.controller.command.validation.UserRequestParameterValidator;
@@ -53,7 +54,7 @@ public class Servlet extends HttpServlet {
         commands.put("main",
                 new MainCommand(cruiseService));
         commands.put("balance",
-                new BalanceCommand(userService));
+                new BalanceCommand(userService, new BalanceRequestValidator()));
         commands.put("buy-form",
                 new BuyCruiseFormCommand(ticketService));
         commands.put("buy",

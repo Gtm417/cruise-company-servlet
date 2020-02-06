@@ -1,7 +1,6 @@
 package ua.training.controller.command;
 
 import ua.training.exception.ExcursionNotFound;
-import ua.training.model.entity.Excursion;
 
 import javax.servlet.http.HttpServletRequest;
 
