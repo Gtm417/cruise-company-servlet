@@ -1,10 +1,8 @@
 package ua.training.controller.command;
 
 
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
 import ua.training.exception.TicketsEmptyListException;
-import ua.training.exception.UnreachableRequest;
-import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 import ua.training.service.TicketService;
 

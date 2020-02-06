@@ -1,7 +1,7 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
-import ua.training.controller.command.validation.RequestParameterValidator;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;

@@ -1,16 +1,8 @@
-package ua.training.controller.command.validation;
+package ua.training.controller.validation;
 
-import ua.training.model.entity.Ticket;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.Objects.isNull;
 
 public class TicketRequestParameterValidator extends RequestParameterValidator {
     public static final String NUMBER_REGEX = "[0-9].{0,4}";

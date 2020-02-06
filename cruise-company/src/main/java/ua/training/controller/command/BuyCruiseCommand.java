@@ -1,10 +1,9 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
-import ua.training.controller.command.validation.RequestParameterValidator;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.TicketNotFound;
-import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
 import ua.training.service.TicketService;
 
@@ -42,7 +41,7 @@ public class BuyCruiseCommand implements Command {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy-form");
             return exceptionHandler.handling(request);
         }
-
+        order.setOrderPrice(order.getTicket().getPriceWithDiscount());
         request.getSession().setAttribute("order", order);
         CommandUtility.setSelectedExcursionsListToSession(request);
         return "redirect:buy-submit-form";

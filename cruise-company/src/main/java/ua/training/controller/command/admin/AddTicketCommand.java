@@ -2,15 +2,14 @@ package ua.training.controller.command.admin;
 
 import ua.training.controller.command.Command;
 import ua.training.controller.command.CommandUtility;
-import ua.training.controller.command.handler.ExceptionHandler;
-import ua.training.controller.command.validation.RequestParameterValidator;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.controller.mapper.RequestMapper;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.model.entity.Ticket;
 import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 public class AddTicketCommand implements Command {
     private final TicketService ticketService;

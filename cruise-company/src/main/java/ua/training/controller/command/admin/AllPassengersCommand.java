@@ -2,7 +2,7 @@ package ua.training.controller.command.admin;
 
 import ua.training.controller.command.Command;
 import ua.training.controller.command.CommandUtility;
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
 import ua.training.exception.EmptyOrderListException;
 import ua.training.model.entity.Cruise;
 import ua.training.service.OrderService;

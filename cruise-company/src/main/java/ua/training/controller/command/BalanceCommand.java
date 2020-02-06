@@ -1,12 +1,10 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.validation.RequestParameterValidator;
+import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.model.entity.User;
 import ua.training.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.validation.Validator;
-import java.util.Objects;
 
 public class BalanceCommand implements Command {
 

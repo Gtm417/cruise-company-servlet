@@ -6,8 +6,8 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
-import ua.training.controller.command.validation.*;
-import ua.training.controller.command.verify.request.AddRemoveExcursionRequestVerify;
+import ua.training.controller.validation.*;
+import ua.training.controller.verify.request.AddRemoveExcursionRequestVerify;
 import ua.training.controller.mapper.*;
 import ua.training.model.entity.User;
 import ua.training.service.*;
@@ -34,7 +34,7 @@ public class Servlet extends HttpServlet {
         OrderService orderService = new OrderService();
         TicketService ticketService = new TicketService();
         RequestMapper<User> userRequestMapper = new UserRequestMapper();
-        ExcursionCommandUtility excursionCommandUtility = new ExcursionCommandUtility(new AddRemoveExcursionRequestVerify(), excursionService);
+        ExcursionCommand excursionCommand = new ExcursionCommand(new AddRemoveExcursionRequestVerify(), excursionService);
         RequestParameterValidator userValidator = new UserRequestParameterValidator();
 
         servletConfig.getServletContext()
@@ -61,9 +61,9 @@ public class Servlet extends HttpServlet {
         commands.put("buy-submit-form",
                 new SubmitBuyFormCommand(excursionService));
         commands.put("add-excursion",
-                new AddExcursionCommand(excursionCommandUtility));
+                excursionCommand);
         commands.put("remove-excursion",
-                new RemoveExcursionCommand(excursionCommandUtility));
+                excursionCommand);
         commands.put("admin/edit-cruise",
                 new CruiseEditCommand(cruiseService));
         commands.put("admin/edit-description",

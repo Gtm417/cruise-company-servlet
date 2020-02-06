@@ -1,4 +1,4 @@
-package ua.training.controller.command.validation;
+package ua.training.controller.validation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

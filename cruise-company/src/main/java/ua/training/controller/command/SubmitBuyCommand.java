@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
 import ua.training.exception.NotEnoughMoney;
 import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Order;

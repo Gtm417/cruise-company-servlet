@@ -1,4 +1,4 @@
-package ua.training.controller.command.verify.request;
+package ua.training.controller.verify.request;
 
 import ua.training.exception.UnreachableRequest;
 

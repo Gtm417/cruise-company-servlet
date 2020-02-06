@@ -26,8 +26,8 @@ public class SubmitBuyFormCommand implements Command {
         }
 
         Order order = (Order) request.getSession().getAttribute("order");
-        order.setOrderPrice(order.getTicket().getPriceWithDiscount());
-        request.setAttribute("resultPrice", CommandUtility.countOrderPrice(request));
+        //order.setOrderPrice(order.getTicket().getPriceWithDiscount());
+        request.setAttribute("resultPrice", order.getOrderPrice());
         Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
         request.setAttribute("excursions", excursionService.showAllExcursionsInCruise(cruise.getId()));
 

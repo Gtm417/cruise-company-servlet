@@ -1,12 +1,8 @@
-package ua.training.controller.command.validation;
-
-import sun.java2d.pipe.SpanClipRenderer;
-import ua.training.model.entity.User;
+package ua.training.controller.validation;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class UserRequestParameterValidator extends RequestParameterValidator {
 
