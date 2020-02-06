@@ -1,5 +1,6 @@
 package ua.training.service;
 
+import ua.training.exception.ExcursionNotFound;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.ExcursionDao;
 import ua.training.model.entity.Excursion;
@@ -16,5 +17,10 @@ public class ExcursionService {
     public List<Excursion> showAllExcursionsInCruise(long cruiseId) {
         //todo Exception if list empty
         return excursionDao.findAllExcursionsByCruiseId(cruiseId);
+    }
+
+    public Excursion findById(long id) throws ExcursionNotFound {
+        return excursionDao.findById(id)
+                .orElseThrow(() -> new ExcursionNotFound("Excursion Not Found with id: ", id));
     }
 }

@@ -9,6 +9,7 @@ import ua.training.controller.command.admin.CruiseEditCommand;
 import ua.training.controller.command.validation.RequestParameterValidator;
 import ua.training.controller.command.validation.TicketRequestParameterValidator;
 import ua.training.controller.command.validation.UserRequestParameterValidator;
+import ua.training.controller.command.verify.request.AddRemoveExcursionRequestVerify;
 import ua.training.controller.mapper.*;
 import ua.training.model.entity.User;
 import ua.training.service.*;
@@ -35,7 +36,7 @@ public class Servlet extends HttpServlet {
         OrderService orderService = new OrderService();
         TicketService ticketService = new TicketService();
         RequestMapper<User> userRequestMapper = new UserRequestMapper();
-        ExcursionCommandUtility excursionCommandUtility = new ExcursionCommandUtility(new ExcursionRequestMapper());
+        ExcursionCommandUtility excursionCommandUtility = new ExcursionCommandUtility(new AddRemoveExcursionRequestVerify(), excursionService);
         RequestParameterValidator userValidator = new UserRequestParameterValidator();
 
         servletConfig.getServletContext()

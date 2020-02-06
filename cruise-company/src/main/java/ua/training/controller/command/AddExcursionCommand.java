@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import ua.training.exception.ExcursionNotFound;
 import ua.training.model.entity.Excursion;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,14 @@ public class AddExcursionCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        //todo вытаскивание экскурсии по айди и полное сравнивание с тем что пришло в запросе
-        CommandUtility.addExcursionToSelectedList(request,
-                excursionCommandUtility.validAndGetExcursion(request));
+        try {
+            CommandUtility.addExcursionToSelectedList(request,
+                    excursionCommandUtility.validAndGetExcursion(request));
+        } catch (ExcursionNotFound ex) {
+            //todo log
+            ex.printStackTrace();
+            request.setAttribute("exception", true);
+        }
         return "redirect:buy-submit-form";
     }
 

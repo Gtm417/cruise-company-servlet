@@ -23,6 +23,9 @@ public class JDBCExcursionDao implements ExcursionDao {
             "inner join excursions ON ports_cruises.port_id = excursions.port_id " +
             "inner join ports ON ports_cruises.port_id = ports.id " +
             "WHERE cruise_id = ?";
+    private final static String  FIND_EXCURSION_BY_ID = "SELECT * FROM excursions " +
+            "INNER JOIN ports ON excursions.port_id = ports.id " +
+            "WHERE (excursions.id = ?)";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -37,7 +40,21 @@ public class JDBCExcursionDao implements ExcursionDao {
 
     @Override
     public Optional<Excursion> findById(long id) {
-        return null;
+        ObjectMapper<Excursion> excursionMapper = new ExcursionMapper();
+        ObjectMapper<Port> portMapper = new PortMapper();
+        try(Connection connection = connectionPoolHolder.getConnection();
+            PreparedStatement ps = connection.prepareStatement(FIND_EXCURSION_BY_ID)){
+                ps.setLong(1, id);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    Excursion excursion = excursionMapper.extractFromResultSet(rs);
+                    excursion.setPort(portMapper.extractFromResultSet(rs));
+                    return Optional.of(excursion);
+                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
     @Override

@@ -83,12 +83,12 @@
             <td>${excursion.price}</td>
             <td>
                 <form action="${pageContext.request.contextPath}/add-excursion" method="post">
-                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>
+<%--                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>--%>
                     <input hidden name="id" value = "${excursion.id}"/>
-                    <input hidden name="duration" value = "${excursion.duration}"/>
-                    <input hidden name="price" value = "${excursion.price}"/>
-                    <input hidden name="portId" value = "${excursion.port.id}"/>
-                    <input hidden name="portName" value = "${excursion.port.portName}"/>
+<%--                    <input hidden name="duration" value = "${excursion.duration}"/>--%>
+<%--                    <input hidden name="price" value = "${excursion.price}"/>--%>
+<%--                    <input hidden name="portId" value = "${excursion.port.id}"/>--%>
+<%--                    <input hidden name="portName" value = "${excursion.port.portName}"/>--%>
                     <button class="btn btn-success">Add</button>
                 </form>
             </td>
