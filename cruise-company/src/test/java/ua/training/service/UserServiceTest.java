@@ -11,6 +11,14 @@ import static org.junit.Assert.*;
 public class UserServiceTest {
 
     @Test
+    public void testRegex(){
+        String regex = "[A-Z][a-z]+";
+        String name = "Tima";
+        System.out.println(name.matches(regex));
+        Assert.assertTrue(name.matches(regex));
+    }
+
+    @Test
     public void findUserByLogin() {
         UserService userService = new UserService(new PasswordEncoder());
         User user = User.builder().id(1L).login("login").build();

@@ -14,7 +14,6 @@ public class OrderRequestMapper implements RequestMapper<Order> {
         return Order.builder()
                 .firstName(request.getParameter("firstName"))
                 .secondName(request.getParameter("secondName"))
-                .orderPrice(Long.parseLong(request.getParameter("price")))
                 .cruise((Cruise) request.getSession().getAttribute("cruise"))
                 .user((User)request.getSession().getAttribute("user"))
                 .ticket(Ticket.builder().id(Long.parseLong(request.getParameter("ticket"))).build())

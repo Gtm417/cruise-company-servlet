@@ -6,10 +6,7 @@ import ua.training.controller.command.admin.AddTicketCommand;
 import ua.training.controller.command.admin.AllPassengersCommand;
 import ua.training.controller.command.admin.CruiseDescriptionCommand;
 import ua.training.controller.command.admin.CruiseEditCommand;
-import ua.training.controller.command.validation.BalanceRequestValidator;
-import ua.training.controller.command.validation.RequestParameterValidator;
-import ua.training.controller.command.validation.TicketRequestParameterValidator;
-import ua.training.controller.command.validation.UserRequestParameterValidator;
+import ua.training.controller.command.validation.*;
 import ua.training.controller.command.verify.request.AddRemoveExcursionRequestVerify;
 import ua.training.controller.mapper.*;
 import ua.training.model.entity.User;
@@ -58,7 +55,7 @@ public class Servlet extends HttpServlet {
         commands.put("buy-form",
                 new BuyCruiseFormCommand(ticketService));
         commands.put("buy",
-                new BuyCruiseCommand(ticketService, new OrderRequestMapper()));
+                new BuyCruiseCommand(ticketService, new OrderRequestMapper(), new OrderRequestValidator()));
         commands.put("buy-submit",
                 new SubmitBuyCommand(orderService));
         commands.put("buy-submit-form",
