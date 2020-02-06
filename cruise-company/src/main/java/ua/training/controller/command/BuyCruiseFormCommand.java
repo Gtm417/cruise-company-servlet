@@ -4,6 +4,7 @@ package ua.training.controller.command;
 import ua.training.controller.command.handler.ExceptionHandler;
 import ua.training.exception.TicketsEmptyListException;
 import ua.training.model.dto.TicketCruiseDTO;
+import ua.training.model.entity.Ticket;
 import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class BuyCruiseFormCommand implements Command {
         }
         long cruiseId = Long.parseLong(stringCruiseId);
         try {
-            List<TicketCruiseDTO> cruiseTickets = ticketService.showTicketsForBuy(cruiseId);
+            List<Ticket> cruiseTickets = ticketService.showTicketsForBuy(cruiseId);
             request.setAttribute("tickets", cruiseTickets);
             request.getSession().setAttribute("cruise", cruiseTickets.get(0).getCruise());
         } catch (TicketsEmptyListException e) {

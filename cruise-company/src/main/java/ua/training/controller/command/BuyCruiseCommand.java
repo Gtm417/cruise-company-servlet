@@ -28,7 +28,6 @@ public class BuyCruiseCommand implements Command {
         String firstName = request.getParameter("firstName");
         String secondName = request.getParameter("secondName");
         String ticketParam = request.getParameter("ticket");
-        String stringCruiseId = request.getParameter("cruiseId");
         String priceParameter = request.getParameter("price");
         Order order = orderRequestMapper.mapToEntity(request);
         //todo validator

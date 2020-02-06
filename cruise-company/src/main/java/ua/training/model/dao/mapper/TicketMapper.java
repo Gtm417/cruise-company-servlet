@@ -13,6 +13,7 @@ public class TicketMapper implements ObjectMapper<Ticket> {
                 .id(rs.getLong("tickets.id"))
                 .price(rs.getLong("tickets.price"))
                 .discount(rs.getInt("discount"))
+                .priceWithDiscount(rs.getLong("discount_price"))
                 .ticketName(rs.getString("ticket_name"))
                 .build();
     }

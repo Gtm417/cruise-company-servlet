@@ -4,6 +4,7 @@ package ua.training.controller.command;
 import ua.training.exception.AccessDenied;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
+import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 
 import javax.servlet.ServletContext;
@@ -21,7 +22,7 @@ public class CommandUtility {
         ServletContext context = request.getServletContext();
         loginUserInContext(request, user.getLogin());
         session.setAttribute("role", user.getRole());
-        session.setAttribute("login",user.getLogin());
+        session.setAttribute("login", user.getLogin());
         session.setAttribute("user", user);
     }
 
@@ -54,7 +55,7 @@ public class CommandUtility {
         request.getSession().setAttribute("selectedExcursions", new ArrayList<Excursion>());
     }
 
-    public static long countSelectedExcursionsPrice(HttpServletRequest request) {
+    private static long countSelectedExcursionsPrice(HttpServletRequest request) {
         List<Excursion> excursionList = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
         return excursionList.stream().mapToLong(Excursion::getPrice).sum();
     }
@@ -81,8 +82,13 @@ public class CommandUtility {
     }
 
     public static void resetSessionPurchaseData(HttpServletRequest request) {
-         request.getSession().removeAttribute("cruise");
-         request.getSession().removeAttribute("order");
-         request.getSession().removeAttribute("selectedExcursions");
-     }
+        request.getSession().removeAttribute("cruise");
+        request.getSession().removeAttribute("order");
+        request.getSession().removeAttribute("selectedExcursions");
+    }
+
+    public static long countOrderPrice(HttpServletRequest request) {
+        return countSelectedExcursionsPrice(request) +
+                ((Order) request.getSession().getAttribute("order")).getOrderPrice();
+    }
 }

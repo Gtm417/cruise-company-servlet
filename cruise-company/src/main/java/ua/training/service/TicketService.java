@@ -11,6 +11,8 @@ import ua.training.model.entity.Ticket;
 import java.util.List;
 
 public class TicketService {
+    private static final int ONE_HUNDRED_PERCENT = 100;
+
     private final TicketDao ticketDao;
 
     public TicketService() {
@@ -18,11 +20,12 @@ public class TicketService {
     }
 
     public void addNewTicket(Ticket ticket) throws DuplicateDataBaseException {
+        ticket.setPriceWithDiscount(calcTicketPriceWithDiscount(ticket));
         ticketDao.create(ticket);
     }
 
-    public List<TicketCruiseDTO> showTicketsForBuy(long id) throws TicketsEmptyListException {
-        List<TicketCruiseDTO> tickets = ticketDao.getTicketsPriceByCruiseId(id);
+    public List<Ticket> showTicketsForBuy(long id) throws TicketsEmptyListException {
+        List<Ticket> tickets = ticketDao.getTicketsPriceByCruiseId(id);
         if (tickets.isEmpty()) {
             throw new TicketsEmptyListException("There is no tickets on this cruise");
         }
@@ -32,5 +35,9 @@ public class TicketService {
     public Ticket findTicketById(long ticketId) throws TicketNotFound {
         return ticketDao.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
+    }
+
+    private long calcTicketPriceWithDiscount(Ticket ticket){
+        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
     }
 }

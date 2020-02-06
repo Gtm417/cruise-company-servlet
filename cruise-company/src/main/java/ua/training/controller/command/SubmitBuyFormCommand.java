@@ -24,10 +24,13 @@ public class SubmitBuyFormCommand implements Command {
             request.setAttribute("notAllData", true);
             return "redirect:main";
         }
-        request.setAttribute("resultPrice", CommandUtility.countSelectedExcursionsPrice(request)
-                + ((Order) request.getSession().getAttribute("order")).getOrderPrice());
+
+        Order order = (Order) request.getSession().getAttribute("order");
+        order.setOrderPrice(order.getTicket().getPriceWithDiscount());
+        request.setAttribute("resultPrice", CommandUtility.countOrderPrice(request));
         Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
         request.setAttribute("excursions", excursionService.showAllExcursionsInCruise(cruise.getId()));
+
         return "buy-submit-form.jsp";
     }
 }

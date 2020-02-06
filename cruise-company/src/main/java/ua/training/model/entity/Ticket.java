@@ -8,6 +8,7 @@ public class Ticket {
     private String ticketName;
     private long price;
     private int discount;
+    private long priceWithDiscount;
     private Cruise cruise;
     private List<Order> orders;
 
@@ -17,8 +18,13 @@ public class Ticket {
         this.ticketName = builder.ticketName;
         this.price = builder.price;
         this.discount = builder.discount;
+        this.priceWithDiscount = builder.priceWithDiscount;
         this.cruise = builder.cruise;
         this.orders = builder.orders;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
@@ -69,8 +75,12 @@ public class Ticket {
         this.orders = orders;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public long getPriceWithDiscount() {
+        return priceWithDiscount;
+    }
+
+    public void setPriceWithDiscount(long priceWithDiscount) {
+        this.priceWithDiscount = priceWithDiscount;
     }
 
     @Override
@@ -80,6 +90,7 @@ public class Ticket {
                 ", ticketName='" + ticketName + '\'' +
                 ", price=" + price +
                 ", discount=" + discount +
+                ", priceWithDiscount=" + priceWithDiscount +
                 '}';
     }
 
@@ -88,6 +99,7 @@ public class Ticket {
         private String ticketName;
         private long price;
         private int discount;
+        private long priceWithDiscount;
         private Cruise cruise;
         private List<Order> orders;
 
@@ -111,6 +123,11 @@ public class Ticket {
             return this;
         }
 
+        public Builder priceWithDiscount(long priceWithDiscount) {
+            this.priceWithDiscount = priceWithDiscount;
+            return this;
+        }
+
         public Builder cruise(Cruise cruise) {
             this.cruise = cruise;
             return this;
@@ -120,6 +137,7 @@ public class Ticket {
             this.orders = orders;
             return this;
         }
+
 
         public Ticket build() {
             return new Ticket(this);

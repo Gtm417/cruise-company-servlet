@@ -6,5 +6,5 @@ import ua.training.model.entity.Ticket;
 import java.util.List;
 
 public interface TicketDao extends GenericDao<Ticket> {
-    List<TicketCruiseDTO> getTicketsPriceByCruiseId(long id);
+    List<Ticket> getTicketsPriceByCruiseId(long id);
 }

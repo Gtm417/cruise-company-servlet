@@ -79,7 +79,7 @@
                     <td>
                         <input hidden name="ticket" value="${ticket.id}">
                         <input hidden name="price" value="${ticket.priceWithDiscount}">
-                        <input hidden name="cruiseId" value="${cruiseId}">
+<%--                        <input hidden name="cruiseId" value="${cruiseId}">--%>
                         <p><input type="submit" value="Submit"/></p>
                     </td>
                         <%--            <td>--%>

@@ -37,7 +37,7 @@ public class SubmitBuyCommand implements Command {
         return "redirect:main";
     }
 
-    //todo default null validator
+    //todo default null validator (verify)
     private boolean valid(HttpServletRequest request) {
         if (Objects.isNull(request.getParameter("resultPrice"))
                 || Objects.isNull(request.getSession().getAttribute("order"))) {

@@ -36,6 +36,7 @@ public class AddTicketCommand implements Command {
         try {
             ticketService.addNewTicket(ticketRequestMapper.mapToEntity(request));
         } catch (DuplicateDataBaseException e) {
+            e.printStackTrace();
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "admin/add-ticket.jsp");
             return exceptionHandler.handling(request);
 
