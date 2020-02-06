@@ -24,13 +24,13 @@ public class BuyCruiseCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        Cruise cruise  = CommandUtility.checkCruiseInSession(request);
+        CommandUtility.checkCruiseInSession(request);
 
         if (!validator.validate(request).isEmpty()) {
             System.out.println("im in");
             System.out.println(validator.getValidationMessages());
             request.setAttribute("errors", validator.getValidationMessages());
-            return "redirect:buy-form?cruiseId=" + cruise.getId();
+            return "redirect:buy-form";
         }
 
         Order order = orderRequestMapper.mapToEntity(request);

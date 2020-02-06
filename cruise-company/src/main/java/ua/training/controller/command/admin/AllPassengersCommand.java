@@ -19,9 +19,9 @@ public class AllPassengersCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        CommandUtility.checkCruiseInSession(request);
+        Cruise cruise = CommandUtility.checkCruiseInSession(request);
         try {
-            request.setAttribute("passengers", orderService.showAllPassengersOnCruise(((Cruise) request.getSession().getAttribute("cruise")).getId()));
+            request.setAttribute("passengers", orderService.showAllPassengersOnCruise(cruise.getId()));
         } catch (EmptyOrderListException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "admin/all-passengers.jsp");
             return exceptionHandler.handling(request);
