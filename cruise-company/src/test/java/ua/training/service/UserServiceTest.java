@@ -12,8 +12,8 @@ public class UserServiceTest {
 
     @Test
     public void testRegex(){
-        String regex = "[A-Z][a-z]+";
-        String name = "Tima";
+        String regex = ".{1,}";
+        String name = "dasda";
         System.out.println(name.matches(regex));
         Assert.assertTrue(name.matches(regex));
     }

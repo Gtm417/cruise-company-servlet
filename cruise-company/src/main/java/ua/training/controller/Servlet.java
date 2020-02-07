@@ -70,7 +70,7 @@ public class Servlet extends HttpServlet {
         commands.put("admin/edit-cruise",
                 new CruiseEditCommand(cruiseService));
         commands.put("admin/edit-description",
-                new CruiseDescriptionCommand(cruiseService));
+                new CruiseDescriptionCommand(cruiseService, new CruiseDescriptionValidator()));
         commands.put("admin/add-ticket",
                 new AddTicketCommand(ticketService, new TicketRequestMapper(), new TicketRequestParameterValidator()));
         commands.put("admin/all-passengers",
