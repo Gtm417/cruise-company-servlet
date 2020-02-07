@@ -6,8 +6,10 @@ import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.ShipMapper;
+import ua.training.model.dao.mapper.TicketMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
+import ua.training.model.entity.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.Optional;
 
 public class JDBCCruiseDao implements CruiseDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM cruises inner join ships ON cruises.id = ships.id;";
-    private static final String FIND_BY_ID = "SELECT * FROM cruises WHERE id = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM cruises  WHERE id = ?";
     private static final String UPDATE_CRUISE = "UPDATE cruises SET cruise_name = ?, " +
             "description_eng = ?, description_ru = ?, departure_date = ?, arrival_date = ? WHERE id = ?";
     private final ConnectionPoolHolder connectionPoolHolder;
@@ -34,6 +36,7 @@ public class JDBCCruiseDao implements CruiseDao {
     @Override
     public Optional<Cruise> findById(long id) {
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
+
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
             ps.setLong(1, id);
@@ -51,7 +54,6 @@ public class JDBCCruiseDao implements CruiseDao {
     @Override
     public List<Cruise> findAll() {
         List<Cruise> resultList = new ArrayList<>();
-        HashMap<Long, Ship> ships = new HashMap<>();
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
         ObjectMapper<Ship> shipMapper = new ShipMapper();
         try (Connection connection = connectionPoolHolder.getConnection();

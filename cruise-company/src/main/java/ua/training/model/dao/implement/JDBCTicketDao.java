@@ -102,8 +102,10 @@ public class JDBCTicketDao implements TicketDao {
 
             while (rs.next()) {
                 Ticket ticket = ticketMapper.extractFromResultSet(rs);
-                ticket.setCruise(cruiseMapper.extractFromResultSet(rs));
+                Cruise cruise = cruiseMapper.extractFromResultSet(rs);
+                ticket.setCruise(cruise);
                 tickets.add(ticket);
+                cruise.setTickets(tickets);
             }
         } catch (SQLException e) {
             e.printStackTrace();

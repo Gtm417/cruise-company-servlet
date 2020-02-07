@@ -18,6 +18,9 @@ public class CruiseEditCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+        if(request.getSession().getAttribute("cruise") != null){
+            return "edit-cruise.jsp";
+        }
         try {
             request.getSession()
                     .setAttribute("cruise", cruiseService.findById(CommandUtility.getCruiseId(request)));

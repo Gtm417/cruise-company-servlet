@@ -108,6 +108,7 @@ public class Cruise {
                 "id=" + id +
                 ", cruiseName='" + cruiseName + '\'' +
                 ", ship=" + ship +
+                ", tickets=" + tickets +
                 ", departureDate=" + departureDate +
                 ", arrivalDate=" + arrivalDate +
                 ", descriptionEng='" + descriptionEng + '\'' +

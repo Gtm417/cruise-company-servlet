@@ -88,15 +88,8 @@ public class CommandUtility {
         request.getSession().removeAttribute("selectedExcursions");
     }
 
-    public static long countOrderPrice(HttpServletRequest request) {
-        return countSelectedExcursionsPrice(request) +
-                ((Order) request.getSession().getAttribute("order")).getOrderPrice();
-    }
 
     public static long getCruiseId(HttpServletRequest request) {
-        if(request.getSession().getAttribute("cruise") != null){
-            return  ((Cruise) request.getSession().getAttribute("cruise")).getId();
-        }
         try{
             return Long.parseLong(request.getParameter("cruiseId"));
         }catch (NumberFormatException ex){
