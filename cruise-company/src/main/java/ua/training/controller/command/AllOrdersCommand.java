@@ -1,17 +1,18 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.exception.EmptyOrderListException;
 import ua.training.model.entity.User;
-import ua.training.model.exception.EmptyOrderListException;
-import ua.training.model.service.OrderService;
+import ua.training.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class AllOrdersCommand implements Command {
     private final OrderService orderService;
 
-    public AllOrdersCommand() {
-        this.orderService = new OrderService();
+    public AllOrdersCommand(OrderService orderService) {
+
+        this.orderService = orderService;
     }
 
     @Override

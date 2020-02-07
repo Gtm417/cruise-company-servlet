@@ -69,7 +69,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="ticket" items="${tickets}">
+        <c:forEach var="ticket" items="${sessionScope.cruise.tickets}">
             <form action="${pageContext.request.contextPath}/buy" method="post">
                 <tr>
                     <td><input type="text" required name="firstName"></td>
@@ -78,8 +78,8 @@
                     <td>${ticket.priceWithDiscount}</td>
                     <td>
                         <input hidden name="ticket" value="${ticket.id}">
-                        <input hidden name="price" value="${ticket.priceWithDiscount}">
-                        <input hidden name="cruiseId" value="${cruiseId}">
+<%--                        <input hidden name="price" value="${ticket.priceWithDiscount}">--%>
+<%--                        <input hidden name="cruiseId" value="${cruiseId}">--%>
                         <p><input type="submit" value="Submit"/></p>
                     </td>
                         <%--            <td>--%>

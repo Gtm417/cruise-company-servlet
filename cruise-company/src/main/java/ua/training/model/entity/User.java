@@ -5,15 +5,17 @@ public class User {
     private String login;
     private String password;
 
+
+    public enum ROLE {
+        USER, ADMIN
+    }
+
+    private ROLE role;
+    private long balance;
+
     public User() {
 
     }
-
-    public enum ROLE {
-        USER, ADMIN, UNKNOWN
-    }
-    private ROLE role;
-    private long balance;
 
     public User(Builder builder) {
         this.id = builder.id;
@@ -63,39 +65,53 @@ public class User {
         this.balance = balance;
     }
 
-    public static Builder builder(){
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public static Builder builder() {
         return new Builder();
     }
 
-    public static class  Builder {
+    public static class Builder {
         private long id;
         private String login;
         private String password;
         private ROLE role;
         private long balance;
 
-        public Builder id(long id){
+        public Builder id(long id) {
             this.id = id;
             return this;
         }
-        public Builder login(String login){
+
+        public Builder login(String login) {
             this.login = login;
             return this;
         }
-        public Builder password(String password){
+
+        public Builder password(String password) {
             this.password = password;
             return this;
         }
-        public Builder role(ROLE role){
+
+        public Builder role(ROLE role) {
             this.role = role;
             return this;
         }
-        public Builder balance(long balance){
+
+        public Builder balance(long balance) {
             this.balance = balance;
             return this;
         }
-        public User build(){
-            return  new User(this);
+
+        public User build() {
+            return new User(this);
         }
     }
 

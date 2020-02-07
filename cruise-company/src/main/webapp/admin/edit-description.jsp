@@ -16,8 +16,8 @@
 </c:if>
 <c:remove var="exception" scope="session"/>
 <form action="${pageContext.request.contextPath}/admin/edit-description" method="post">
-    <input type="text" required placeholder="descriptionEng" name="descriptionEng"><br/>
-    <input type="text" required placeholder="descriptionRu" name="descriptionRu"><br/><br/>
+    <input type="text"  placeholder="descriptionEng" name="descriptionEng"><br/>
+    <input type="text"  placeholder="descriptionRu" name="descriptionRu"><br/><br/>
     <input class="button" type="submit" value="Update">
 </form>
 </body>

@@ -1,60 +1,59 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.mapper.RequestMapper;
+import ua.training.controller.validation.RequestParameterValidator;
+import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
-import ua.training.model.exception.UserNotFoundException;
-import ua.training.model.service.UserService;
+import ua.training.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
-    UserService userService;
+    private final UserService userService;
+    private final RequestMapper<User> userRequestMapper;
+    private final RequestParameterValidator userValidator;
 
-    public LoginCommand() {
-        this.userService = new UserService();
+    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator userValidator) {
+        this.userService = userService;
+        this.userRequestMapper = userRequestMapper;
+        this.userValidator = userValidator;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        //todo clean Session
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
 
-        String login = request.getParameter("name");
-        String pass = request.getParameter("pass");
-
-        if (login == null || login.equals("") || pass == null || pass.equals("")) {
+        if (!userValidator.validate(request).isEmpty()) {
+            request.setAttribute("errors", userValidator.getValidationMessages());
             return "/login.jsp";
         }
-        System.out.println(login + " " + pass);
 
-        // Выкинет ошибку если не существует пользователя в базе (не правильный логин)
-        User user = new User();
+        User userFromRequest = userRequestMapper.mapToEntity(request);
+
+        User user;
         try {
-            user = userService.findUserByLogin(login);
+            user = userService.findUserByLogin(userFromRequest.getLogin());
         } catch (UserNotFoundException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e,"login.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "login.jsp");
             return exceptionHandler.handling(request);
         }
 
-        if (CommandUtility.checkUserIsLogged(request, login)) {
+        if (CommandUtility.checkUserIsLogged(request, user.getLogin())) {
             return "WEB-INF/error.jsp";
         }
 
-        if (checkInputPassword(pass, user.getPassword())) {
-            CommandUtility.setUserInSession(request, user, login);
+        if (userService.checkInputPassword(userFromRequest.getPassword(), user.getPassword())) {
+            CommandUtility.setUserInSession(request, user);
             return "redirect:main";
-        } else {
-            request.getSession().setAttribute("exception", true);
-            return "/login.jsp";
         }
+        request.getSession().setAttribute("exception", true);
+        return "/login.jsp";
 
 
     }
 
-    private boolean checkInputPassword(String inputPassword, String userPassword) {
-        return userPassword.equals(inputPassword);
-    }
 
 }

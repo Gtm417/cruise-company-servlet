@@ -75,7 +75,7 @@ public class Order {
         this.orderPrice = orderPrice;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -90,7 +90,7 @@ public class Order {
                 '}';
     }
 
-    public static class Builder{
+    public static class Builder {
         private long id;
         private String firstName;
         private String secondName;
@@ -135,8 +135,9 @@ public class Order {
             this.orderPrice = price;
             return this;
         }
-        public Order build(){
-            return  new Order(this);
+
+        public Order build() {
+            return new Order(this);
         }
     }
 }

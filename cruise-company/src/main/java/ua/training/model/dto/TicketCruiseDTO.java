@@ -15,7 +15,6 @@ public class TicketCruiseDTO {
     }
 
 
-
     public long getId() {
         return id;
     }

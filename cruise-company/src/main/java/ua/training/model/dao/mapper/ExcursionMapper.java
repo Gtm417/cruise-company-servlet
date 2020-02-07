@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-public class ExcursionMapper implements ObjectMapper<Excursion>{
+public class ExcursionMapper implements ObjectMapper<Excursion> {
     @Override
     public Excursion extractFromResultSet(ResultSet rs) throws SQLException {
         return Excursion.builder()

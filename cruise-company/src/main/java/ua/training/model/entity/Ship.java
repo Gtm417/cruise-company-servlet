@@ -9,7 +9,7 @@ public class Ship {
 
     public Ship(Builder builder) {
         this.id = builder.id;
-        this.shipName  = builder.shipName;
+        this.shipName = builder.shipName;
         this.currentPassengerAmount = builder.currentPassengerAmount;
         this.maxPassengerAmount = builder.maxPassengerAmount;
         this.cruise = builder.cruise;
@@ -55,7 +55,7 @@ public class Ship {
         this.cruise = cruise;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -69,38 +69,40 @@ public class Ship {
                 '}';
     }
 
-    public static class Builder{
+    public static class Builder {
         private Long id;
         private String shipName;
         private int currentPassengerAmount;
         private int maxPassengerAmount;
         private Cruise cruise;
 
-        public Builder id(long id){
+        public Builder id(long id) {
             this.id = id;
             return this;
         }
-        public Builder name(String name){
+
+        public Builder name(String name) {
             this.shipName = name;
             return this;
         }
-        public Builder currentPassengerAmount(int currentPassengerAmount){
-            this.currentPassengerAmount = currentPassengerAmount ;
+
+        public Builder currentPassengerAmount(int currentPassengerAmount) {
+            this.currentPassengerAmount = currentPassengerAmount;
             return this;
         }
 
-        public Builder maxPassengerAmount(int maxPassengerAmount){
-            this.maxPassengerAmount = maxPassengerAmount ;
+        public Builder maxPassengerAmount(int maxPassengerAmount) {
+            this.maxPassengerAmount = maxPassengerAmount;
             return this;
         }
 
-        public Builder cruise(Cruise cruise){
+        public Builder cruise(Cruise cruise) {
             this.cruise = cruise;
             return this;
         }
 
-        public Ship build(){
-            return  new Ship(this);
+        public Ship build() {
+            return new Ship(this);
         }
 
     }

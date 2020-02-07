@@ -4,15 +4,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Cruise {
-        private Long id;
-        private String cruiseName;
-        private Ship ship;
-        private List<Port> ports;
-        private List<Ticket> tickets;
-        private LocalDate departureDate;
-        private LocalDate arrivalDate;
-        private String descriptionEng;
-        private String descriptionRu;
+    private Long id;
+    private String cruiseName;
+    private Ship ship;
+    private List<Port> ports;
+    private List<Ticket> tickets;
+    private LocalDate departureDate;
+    private LocalDate arrivalDate;
+    private String descriptionEng;
+    private String descriptionRu;
 
     public Cruise(Builder builder) {
         this.id = builder.id;
@@ -98,7 +98,7 @@ public class Cruise {
         this.descriptionRu = descriptionRu;
     }
 
-    public static Builder builder(){
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -108,6 +108,7 @@ public class Cruise {
                 "id=" + id +
                 ", cruiseName='" + cruiseName + '\'' +
                 ", ship=" + ship +
+                ", tickets=" + tickets +
                 ", departureDate=" + departureDate +
                 ", arrivalDate=" + arrivalDate +
                 ", descriptionEng='" + descriptionEng + '\'' +
@@ -115,7 +116,7 @@ public class Cruise {
                 '}';
     }
 
-    public static class Builder{
+    public static class Builder {
         private Long id;
         private String cruiseName;
         private Ship ship;
@@ -126,49 +127,53 @@ public class Cruise {
         private String descriptionEng;
         private String descriptionRu;
 
-        public Builder id(long id){
+        public Builder id(long id) {
             this.id = id;
             return this;
         }
-        public Builder name(String name){
+
+        public Builder name(String name) {
             this.cruiseName = name;
             return this;
         }
-        public Builder descriptionEng(String descriptionEng){
+
+        public Builder descriptionEng(String descriptionEng) {
             this.descriptionEng = descriptionEng;
             return this;
         }
 
-        public Builder descriptionRu(String descriptionRu){
+        public Builder descriptionRu(String descriptionRu) {
             this.descriptionRu = descriptionRu;
             return this;
         }
-        public Builder ship(Ship ship){
+
+        public Builder ship(Ship ship) {
             this.ship = ship;
             return this;
         }
-        public Builder arrivalDate(LocalDate arrivalDate){
+
+        public Builder arrivalDate(LocalDate arrivalDate) {
             this.arrivalDate = arrivalDate;
             return this;
         }
 
-        public Builder departureDate(LocalDate departureDate){
+        public Builder departureDate(LocalDate departureDate) {
             this.departureDate = departureDate;
             return this;
         }
 
-        public Builder ports(List<Port> ports){
+        public Builder ports(List<Port> ports) {
             this.ports = ports;
             return this;
         }
 
-        public Builder tickets(List<Ticket> tickets){
+        public Builder tickets(List<Ticket> tickets) {
             this.tickets = tickets;
             return this;
         }
 
-        public Cruise build(){
-            return  new Cruise(this);
+        public Cruise build() {
+            return new Cruise(this);
         }
     }
 }

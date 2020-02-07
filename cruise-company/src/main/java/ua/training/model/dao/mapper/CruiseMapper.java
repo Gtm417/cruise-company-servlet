@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-public class CruiseMapper implements ObjectMapper<Cruise>{
+public class CruiseMapper implements ObjectMapper<Cruise> {
 
     @Override
     public Cruise extractFromResultSet(ResultSet rs) throws SQLException {
@@ -21,7 +21,7 @@ public class CruiseMapper implements ObjectMapper<Cruise>{
 
     @Override
     public Cruise makeUnique(Map<Long, Cruise> cache,
-                              Cruise cruise) {
+                             Cruise cruise) {
         cache.putIfAbsent(cruise.getId(), cruise);
         return cache.get(cruise.getId());
     }

@@ -1,11 +1,12 @@
 package ua.training.controller.command;
 
 
-
+import ua.training.exception.AccessDenied;
+import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
+import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
-import ua.training.model.exception.AccessDenied;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +18,16 @@ import java.util.List;
 public class CommandUtility {
 
     static void setUserInSession(HttpServletRequest request,
-                                 User user, String name) {
+                                 User user) {
         HttpSession session = request.getSession();
         ServletContext context = request.getServletContext();
-        loginUserInContext(request, name);
-        context.setAttribute("userName", name);
+        loginUserInContext(request, user.getLogin());
         session.setAttribute("role", user.getRole());
-        session.setAttribute("login", name);
+        session.setAttribute("login", user.getLogin());
         session.setAttribute("user", user);
     }
 
-    private static void loginUserInContext(HttpServletRequest request, String login){
+    private static void loginUserInContext(HttpServletRequest request, String login) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
         loggedUsers.add(login);
@@ -36,37 +36,34 @@ public class CommandUtility {
 
     }
 
-    static boolean checkUserIsLogged(HttpServletRequest request, String userName){
+    static boolean checkUserIsLogged(HttpServletRequest request, String userName) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
         return loggedUsers.stream().anyMatch(userName::equals);
     }
 
-    //todo: norm return bool or HashSet;
-    static boolean deleteUserFromContext(HttpServletRequest request, String userName){
+    static void deleteUserFromContext(HttpServletRequest request, String userName) {
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 
         loggedUsers.remove(userName);
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
-
-        return true;
     }
 
     public static void setSelectedExcursionsListToSession(HttpServletRequest request) {
         request.getSession().setAttribute("selectedExcursions", new ArrayList<Excursion>());
     }
 
-    public static long countSelectedExcursionsPrice(HttpServletRequest request){
-        List<Excursion> excursionList  = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
+    private static long countSelectedExcursionsPrice(HttpServletRequest request) {
+        List<Excursion> excursionList = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
         return excursionList.stream().mapToLong(Excursion::getPrice).sum();
     }
 
-    public static List<Excursion> addExcursionToSelectedList(HttpServletRequest request,Excursion excursion) {
+    public static List<Excursion> addExcursionToSelectedList(HttpServletRequest request, Excursion excursion) {
         List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
-        if(selectedExcursions.stream().noneMatch(excursion::equals)){
+        if (selectedExcursions.stream().noneMatch(excursion::equals)) {
             selectedExcursions.add(excursion);
         }
         return (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
@@ -77,11 +74,26 @@ public class CommandUtility {
         selectedExcursions.remove(excursion);
     }
 
-    public static Cruise checkCruiseInSession(HttpServletRequest request){
-        if(request.getSession().getAttribute("cruise") == null){
+    public static Cruise checkCruiseInSession(HttpServletRequest request) {
+        if (request.getSession().getAttribute("cruise") == null) {
             request.setAttribute("cruiseNotFound", true);
             throw new AccessDenied("You didn't choose the cruise");
         }
-        return (Cruise)request.getSession().getAttribute("cruise");
+        return (Cruise) request.getSession().getAttribute("cruise");
+    }
+
+    public static void resetSessionPurchaseData(HttpServletRequest request) {
+        request.getSession().removeAttribute("cruise");
+        request.getSession().removeAttribute("order");
+        request.getSession().removeAttribute("selectedExcursions");
+    }
+
+
+    public static long getCruiseId(HttpServletRequest request) {
+        try{
+            return Long.parseLong(request.getParameter("cruiseId"));
+        }catch (NumberFormatException ex){
+            throw new UnreachableRequest();
+        }
     }
 }

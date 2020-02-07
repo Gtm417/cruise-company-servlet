@@ -17,7 +17,7 @@
 <c:if test="${cruiseNotFound}">
     <h1><fmt:message key="alert.wrong.input.data"/></h1>
 </c:if>
-<c:if test="${notEnoughData}">
+<c:if test="${notAllData}">
     <h1><fmt:message key="alert.not.enough.data"/></h1>
 </c:if>
 <a href="${pageContext.request.contextPath}/main" class="button"></a>

@@ -1,37 +1,36 @@
 package ua.training.controller.command;
 
-import ua.training.controller.command.handler.ExceptionHandler;
+import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.validation.RequestParameterValidator;
+import ua.training.controller.mapper.RequestMapper;
+import ua.training.exception.DuplicateDataBaseException;
 import ua.training.model.entity.User;
-import ua.training.model.exception.DuplicateDataBaseException;
-import ua.training.model.service.UserService;
+import ua.training.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RegistrationCommand implements Command{
-    UserService userService;
+public class RegistrationCommand implements Command {
+    private final UserService userService;
+    private final RequestMapper<User> userRequestMapper;
+    private final RequestParameterValidator userValidator;
 
-    public RegistrationCommand() {
-        this.userService = new UserService();
+
+    public RegistrationCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator userValidator) {
+        this.userService = userService;
+        this.userRequestMapper = userRequestMapper;
+        this.userValidator = userValidator;
     }
 
     @Override
-    public String execute(HttpServletRequest request){
-        String login = request.getParameter("name");
-        String pass = request.getParameter("pass");
-
-
-        if( login == null || login.equals("") || pass == null || pass.equals("")  ){
+    public String execute(HttpServletRequest request) {
+        if (!userValidator.validate(request).isEmpty()) {
+            request.setAttribute("errors", userValidator.getValidationMessages());
             return "/registration.jsp";
         }
-
-        User user = User.builder()
-                .login(login)
-                .password(pass)
-                .build();
         try {
-            userService.saveNewUser(user);
+            userService.saveNewUser(userRequestMapper.mapToEntity(request));
         } catch (DuplicateDataBaseException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e,"registration.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "registration.jsp");
             return exceptionHandler.handling(request);
         }
         request.getSession().setAttribute("success", true);
