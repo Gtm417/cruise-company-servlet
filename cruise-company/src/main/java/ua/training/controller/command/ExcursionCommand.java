@@ -2,7 +2,7 @@ package ua.training.controller.command;
 
 
 import ua.training.controller.handler.ExceptionHandler;
-import ua.training.controller.verify.request.Verify;
+import ua.training.controller.verification.request.Verify;
 import ua.training.exception.ExcursionNotFound;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Order;

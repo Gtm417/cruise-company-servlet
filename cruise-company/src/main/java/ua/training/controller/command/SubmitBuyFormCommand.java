@@ -1,32 +1,27 @@
 package ua.training.controller.command;
 
+import ua.training.controller.verification.request.Verify;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Order;
 import ua.training.service.ExcursionService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 public class SubmitBuyFormCommand implements Command {
     private final ExcursionService excursionService;
+    private final Verify verify;
 
-    public SubmitBuyFormCommand(ExcursionService excursionService) {
+    public SubmitBuyFormCommand(ExcursionService excursionService, Verify verify) {
 
         this.excursionService = excursionService;
+        this.verify = verify;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        // todo default null validator (verify)
-        if (Objects.isNull(request.getSession().getAttribute("order"))
-                || Objects.isNull(request.getSession().getAttribute("cruise"))
-                || Objects.isNull(request.getSession().getAttribute("selectedExcursions"))) {
-            request.setAttribute("notAllData", true);
-            return "redirect:main";
-        }
+        verify.verify(request);
 
         Order order = (Order) request.getSession().getAttribute("order");
-        //order.setOrderPrice(order.getTicket().getPriceWithDiscount());
         request.setAttribute("resultPrice", order.getOrderPrice());
         Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
         request.setAttribute("excursions", excursionService.showAllExcursionsInCruise(cruise.getId()));
