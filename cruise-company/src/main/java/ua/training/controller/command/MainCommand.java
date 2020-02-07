@@ -12,7 +12,6 @@ public class MainCommand implements Command {
     private final CruiseService cruiseService;
 
     public MainCommand(CruiseService cruiseService) {
-
         this.cruiseService = cruiseService;
     }
 

@@ -1,8 +1,8 @@
 package ua.training.controller.command;
 
 import ua.training.controller.handler.ExceptionHandler;
-import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.controller.mapper.RequestMapper;
+import ua.training.controller.validation.RequestParameterValidator;
 import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
 import ua.training.service.UserService;
@@ -22,12 +22,11 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        //todo new method
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
 
-        if(!userValidator.validate(request).isEmpty()){
+        if (!userValidator.validate(request).isEmpty()) {
             request.setAttribute("errors", userValidator.getValidationMessages());
             return "/login.jsp";
         }
@@ -47,17 +46,14 @@ public class LoginCommand implements Command {
         }
 
         if (userService.checkInputPassword(userFromRequest.getPassword(), user.getPassword())) {
-
             CommandUtility.setUserInSession(request, user);
             return "redirect:main";
-        } else {
-            request.getSession().setAttribute("exception", true);
-            return "/login.jsp";
         }
+        request.getSession().setAttribute("exception", true);
+        return "/login.jsp";
 
 
     }
-
 
 
 }

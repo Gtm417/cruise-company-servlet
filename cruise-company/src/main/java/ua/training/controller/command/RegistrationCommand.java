@@ -23,7 +23,6 @@ public class RegistrationCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
         if (!userValidator.validate(request).isEmpty()) {
             request.setAttribute("errors", userValidator.getValidationMessages());
             return "/registration.jsp";
