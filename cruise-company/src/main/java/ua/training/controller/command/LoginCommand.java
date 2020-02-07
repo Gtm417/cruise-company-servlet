@@ -33,7 +33,7 @@ public class LoginCommand implements Command {
         }
 
         User userFromRequest = userRequestMapper.mapToEntity(request);
-        System.out.println(userFromRequest);
+
         User user;
         try {
             user = userService.findUserByLogin(userFromRequest.getLogin());

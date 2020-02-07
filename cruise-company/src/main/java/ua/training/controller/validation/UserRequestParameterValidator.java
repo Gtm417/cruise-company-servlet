@@ -12,22 +12,12 @@ public class UserRequestParameterValidator extends RequestParameterValidator {
     public static final String WRONG_NAME_MESSAGE = "Login should contains latin letters and numbers. Min values of characters 3. Max values of characters 16";
     public static final String WRONG_PASSWORD_MESSAGE = "Password should contains latin letters and numbers. Min values of characters 6. Max values of characters 18";
 
-
-
     @Override
     public List<String> validate(HttpServletRequest request) {
-        System.out.println("validation");
         setValidationMessages(new ArrayList<>());
         validStringParam(request.getParameter("name"), LOGIN_REGEX, WRONG_NAME_MESSAGE);
         validStringParam(request.getParameter("pass"), PASSWORD_REGEX, WRONG_PASSWORD_MESSAGE);
-        System.out.println(getValidationMessages());
         return getValidationMessages();
     }
-
-//    private void validParam(String param, String regex, String message) {
-//        if (Objects.isNull(param) || !param.matches(regex)) {
-//            validationMessages.add(message);
-//        }
-//    }
 
 }

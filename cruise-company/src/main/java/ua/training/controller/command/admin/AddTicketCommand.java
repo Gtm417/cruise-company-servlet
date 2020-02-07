@@ -27,7 +27,6 @@ public class AddTicketCommand implements Command {
         CommandUtility.checkCruiseInSession(request);
 
         if(!requestValidator.validate(request).isEmpty()){
-            System.out.println(requestValidator.getValidationMessages());
             request.setAttribute("errors", requestValidator.getValidationMessages());
             return "add-ticket.jsp";
         }

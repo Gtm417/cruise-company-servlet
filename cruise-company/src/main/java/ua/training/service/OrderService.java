@@ -40,7 +40,6 @@ public class OrderService {
     //убрать отсюда
     public long subUserBalance(User user, long price) throws NotEnoughMoney {
         long total = user.getBalance() - price;
-        System.out.println(total);
         if (total < 0) {
             throw new NotEnoughMoney("Not enough money ", user.getBalance());
         }

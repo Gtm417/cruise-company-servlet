@@ -10,6 +10,7 @@ import ua.training.controller.validation.*;
 import ua.training.controller.verification.request.AddRemoveExcursionRequestVerify;
 import ua.training.controller.mapper.*;
 import ua.training.controller.verification.request.BuySubmitRequestVerify;
+import ua.training.controller.verification.request.Verify;
 import ua.training.model.entity.User;
 import ua.training.service.*;
 import ua.training.service.encoder.PasswordEncoder;
@@ -37,6 +38,7 @@ public class Servlet extends HttpServlet {
         RequestMapper<User> userRequestMapper = new UserRequestMapper();
         ExcursionCommand excursionCommand = new ExcursionCommand(new AddRemoveExcursionRequestVerify(), excursionService);
         RequestParameterValidator userValidator = new UserRequestParameterValidator();
+        Verify buySubmitVerify = new BuySubmitRequestVerify();
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
@@ -58,9 +60,9 @@ public class Servlet extends HttpServlet {
         commands.put("buy",
                 new BuyCruiseCommand(ticketService, new OrderRequestMapper(), new OrderRequestValidator()));
         commands.put("buy-submit",
-                new SubmitBuyCommand(orderService));
+                new SubmitBuyCommand(orderService, buySubmitVerify));
         commands.put("buy-submit-form",
-                new SubmitBuyFormCommand(excursionService, new BuySubmitRequestVerify()));
+                new SubmitBuyFormCommand(excursionService, buySubmitVerify));
         commands.put("add-excursion",
                 excursionCommand);
         commands.put("remove-excursion",

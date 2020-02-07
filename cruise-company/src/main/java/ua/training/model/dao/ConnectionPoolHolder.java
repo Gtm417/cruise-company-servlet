@@ -54,7 +54,6 @@ public class ConnectionPoolHolder {
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {
-            System.out.println("connect catch");
             e.printStackTrace();
             //logger.info("connection error", e);
             throw new RuntimeException(e);

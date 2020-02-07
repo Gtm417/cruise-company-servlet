@@ -26,15 +26,11 @@ public class BuyCruiseCommand implements Command {
         CommandUtility.checkCruiseInSession(request);
 
         if (!validator.validate(request).isEmpty()) {
-            System.out.println("im in");
-            System.out.println(validator.getValidationMessages());
             request.setAttribute("errors", validator.getValidationMessages());
             return "redirect:buy-form";
         }
 
         Order order = orderRequestMapper.mapToEntity(request);
-
-
         try {
             order.setTicket(ticketService.findTicketById(order.getTicket().getId()));
         } catch (TicketNotFound e) {

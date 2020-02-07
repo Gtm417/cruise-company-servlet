@@ -1,34 +1,31 @@
 package ua.training.controller.command;
 
 import ua.training.controller.handler.ExceptionHandler;
+import ua.training.controller.verification.request.Verify;
 import ua.training.exception.NotEnoughMoney;
-import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 import ua.training.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 public class SubmitBuyCommand implements Command {
     private final OrderService orderService;
+    private final Verify verify;
 
-    public SubmitBuyCommand(OrderService orderService) {
+    public SubmitBuyCommand(OrderService orderService, Verify verify) {
+
         this.orderService = orderService;
+        this.verify = verify;
     }
 
     @Override
     public String execute(HttpServletRequest request) {
-        valid(request);
-        long resultPrice = Long.parseLong(request.getParameter("resultPrice"));
-
+        verify.verify(request);
         Order order = (Order) request.getSession().getAttribute("order");
-        order.setOrderPrice(resultPrice);
-
         User user = (User) request.getSession().getAttribute("user");
-
         try {
-            user.setBalance(orderService.subUserBalance(user, resultPrice));
+            user.setBalance(orderService.subUserBalance(user, order.getOrderPrice()));
         } catch (NotEnoughMoney ex) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit-form");
             return exceptionHandler.handling(request);
@@ -37,13 +34,5 @@ public class SubmitBuyCommand implements Command {
         return "redirect:main";
     }
 
-    //todo default null validator (verify)
-    private boolean valid(HttpServletRequest request) {
-        if (Objects.isNull(request.getParameter("resultPrice"))
-                || Objects.isNull(request.getSession().getAttribute("order"))) {
-            throw new UnreachableRequest();
-        }
-        return true;
-    }
 
 }
