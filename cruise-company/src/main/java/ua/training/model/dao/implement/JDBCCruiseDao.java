@@ -6,14 +6,11 @@ import ua.training.model.dao.CruiseDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.ShipMapper;
-import ua.training.model.dao.mapper.TicketMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
-import ua.training.model.entity.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
