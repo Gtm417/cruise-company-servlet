@@ -5,7 +5,6 @@ import ua.training.exception.TicketNotFound;
 import ua.training.exception.TicketsEmptyListException;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.TicketDao;
-import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Ticket;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public class TicketService {
                 .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
     }
 
-    private long calcTicketPriceWithDiscount(Ticket ticket){
-        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
+    private long calcTicketPriceWithDiscount(Ticket ticket) {
+        return ticket.getPrice() - Math.round(((double) ticket.getPrice() * ticket.getDiscount() / ONE_HUNDRED_PERCENT));
     }
 }

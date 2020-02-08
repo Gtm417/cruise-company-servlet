@@ -4,23 +4,21 @@
 <%@ page isELIgnored="false" %>
 
 
-
-
-<c:if test ="${not empty param.lang}">
-    <fmt:setLocale value="${param.lang}"  scope="session" />
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
 
-<fmt:setBundle basename="message" />
+<fmt:setBundle basename="message"/>
 <html lang="${param.lang}">
 <head>
     <title>User page</title>
 </head>
 <body>
 <ul>
-    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-    <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
-<h1> <fmt:message key="label.welcome"/> </h1>
+<h1><fmt:message key="label.welcome"/></h1>
 <h1> User </h1>
 <a href="${pageContext.request.contextPath}/logout" <fmt:message key="button.logout"/>></a>
 </body>

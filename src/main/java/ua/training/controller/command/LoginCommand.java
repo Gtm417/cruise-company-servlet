@@ -1,8 +1,9 @@
 package ua.training.controller.command;
 
+import ua.training.controller.form.UserForm;
+import ua.training.controller.form.validation.Validator;
 import ua.training.controller.handler.ExceptionHandler;
-import ua.training.controller.mapper.RequestMapper;
-import ua.training.controller.validation.RequestParameterValidator;
+import ua.training.controller.mapper.RequestFormMapper;
 import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
 import ua.training.service.UserService;
@@ -11,12 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
     private final UserService userService;
-    private final RequestMapper<User> userRequestMapper;
-    private final RequestParameterValidator userValidator;
+    private final RequestFormMapper<UserForm> userRequestFormMapper;
+    private final Validator<UserForm> userValidator;
 
-    public LoginCommand(UserService userService, RequestMapper<User> userRequestMapper, RequestParameterValidator userValidator) {
+    public LoginCommand(UserService userService, RequestFormMapper<UserForm> userRequestFormMapper, Validator<UserForm> userValidator) {
         this.userService = userService;
-        this.userRequestMapper = userRequestMapper;
+        this.userRequestFormMapper = userRequestFormMapper;
         this.userValidator = userValidator;
     }
 
@@ -25,17 +26,15 @@ public class LoginCommand implements Command {
         if (request.getSession().getAttribute("user") != null) {
             return "redirect:logout";
         }
-
-        if (!userValidator.validate(request).isEmpty()) {
-            request.setAttribute("errors", userValidator.getValidationMessages());
+        UserForm userForm = userRequestFormMapper.mapToForm(request);
+        if (!userValidator.validate(userForm)) {
+            request.setAttribute("errors", true);
             return "/login.jsp";
         }
 
-        User userFromRequest = userRequestMapper.mapToEntity(request);
-
         User user;
         try {
-            user = userService.findUserByLogin(userFromRequest.getLogin());
+            user = userService.findUserByLogin(userForm.getLogin());
         } catch (UserNotFoundException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "login.jsp");
             return exceptionHandler.handling(request);
@@ -45,7 +44,7 @@ public class LoginCommand implements Command {
             return "WEB-INF/error.jsp";
         }
 
-        if (userService.checkInputPassword(userFromRequest.getPassword(), user.getPassword())) {
+        if (userService.checkInputPassword(userForm.getPassword(), user.getPassword())) {
             CommandUtility.setUserInSession(request, user);
             return "redirect:main";
         }

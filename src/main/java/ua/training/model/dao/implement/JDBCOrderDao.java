@@ -66,7 +66,7 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public void buyCruiseChanges(User user, Order order) {
-        try (Connection connection = connectionPoolHolder.getConnection();) {
+        try (Connection connection = connectionPoolHolder.getConnection()) {
             try (PreparedStatement psUser = connection.prepareStatement(UPDATE_USER);
                  PreparedStatement psOrder = connection.prepareStatement(CREATE_NEW_ORDER)) {
                 connection.setAutoCommit(false);
@@ -140,7 +140,6 @@ public class JDBCOrderDao implements OrderDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = orderMapper.extractFromResultSet(rs);
-                ;
                 order.setTicket(ticketMapper.extractFromResultSet(rs));
                 order.setCruise(cruiseMapper.extractFromResultSet(rs));
                 orders.add(order);

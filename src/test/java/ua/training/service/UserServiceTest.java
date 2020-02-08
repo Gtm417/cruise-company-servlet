@@ -6,14 +6,12 @@ import ua.training.exception.UserNotFoundException;
 import ua.training.model.entity.User;
 import ua.training.service.encoder.PasswordEncoder;
 
-import static org.junit.Assert.*;
-
 public class UserServiceTest {
 
     @Test
-    public void testRegex(){
-        String regex = ".{1,}";
-        String name = "dasda";
+    public void testRegex() {
+        String regex = "[1-9]{1}[0-9]*";
+        String name = "23123";
         System.out.println(name.matches(regex));
         Assert.assertTrue(name.matches(regex));
     }

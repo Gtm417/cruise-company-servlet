@@ -1,6 +1,5 @@
 package ua.training.model.dao.implement;
 
-import ua.training.model.dao.ConnectionPoolHolder;
 import ua.training.model.dao.*;
 
 

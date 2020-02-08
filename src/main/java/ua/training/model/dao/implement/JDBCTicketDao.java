@@ -6,13 +6,11 @@ import ua.training.model.dao.TicketDao;
 import ua.training.model.dao.mapper.CruiseMapper;
 import ua.training.model.dao.mapper.ObjectMapper;
 import ua.training.model.dao.mapper.TicketMapper;
-import ua.training.model.dto.TicketCruiseDTO;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,11 +35,9 @@ public class JDBCTicketDao implements TicketDao {
              PreparedStatement ps = connection.prepareStatement(INSERT_TICKET)) {
             extractPrepareStatement(entity, ps);
             return true;
-        }
-        catch (SQLIntegrityConstraintViolationException ex) {
+        } catch (SQLIntegrityConstraintViolationException ex) {
             throw new DuplicateDataBaseException("Cruise already has such ticket", entity);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             //todo status 500 exception
             e.printStackTrace();
             return false;

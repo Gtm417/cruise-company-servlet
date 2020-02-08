@@ -2,7 +2,6 @@ package ua.training.model.dao;
 
 
 import ua.training.model.dao.implement.JDBCDaoFactory;
-import ua.training.model.dao.ConnectionPoolHolder;
 
 public abstract class DaoFactory {
     private static DaoFactory daoFactory;

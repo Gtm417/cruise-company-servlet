@@ -19,13 +19,13 @@ public class BuyCruiseFormCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        if(request.getSession().getAttribute("cruise") != null){
+        if (request.getSession().getAttribute("cruise") != null) {
             return "buy.jsp";
         }
         try {
-            List<Ticket> cruiseTickets = ticketService.showTicketsForBuy(CommandUtility.getCruiseId(request));
+            List<Ticket> cruiseTickets = ticketService.showTicketsForBuy(Long.parseLong(request.getParameter("cruiseId")));
 
-            Cruise cruise =  cruiseTickets.get(0).getCruise();
+            Cruise cruise = cruiseTickets.get(0).getCruise();
             cruise.setTickets(cruiseTickets);
             request.getSession().setAttribute("cruise", cruise);
         } catch (TicketsEmptyListException e) {

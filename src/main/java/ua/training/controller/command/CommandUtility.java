@@ -5,7 +5,6 @@ import ua.training.exception.AccessDenied;
 import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 
 import javax.servlet.ServletContext;
@@ -89,10 +88,11 @@ public class CommandUtility {
     }
 
 
+    // TODO: 08.02.2020 delete
     public static long getCruiseId(HttpServletRequest request) {
-        try{
+        try {
             return Long.parseLong(request.getParameter("cruiseId"));
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             throw new UnreachableRequest();
         }
     }

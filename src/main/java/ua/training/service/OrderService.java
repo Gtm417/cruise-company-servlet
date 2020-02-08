@@ -37,7 +37,6 @@ public class OrderService {
 
     }
 
-    //убрать отсюда
     public long subUserBalance(User user, long price) throws NotEnoughMoney {
         long total = user.getBalance() - price;
         if (total < 0) {

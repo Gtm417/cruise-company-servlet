@@ -30,8 +30,8 @@ public class UserService {
 
 
     public User findUserByLogin(String login) throws UserNotFoundException {
-            return userDao.findByLogin(login)
-                    .orElseThrow(() -> new UserNotFoundException("User not found with login: ", login));
+        return userDao.findByLogin(login)
+                .orElseThrow(() -> new UserNotFoundException("User not found with login: ", login));
     }
 
     public boolean addBalance(User user, long value) {

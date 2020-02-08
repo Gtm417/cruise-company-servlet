@@ -35,21 +35,9 @@ public class ConnectionPoolHolder {
         return pool;
     }
 
-//    private void init() {
-//        BasicDataSource ds = new BasicDataSource();
-//        ds.setUrl("jdbc:mysql://localhost:3306/cruise_company_servlet?serverTimezone=UTC");
-//        ds.setUsername("root");
-//        ds.setPassword("1234");
-//        ds.setDriverClassName("com.mysql.jdbc.Driver");
-//        ds.setMinIdle(5);
-//        ds.setInitialSize(10);
-//        ds.setMaxIdle(1);
-//        ds.setMaxOpenPreparedStatements(100);
-//        this.dataSource = ds;
-//    }
-
 
     public final Connection getConnection() {
+        // todo
         //logger.info("connect");
         try {
             return this.dataSource.getConnection();
