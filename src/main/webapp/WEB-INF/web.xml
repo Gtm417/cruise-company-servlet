@@ -49,6 +49,11 @@
     </error-page>
 
     <error-page>
+        <exception-type>ua.training.exception.DBConnectionException</exception-type>
+        <location>/WEB-INF/500.jsp</location>
+    </error-page>
+
+    <error-page>
         <exception-type>ua.training.exception.AccessDenied</exception-type>
         <location>/WEB-INF/access-denied.jsp</location>
     </error-page>

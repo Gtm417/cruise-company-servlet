@@ -3,6 +3,7 @@ package ua.training.controller.command;
 import ua.training.controller.handler.ExceptionHandler;
 import ua.training.controller.verification.request.Verifier;
 import ua.training.exception.NotEnoughMoney;
+import ua.training.exception.SaveOrderException;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
@@ -25,13 +26,16 @@ public class SubmitBuyCommand implements Command {
         verifier.verify(request);
         Order order = (Order) request.getSession().getAttribute("order");
         User user = (User) request.getSession().getAttribute("user");
+        if(!orderService.subUserBalance(user, order.getOrderPrice())) {
+            return "/WEB-INF/not-enough-money.jsp";
+        }
+
         try {
-            user.setBalance(orderService.subUserBalance(user, order.getOrderPrice()));
-        } catch (NotEnoughMoney ex) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit-form");
+            orderService.buyCruise(user, order);
+        } catch (SaveOrderException e) {
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy-submit-form");
             return exceptionHandler.handling(request);
         }
-        orderService.buyCruise(user, order);
         return "redirect:main";
     }
 

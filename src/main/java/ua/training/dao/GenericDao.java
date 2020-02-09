@@ -6,13 +6,23 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GenericDao<T> {
-    boolean create(T entity) throws DuplicateDataBaseException;
+    default boolean create(T entity) throws DuplicateDataBaseException{
+        throw new UnsupportedOperationException();
+    }
 
-    Optional<T> findById(long id);
+    default Optional<T> findById(long id){
+        throw new UnsupportedOperationException();
+    }
 
-    List<T> findAll();
+    default List<T> findAll(){
+        throw new UnsupportedOperationException();
+    }
 
-    boolean update(T entity);
+    default boolean update(T entity){
+        throw new UnsupportedOperationException();
+    }
 
-    void delete(int id);
+    default void delete(int id) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -1,5 +1,6 @@
 package ua.training.dao.impl;
 
+import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.ExcursionDao;
@@ -34,11 +35,6 @@ public class JDBCExcursionDao implements ExcursionDao {
     }
 
     @Override
-    public boolean create(Excursion entity) throws DuplicateDataBaseException {
-        return false;
-    }
-
-    @Override
     public Optional<Excursion> findById(long id) {
         ObjectMapper<Excursion> excursionMapper = new ExcursionMapper();
         ObjectMapper<Port> portMapper = new PortMapper();
@@ -52,24 +48,9 @@ public class JDBCExcursionDao implements ExcursionDao {
                 return Optional.of(excursion);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return Optional.empty();
-    }
-
-    @Override
-    public List<Excursion> findAll() {
-        return null;
-    }
-
-    @Override
-    public boolean update(Excursion entity) {
-        return false;
-    }
-
-    @Override
-    public void delete(int id) {
-
     }
 
     @Override
@@ -89,7 +70,7 @@ public class JDBCExcursionDao implements ExcursionDao {
                 excursions.add(excursion);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return excursions;
     }

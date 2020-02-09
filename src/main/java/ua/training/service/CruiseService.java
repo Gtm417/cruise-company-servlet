@@ -31,4 +31,8 @@ public class CruiseService {
     public boolean updateCruise(Cruise cruise) {
         return cruiseDao.update(cruise);
     }
+
+    public boolean checkAmountPassenger(Cruise cruise) {
+        return cruise.getShip().getCurrentPassengerAmount() < cruise.getShip().getMaxPassengerAmount();
+    }
 }

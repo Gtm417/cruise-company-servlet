@@ -27,15 +27,20 @@ public class BuyCruiseFormCommand implements Command {
             return "buy.jsp";
         }
         long cruiseId  = Long.parseLong(request.getParameter("cruiseId"));
+        Cruise cruise;
+        List<Ticket> cruiseTickets;
         try {
-            Cruise cruise = cruiseService.findById(cruiseId);
-            List<Ticket> cruiseTickets = ticketService.showTicketsForBuy(cruiseId);
-            cruise.setTickets(cruiseTickets);
-            request.getSession().setAttribute("cruise", cruise);
+            cruise = cruiseService.findById(cruiseId);
+            cruiseTickets = ticketService.showTicketsForBuy(cruiseId);
         } catch (TicketsEmptyListException | CruiseNotFoundException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy.jsp");
             return exceptionHandler.handling(request);
         }
+        if(cruiseService.checkAmountPassenger(cruise)){
+            request.setAttribute("noPlaces", true);
+        }
+        cruise.setTickets(cruiseTickets);
+        request.getSession().setAttribute("cruise", cruise);
         return "buy.jsp";
     }
 

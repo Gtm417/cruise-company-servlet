@@ -4,6 +4,7 @@ import ua.training.exception.EmptyOrderListException;
 import ua.training.exception.NotEnoughMoney;
 import ua.training.dao.DaoFactory;
 import ua.training.dao.OrderDao;
+import ua.training.exception.SaveOrderException;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 
@@ -16,7 +17,7 @@ public class OrderService {
         this.orderDao = DaoFactory.getInstance().createOrderDao();
     }
 
-    public void buyCruise(User user, Order order) {
+    public void buyCruise(User user, Order order) throws SaveOrderException {
         orderDao.buyCruiseChanges(user, order);
     }
 
@@ -37,11 +38,12 @@ public class OrderService {
 
     }
 
-    public long subUserBalance(User user, long price) throws NotEnoughMoney {
+    public boolean subUserBalance(User user, long price) {
         long total = user.getBalance() - price;
         if (total < 0) {
-            throw new NotEnoughMoney("Not enough money ", user.getBalance());
+            return false;
         }
-        return total;
+        user.setBalance(total);
+        return true;
     }
 }

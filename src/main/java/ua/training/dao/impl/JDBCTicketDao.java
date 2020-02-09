@@ -1,12 +1,11 @@
 package ua.training.dao.impl;
 
-import ua.training.exception.DuplicateDataBaseException;
 import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.TicketDao;
-import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.TicketMapper;
-import ua.training.model.entity.Cruise;
+import ua.training.exception.DBConnectionException;
+import ua.training.exception.DuplicateDataBaseException;
 import ua.training.model.entity.Ticket;
 
 import java.sql.*;
@@ -35,9 +34,7 @@ public class JDBCTicketDao implements TicketDao {
         } catch (SQLIntegrityConstraintViolationException ex) {
             throw new DuplicateDataBaseException("Cruise already has such ticket", entity);
         } catch (SQLException e) {
-            //todo status 500 exception
-            e.printStackTrace();
-            return false;
+            throw new DBConnectionException(e);
         }
     }
 
@@ -61,25 +58,9 @@ public class JDBCTicketDao implements TicketDao {
                 return Optional.of(ticketMapper.extractFromResultSet(rs));
             }
         } catch (SQLException e) {
-            //todo DB exception
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return Optional.empty();
-    }
-
-    @Override
-    public List<Ticket> findAll() {
-        return null;
-    }
-
-    @Override
-    public boolean update(Ticket entity) {
-        return false;
-    }
-
-    @Override
-    public void delete(int id) {
-
     }
 
     @Override
@@ -95,7 +76,7 @@ public class JDBCTicketDao implements TicketDao {
                 tickets.add(ticket);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return tickets;
     }

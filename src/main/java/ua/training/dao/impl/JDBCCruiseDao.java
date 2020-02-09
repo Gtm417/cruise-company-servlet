@@ -1,5 +1,6 @@
 package ua.training.dao.impl;
 
+import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.CruiseDao;
@@ -26,11 +27,6 @@ public class JDBCCruiseDao implements CruiseDao {
     }
 
     @Override
-    public boolean create(Cruise entity) throws DuplicateDataBaseException {
-        return false;
-    }
-
-    @Override
     public Optional<Cruise> findById(long id) {
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
         ObjectMapper<Ship> shipMapper = new ShipMapper();
@@ -44,8 +40,7 @@ public class JDBCCruiseDao implements CruiseDao {
                 return Optional.of(cruise);
             }
         } catch (SQLException e) {
-            //todo throw new runtime DBException handling in web.xml
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return Optional.empty();
     }
@@ -65,8 +60,7 @@ public class JDBCCruiseDao implements CruiseDao {
             }
             return resultList;
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException();
+            throw new DBConnectionException(ex);
         }
     }
 
@@ -82,15 +76,9 @@ public class JDBCCruiseDao implements CruiseDao {
             ps.setLong(6, entity.getId());
             return ps.executeUpdate() != 0;
         } catch (SQLException e) {
-            //todo throw db Exception runtime status 500 for user
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
-        return false;
     }
 
-    @Override
-    public void delete(int id) {
-
-    }
 
 }

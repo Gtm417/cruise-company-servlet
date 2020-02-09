@@ -1,6 +1,7 @@
 package ua.training.dao.impl;
 
 
+import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.UserDao;
@@ -40,33 +41,24 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(long id) {
-        return null;
-    }
-
-    //todo: norm exception
-    @Override
     public Optional<User> findByLogin(String login) {
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_USER_BY_LOGIN)) {
             ps.setString(1, login);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                //TODo mb export in constr
                 ObjectMapper<User> mapper = new UserMapper();
                 return Optional.of(mapper.extractFromResultSet(rs));
             }
             return Optional.empty();
         } catch (SQLException ex) {
-            //TODO: UserNotFoundException
-            throw new RuntimeException(ex);
+            throw new DBConnectionException(ex);
         }
     }
 
     @Override
     public List<User> findAll() {
         List<User> resultList = new ArrayList<>();
-        //TODo mb export in constr
         ObjectMapper<User> mapper = new UserMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              Statement ps = connection.createStatement()) {
@@ -74,12 +66,11 @@ public class JDBCUserDao implements UserDao {
             while (rs.next()) {
                 resultList.add(mapper.extractFromResultSet(rs));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new DBConnectionException(e);
         }
         return resultList;
     }
-
 
     @Override
     public boolean update(User entity) {
@@ -93,15 +84,9 @@ public class JDBCUserDao implements UserDao {
             pst.setLong(6, entity.getId());
             return pst.executeUpdate() != 0;
         } catch (SQLException ex) {
-            //todo delete
-            ex.printStackTrace();
-            return false;
+            throw new DBConnectionException(ex);
         }
     }
 
-    @Override
-    public void delete(int id) {
-
-    }
 
 }

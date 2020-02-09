@@ -1,6 +1,7 @@
 package ua.training.dao;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import ua.training.exception.DBConnectionException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -42,9 +43,8 @@ public class ConnectionPoolHolder {
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
             //logger.info("connection error", e);
-            throw new RuntimeException(e);
+            throw new DBConnectionException(e);
         }
     }
 

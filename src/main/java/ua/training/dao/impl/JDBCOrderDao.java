@@ -6,13 +6,13 @@ import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.OrderMapper;
 import ua.training.dao.mapper.TicketMapper;
-import ua.training.exception.DuplicateDataBaseException;
+import ua.training.exception.DBConnectionException;
+import ua.training.exception.SaveOrderException;
 import ua.training.model.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JDBCOrderDao implements OrderDao {
 
@@ -36,32 +36,7 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public boolean create(Order entity) throws DuplicateDataBaseException {
-        return false;
-    }
-
-    @Override
-    public Optional<Order> findById(long id) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return null;
-    }
-
-    @Override
-    public boolean update(Order entity) {
-        return false;
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
-    public void buyCruiseChanges(User user, Order order) {
+    public void buyCruiseChanges(User user, Order order) throws SaveOrderException {
         try (Connection connection = connectionPoolHolder.getConnection()) {
             try (PreparedStatement psUser = connection.prepareStatement(UPDATE_USER);
                  PreparedStatement psOrder = connection.prepareStatement(CREATE_NEW_ORDER,
@@ -79,16 +54,13 @@ public class JDBCOrderDao implements OrderDao {
                     fillExcursionInsertPrepareStatement(exc, orderId, psExcursion);
                 }
 
-
                 connection.commit();
-            } catch (SQLException ex) {
+            } catch (SQLException e) {
                 connection.rollback();
-                ex.printStackTrace();
-                //todo throw Exception Юзер не знает что не добавился ордер
+                throw new SaveOrderException("Cannot save order to database");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            //todo throw exception
+            throw new DBConnectionException(e);
         }
     }
     private long getOrderInsertGeneratedKey(PreparedStatement ps) throws SQLException {
@@ -146,8 +118,7 @@ public class JDBCOrderDao implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            //todo db exception
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return orders;
     }
@@ -170,8 +141,7 @@ public class JDBCOrderDao implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            //todo db exception
-            e.printStackTrace();
+            throw new DBConnectionException(e);
         }
         return orders;
     }
