@@ -57,7 +57,7 @@ public class Servlet extends HttpServlet {
         commands.put("balance",
                 new BalanceCommand(userService));
         commands.put("buy-form",
-                new BuyCruiseFormCommand(ticketService));
+                new BuyCruiseFormCommand(ticketService, cruiseService));
         commands.put("buy",
                 new BuyCruiseCommand(ticketService, new OrderFormValidator()));
         commands.put("buy-submit",

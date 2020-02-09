@@ -1,4 +1,4 @@
-package ua.training.model.dao.mapper;
+package ua.training.dao.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -7,8 +7,7 @@ public class BuySubmitRequestVerifier implements Verifier {
     @Override
     public boolean verify(HttpServletRequest request) {
         return Objects.isNull(request.getSession().getAttribute("order"))
-                || Objects.isNull(request.getSession().getAttribute("cruise"))
-                || Objects.isNull(request.getSession().getAttribute("selectedExcursions"));
+                || Objects.isNull(request.getSession().getAttribute("cruise"));
 
     }
 }

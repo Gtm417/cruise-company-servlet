@@ -1,6 +1,6 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
-import ua.training.model.dao.*;
+import ua.training.dao.*;
 
 
 public class JDBCDaoFactory extends DaoFactory {

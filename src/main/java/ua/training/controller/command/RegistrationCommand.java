@@ -27,7 +27,7 @@ public class RegistrationCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         UserForm userForm = userRequestFormMapper.mapToForm(request);
-        if (!userValidator.validate(userForm)) {
+        if (userValidator.validate(userForm)) {
             request.setAttribute("errors", true);
             return "/registration.jsp";
         }

@@ -3,11 +3,13 @@ package ua.training.controller.command;
 import ua.training.controller.handler.ExceptionHandler;
 import ua.training.controller.verification.request.Verifier;
 import ua.training.exception.NotEnoughMoney;
+import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 import ua.training.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public class SubmitBuyCommand implements Command {
     private final OrderService orderService;

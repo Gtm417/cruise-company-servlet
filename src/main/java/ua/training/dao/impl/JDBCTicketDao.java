@@ -1,11 +1,11 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.dao.ConnectionPoolHolder;
-import ua.training.model.dao.TicketDao;
-import ua.training.model.dao.mapper.CruiseMapper;
-import ua.training.model.dao.mapper.ObjectMapper;
-import ua.training.model.dao.mapper.TicketMapper;
+import ua.training.dao.ConnectionPoolHolder;
+import ua.training.dao.TicketDao;
+import ua.training.dao.mapper.CruiseMapper;
+import ua.training.dao.mapper.ObjectMapper;
+import ua.training.dao.mapper.TicketMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ticket;
 
@@ -15,10 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class JDBCTicketDao implements TicketDao {
-    private static final String TICKETS_PRICE_WITH_DISCOUNT = "SELECT tickets.id, ticket_name, price, discount, discount_price, " +
-            "cruises.id, cruise_name, arrival_date, departure_date, description_eng, description_ru FROM tickets " +
-            "INNER JOIN cruises ON tickets.cruise_id = cruises.id " +
-            "WHERE cruise_id = ?";
+    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM tickets WHERE cruise_id = ?";
     private static final String INSERT_TICKET = "INSERT INTO tickets(ticket_name, discount, price, discount_price ,cruise_id) VALUES (?,?,?,?,?)";
     private static final String FIND_BY_ID = "SELECT id, ticket_name, price, discount, discount_price FROM tickets WHERE id = ?";
 
@@ -86,22 +83,16 @@ public class JDBCTicketDao implements TicketDao {
     }
 
     @Override
-    public List<Ticket> getTicketsPriceByCruiseId(long id) {
+    public List<Ticket> findAllByCruiseId(long id) {
         List<Ticket> tickets = new ArrayList<>();
-
+        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
-             PreparedStatement ps = connection.prepareStatement(TICKETS_PRICE_WITH_DISCOUNT)) {
+             PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_CRUISE_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
-            ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-            ObjectMapper<Ticket> ticketMapper = new TicketMapper();
-
             while (rs.next()) {
                 Ticket ticket = ticketMapper.extractFromResultSet(rs);
-                Cruise cruise = cruiseMapper.extractFromResultSet(rs);
-                ticket.setCruise(cruise);
                 tickets.add(ticket);
-                cruise.setTickets(tickets);
             }
         } catch (SQLException e) {
             e.printStackTrace();

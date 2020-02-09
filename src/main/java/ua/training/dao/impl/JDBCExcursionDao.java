@@ -1,11 +1,11 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.dao.ConnectionPoolHolder;
-import ua.training.model.dao.ExcursionDao;
-import ua.training.model.dao.mapper.ExcursionMapper;
-import ua.training.model.dao.mapper.ObjectMapper;
-import ua.training.model.dao.mapper.PortMapper;
+import ua.training.dao.ConnectionPoolHolder;
+import ua.training.dao.ExcursionDao;
+import ua.training.dao.mapper.ExcursionMapper;
+import ua.training.dao.mapper.ObjectMapper;
+import ua.training.dao.mapper.PortMapper;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Port;
 

@@ -2,8 +2,8 @@ package ua.training.service;
 
 import ua.training.exception.EmptyOrderListException;
 import ua.training.exception.NotEnoughMoney;
-import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.OrderDao;
+import ua.training.dao.DaoFactory;
+import ua.training.dao.OrderDao;
 import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 

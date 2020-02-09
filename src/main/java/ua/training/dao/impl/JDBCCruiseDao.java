@@ -1,11 +1,11 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.dao.ConnectionPoolHolder;
-import ua.training.model.dao.CruiseDao;
-import ua.training.model.dao.mapper.CruiseMapper;
-import ua.training.model.dao.mapper.ObjectMapper;
-import ua.training.model.dao.mapper.ShipMapper;
+import ua.training.dao.ConnectionPoolHolder;
+import ua.training.dao.CruiseDao;
+import ua.training.dao.mapper.CruiseMapper;
+import ua.training.dao.mapper.ObjectMapper;
+import ua.training.dao.mapper.ShipMapper;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Ship;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class JDBCCruiseDao implements CruiseDao {
     private static final String FIND_ALL_QUERY = "SELECT * FROM cruises inner join ships ON cruises.id = ships.id;";
-    private static final String FIND_BY_ID = "SELECT * FROM cruises  WHERE id = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM cruises INNER JOIN ships ON cruises.ship_id = ships.id WHERE cruises.id = ?";
     private static final String UPDATE_CRUISE = "UPDATE cruises SET cruise_name = ?, " +
             "description_eng = ?, description_ru = ?, departure_date = ?, arrival_date = ? WHERE id = ?";
     private final ConnectionPoolHolder connectionPoolHolder;
@@ -33,13 +33,15 @@ public class JDBCCruiseDao implements CruiseDao {
     @Override
     public Optional<Cruise> findById(long id) {
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-
+        ObjectMapper<Ship> shipMapper = new ShipMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return Optional.of(cruiseMapper.extractFromResultSet(rs));
+                Cruise cruise = cruiseMapper.extractFromResultSet(rs);
+                cruise.setShip(shipMapper.extractFromResultSet(rs));
+                return Optional.of(cruise);
             }
         } catch (SQLException e) {
             //todo throw new runtime DBException handling in web.xml

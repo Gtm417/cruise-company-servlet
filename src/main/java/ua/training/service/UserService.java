@@ -4,8 +4,8 @@ package ua.training.service;
 import lombok.NonNull;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.UserNotFoundException;
-import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.UserDao;
+import ua.training.dao.DaoFactory;
+import ua.training.dao.UserDao;
 import ua.training.model.entity.User;
 import ua.training.service.encoder.PasswordEncoder;
 

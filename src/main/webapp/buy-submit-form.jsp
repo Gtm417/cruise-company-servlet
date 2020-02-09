@@ -107,7 +107,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="selectedExcursion" items="${sessionScope.selectedExcursions}">
+    <c:forEach var="selectedExcursion" items="${sessionScope.order.excursionList}">
         <tr>
             <td>${selectedExcursion.port.portName}</td>
             <td>${selectedExcursion.excursionName}</td>

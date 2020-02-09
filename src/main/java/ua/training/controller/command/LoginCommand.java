@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
             return "redirect:logout";
         }
         UserForm userForm = userRequestFormMapper.mapToForm(request);
-        if (!userValidator.validate(userForm)) {
+        if (userValidator.validate(userForm)) {
             request.setAttribute("errors", true);
             return "/login.jsp";
         }

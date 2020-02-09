@@ -21,10 +21,9 @@ public class SubmitBuyFormCommand implements Command {
     public String execute(HttpServletRequest request) {
         verifier.verify(request);
 
-        Order order = (Order) request.getSession().getAttribute("order");
-        request.setAttribute("resultPrice", order.getOrderPrice());
-        Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
-        request.setAttribute("excursions", excursionService.showAllExcursionsInCruise(cruise.getId()));
+        request.setAttribute("resultPrice",((Order) request.getSession().getAttribute("order")).getOrderPrice());
+        request.setAttribute("excursions",
+                excursionService.showAllExcursionsInCruise(((Cruise) request.getSession().getAttribute("cruise"))));
 
         return "buy-submit-form.jsp";
     }

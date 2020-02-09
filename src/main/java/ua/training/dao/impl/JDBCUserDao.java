@@ -1,11 +1,11 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
 
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.dao.ConnectionPoolHolder;
-import ua.training.model.dao.UserDao;
-import ua.training.model.dao.mapper.ObjectMapper;
-import ua.training.model.dao.mapper.UserMapper;
+import ua.training.dao.ConnectionPoolHolder;
+import ua.training.dao.UserDao;
+import ua.training.dao.mapper.ObjectMapper;
+import ua.training.dao.mapper.UserMapper;
 import ua.training.model.entity.User;
 
 import java.sql.*;

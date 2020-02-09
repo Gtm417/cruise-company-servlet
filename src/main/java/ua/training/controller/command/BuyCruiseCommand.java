@@ -12,6 +12,7 @@ import ua.training.model.entity.User;
 import ua.training.service.TicketService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 public class BuyCruiseCommand implements Command {
     private final TicketService ticketService;
@@ -41,7 +42,6 @@ public class BuyCruiseCommand implements Command {
         }
         order.setOrderPrice(order.getTicket().getPriceWithDiscount());
         request.getSession().setAttribute("order", order);
-        CommandUtility.setSelectedExcursionsListToSession(request);
         return "redirect:buy-submit-form";
     }
 
@@ -58,6 +58,7 @@ public class BuyCruiseCommand implements Command {
                 .secondName(form.getSecondName())
                 .cruise((Cruise) request.getSession().getAttribute("cruise"))
                 .user((User) request.getSession().getAttribute("user"))
+                .excursions(new ArrayList<>())
                 .build();
     }
 

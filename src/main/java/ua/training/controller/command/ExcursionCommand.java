@@ -36,17 +36,17 @@ public class ExcursionCommand implements Command {
             return exceptionHandler.handling(request);
         }
         if (request.getRequestURI().contains("remove-excursion")) {
-            CommandUtility.deleteExcursionFromSelectedList(request, excursion);
+            order.getExcursionList().remove(excursion);
             order.setOrderPrice(order.getOrderPrice() - excursion.getPrice());
             return "redirect:buy-submit-form";
         }
-        CommandUtility.addExcursionToSelectedList(request, excursion);
+        order.getExcursionList().add(excursion);
         order.setOrderPrice(order.getOrderPrice() + excursion.getPrice());
         return "redirect:buy-submit-form";
     }
 
     private Verifier getVerifier() {
-        return request -> Objects.isNull(request.getSession().getAttribute("selectedExcursions"));
+        return request -> Objects.isNull(request.getSession().getAttribute("order"));
     }
 
 }

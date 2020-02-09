@@ -1,33 +1,29 @@
-package ua.training.model.dao.implement;
+package ua.training.dao.impl;
 
+import ua.training.dao.ConnectionPoolHolder;
+import ua.training.dao.OrderDao;
+import ua.training.dao.mapper.CruiseMapper;
+import ua.training.dao.mapper.ObjectMapper;
+import ua.training.dao.mapper.OrderMapper;
+import ua.training.dao.mapper.TicketMapper;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.dao.ConnectionPoolHolder;
-import ua.training.model.dao.OrderDao;
-import ua.training.model.dao.mapper.CruiseMapper;
-import ua.training.model.dao.mapper.ObjectMapper;
-import ua.training.model.dao.mapper.OrderMapper;
-import ua.training.model.dao.mapper.TicketMapper;
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Order;
-import ua.training.model.entity.Ticket;
-import ua.training.model.entity.User;
+import ua.training.model.entity.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class JDBCOrderDao implements OrderDao {
+
+    public static final String INSERT_INTO_ORDER_EXCURSION = "INSERT INTO order_excursions(order_id, excursion_id) VALUES (?,?);";
+    public static final String UPDATE_SHIP_BEFORE_ORDER = "UPDATE ships SET current_amount_of_passenger = ? WHERE id = ?;";
     private final static String CREATE_NEW_ORDER = "INSERT INTO orders(cruise_id, user_id, ticket_id,first_name, second_name, price) values(?,?,?,?,?,?);";
     private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET  login = ?, password = ?, balance = ?, role = ?" +
             "WHERE id = ?";
     private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * from orders " +
             "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
             "WHERE orders.cruise_id = ?;";
-
     private static final String FIND_ALL_BY_USER_ID = "SELECT * from orders " +
             "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
             "INNER JOIN cruises ON orders.cruise_id = cruises.id " +
@@ -68,13 +64,23 @@ public class JDBCOrderDao implements OrderDao {
     public void buyCruiseChanges(User user, Order order) {
         try (Connection connection = connectionPoolHolder.getConnection()) {
             try (PreparedStatement psUser = connection.prepareStatement(UPDATE_USER);
-                 PreparedStatement psOrder = connection.prepareStatement(CREATE_NEW_ORDER)) {
+                 PreparedStatement psOrder = connection.prepareStatement(CREATE_NEW_ORDER,
+                         Statement.RETURN_GENERATED_KEYS);
+                 PreparedStatement psExcursion = connection.prepareStatement(INSERT_INTO_ORDER_EXCURSION);
+                 PreparedStatement psShip = connection.prepareStatement(UPDATE_SHIP_BEFORE_ORDER)) {
                 connection.setAutoCommit(false);
 
+                fillShipUpdatePrepareStatement(order.getCruise(), psShip);
                 fillUserUpdatePrepareStatement(user, psUser);
                 fillOrderInsertPrepareStatement(order, psOrder);
+                long orderId = getOrderInsertGeneratedKey(psOrder);
+                System.out.println(orderId);
+                for (Excursion exc : order.getExcursionList()) {
+                    fillExcursionInsertPrepareStatement(exc, orderId, psExcursion);
+                }
+
+
                 connection.commit();
-                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 connection.rollback();
                 ex.printStackTrace();
@@ -84,6 +90,13 @@ public class JDBCOrderDao implements OrderDao {
             e.printStackTrace();
             //todo throw exception
         }
+    }
+    private long getOrderInsertGeneratedKey(PreparedStatement ps) throws SQLException {
+        ResultSet rs = ps.getGeneratedKeys();
+        if(rs.next()){
+            return rs.getLong(1);
+        }
+        throw new SQLException();
     }
 
     private void fillOrderInsertPrepareStatement(Order order, PreparedStatement psOrder) throws SQLException {
@@ -102,6 +115,18 @@ public class JDBCOrderDao implements OrderDao {
         psUser.setLong(3, user.getBalance());
         psUser.setString(4, user.getRole().name());
         psUser.setLong(5, user.getId());
+        psUser.executeUpdate();
+    }
+
+    private void fillExcursionInsertPrepareStatement(Excursion excursion, long orderId, PreparedStatement psUser) throws SQLException {
+        psUser.setLong(1, orderId);
+        psUser.setLong(2, excursion.getId());
+        psUser.executeUpdate();
+    }
+
+    private void fillShipUpdatePrepareStatement(Cruise cruise, PreparedStatement psUser) throws SQLException {
+        psUser.setLong(1, cruise.getShip().getCurrentPassengerAmount() + 1);
+        psUser.setLong(2, cruise.getShip().getId());
         psUser.executeUpdate();
     }
 
