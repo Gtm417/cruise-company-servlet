@@ -10,28 +10,28 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
-<c:if test ="${not empty param.lang}">
-    <fmt:setLocale value="${param.lang}"  scope="session" />
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
 
-<fmt:setBundle basename="message" />
-<html  lang="${param.lang}">
+<fmt:setBundle basename="message"/>
+<html lang="${param.lang}">
 <head>
     <title>Balance</title>
 </head>
 <body>
 <ul>
-    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-    <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
 <c:if test="${exception == true}">
-    <label class="alert alert-info" > <fmt:message key="alert.wrong.password.or.login"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.wrong.password.or.login"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <form method="post" action="${pageContext.request.contextPath}/balance">
 
-<%--    <input type="number" required name="balance"><br/>--%>
-    <input type="number"  name="balance"><br/>
+    <%--    <input type="number" required name="balance"><br/>--%>
+    <input type="text" name="balance"><br/>
     <input class="button" type="submit" value="Replenish">
 
 </form>

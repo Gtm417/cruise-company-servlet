@@ -1,7 +1,6 @@
 package ua.training.controller.command.admin;
 
 import ua.training.controller.command.Command;
-import ua.training.controller.command.CommandUtility;
 import ua.training.controller.handler.ExceptionHandler;
 import ua.training.exception.CruiseNotFoundException;
 import ua.training.service.CruiseService;
@@ -18,12 +17,12 @@ public class CruiseEditCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        if(request.getSession().getAttribute("cruise") != null){
+        if (request.getSession().getAttribute("cruise") != null) {
             return "edit-cruise.jsp";
         }
         try {
             request.getSession()
-                    .setAttribute("cruise", cruiseService.findById(CommandUtility.getCruiseId(request)));
+                    .setAttribute("cruise", cruiseService.findById(Long.parseLong(request.getParameter("cruiseId"))));
         } catch (CruiseNotFoundException e) {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "main");
             return exceptionHandler.handling(request);

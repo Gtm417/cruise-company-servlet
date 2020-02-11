@@ -11,13 +11,12 @@
 <%@ page isELIgnored="false" %>
 
 
-
-<c:if test ="${not empty param.lang}">
-    <fmt:setLocale value="${param.lang}"  scope="session" />
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
 
-<fmt:setBundle basename="message" />
-<html  lang="${param.lang}">
+<fmt:setBundle basename="message"/>
+<html lang="${param.lang}">
 <head>
     <title>Buy_cruise</title>
 </head>
@@ -31,31 +30,35 @@
 
 <script>
     var x = window.location.href;
-    var count = (x.split('&').length - 1)
-    if(count===0){ x = window.location.href+"&";}
-    var page =  x.substring(0, x.lastIndexOf('&'));
+    var count = (x.split('&').length - 1);
+    if (count === 0) {
+        x = window.location.href + "&";
+    }
+    var page = x.substring(0, x.lastIndexOf('&'));
     var link = document.getElementById("ru"); // store the element
     var curHref = link.getAttribute('href'); // get its current href value
-    link.setAttribute('href', page + curHref );
+    link.setAttribute('href', page + curHref);
 
 
     var x = window.location.href;
-    var count = (x.split('&').length - 1)
-    if(count===0){ x = window.location.href+"&";}
-    var page =  x.substring(0, x.lastIndexOf('&'));
+    var count = (x.split('&').length - 1);
+    if (count === 0) {
+        x = window.location.href + "&";
+    }
+    var page = x.substring(0, x.lastIndexOf('&'));
     var link = document.getElementById("en"); // store the element
     var curHref = link.getAttribute('href'); // get its current href value
-    link.setAttribute('href', page + curHref );
+    link.setAttribute('href', page + curHref);
 
 
 </script>
 <ul>
-    <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-    <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
 <%--<form id="buy" action="${pageContext.request.contextPath}/buy" method="post" >--%>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info" > <fmt:message key="alert.ticket.list.is.empty"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.ticket.list.is.empty"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <div class="form-group">
@@ -72,14 +75,14 @@
         <c:forEach var="ticket" items="${sessionScope.cruise.tickets}">
             <form action="${pageContext.request.contextPath}/buy" method="post">
                 <tr>
-                    <td><input type="text" required name="firstName"></td>
-                    <td><input type="text" required name="secondName"></td>
+                    <td><input type="text" name="firstName"></td>
+                    <td><input type="text" name="secondName"></td>
                     <td>${ticket.ticketName}</td>
                     <td>${ticket.priceWithDiscount}</td>
                     <td>
                         <input hidden name="ticket" value="${ticket.id}">
-<%--                        <input hidden name="price" value="${ticket.priceWithDiscount}">--%>
-<%--                        <input hidden name="cruiseId" value="${cruiseId}">--%>
+                            <%--                        <input hidden name="price" value="${ticket.priceWithDiscount}">--%>
+                            <%--                        <input hidden name="cruiseId" value="${cruiseId}">--%>
                         <p><input type="submit" value="Submit"/></p>
                     </td>
                         <%--            <td>--%>

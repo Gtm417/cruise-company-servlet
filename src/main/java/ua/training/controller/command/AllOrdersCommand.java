@@ -11,7 +11,6 @@ public class AllOrdersCommand implements Command {
     private final OrderService orderService;
 
     public AllOrdersCommand(OrderService orderService) {
-
         this.orderService = orderService;
     }
 

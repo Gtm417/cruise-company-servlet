@@ -1,8 +1,8 @@
 package ua.training.service;
 
 import ua.training.exception.CruiseNotFoundException;
-import ua.training.model.dao.CruiseDao;
-import ua.training.model.dao.DaoFactory;
+import ua.training.dao.CruiseDao;
+import ua.training.dao.DaoFactory;
 import ua.training.model.entity.Cruise;
 
 import java.util.List;
@@ -30,5 +30,9 @@ public class CruiseService {
 
     public boolean updateCruise(Cruise cruise) {
         return cruiseDao.update(cruise);
+    }
+
+    public boolean checkAmountPassenger(Cruise cruise) {
+        return cruise.getShip().getCurrentPassengerAmount() < cruise.getShip().getMaxPassengerAmount();
     }
 }

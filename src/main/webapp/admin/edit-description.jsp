@@ -12,12 +12,12 @@
 </head>
 <body>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info" > <fmt:message key="alert.wrong.password.or.login"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.wrong.password.or.login"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <form action="${pageContext.request.contextPath}/admin/edit-description" method="post">
-    <input type="text"  placeholder="descriptionEng" name="descriptionEng"><br/>
-    <input type="text"  placeholder="descriptionRu" name="descriptionRu"><br/><br/>
+    <input type="text" placeholder="descriptionEng" name="descriptionEng"><br/>
+    <input type="text" placeholder="descriptionRu" name="descriptionRu"><br/><br/>
     <input class="button" type="submit" value="Update">
 </form>
 </body>

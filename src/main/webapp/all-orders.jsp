@@ -17,7 +17,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info" > <fmt:message key="alert.orders.list.is.empty"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.orders.list.is.empty"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <table class="table table-striped table-responsive-md btn-table">
@@ -27,7 +27,7 @@
         <th scope="col"> First name</th>
         <th scope="col"> Second name</th>
         <th scope="col"> Ticket name</th>
-        <th scope="col"> Price </th>
+        <th scope="col"> Price</th>
     </tr>
     </thead>
 

@@ -11,16 +11,16 @@
 <%@ page isELIgnored="false" %>
 
 
-<c:if test ="${not empty param.lang}">
-    <fmt:setLocale value="${param.lang}"  scope="session" />
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
 
-<fmt:setBundle basename="message" />
-<html  lang="${param.lang}">
+<fmt:setBundle basename="message"/>
+<html lang="${param.lang}">
 <head>
     <ul>
-        <li><a href="?lang=en"><fmt:message key="label.lang.en" /></a></li>
-        <li><a href="?lang=ru"><fmt:message key="label.lang.ru" /></a></li>
+        <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
+        <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
     </ul>
     <title>Success</title>
 </head>

@@ -5,7 +5,6 @@ import ua.training.exception.AccessDenied;
 import ua.training.exception.UnreachableRequest;
 import ua.training.model.entity.Cruise;
 import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Order;
 import ua.training.model.entity.User;
 
 import javax.servlet.ServletContext;
@@ -52,28 +51,6 @@ public class CommandUtility {
                 .setAttribute("loggedUsers", loggedUsers);
     }
 
-    public static void setSelectedExcursionsListToSession(HttpServletRequest request) {
-        request.getSession().setAttribute("selectedExcursions", new ArrayList<Excursion>());
-    }
-
-    private static long countSelectedExcursionsPrice(HttpServletRequest request) {
-        List<Excursion> excursionList = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
-        return excursionList.stream().mapToLong(Excursion::getPrice).sum();
-    }
-
-    public static List<Excursion> addExcursionToSelectedList(HttpServletRequest request, Excursion excursion) {
-        List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
-        if (selectedExcursions.stream().noneMatch(excursion::equals)) {
-            selectedExcursions.add(excursion);
-        }
-        return (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
-    }
-
-    public static void deleteExcursionFromSelectedList(HttpServletRequest request, Excursion excursion) {
-        List<Excursion> selectedExcursions = (List<Excursion>) request.getSession().getAttribute("selectedExcursions");
-        selectedExcursions.remove(excursion);
-    }
-
     public static Cruise checkCruiseInSession(HttpServletRequest request) {
         if (request.getSession().getAttribute("cruise") == null) {
             request.setAttribute("cruiseNotFound", true);
@@ -85,14 +62,14 @@ public class CommandUtility {
     public static void resetSessionPurchaseData(HttpServletRequest request) {
         request.getSession().removeAttribute("cruise");
         request.getSession().removeAttribute("order");
-        request.getSession().removeAttribute("selectedExcursions");
     }
 
 
+    // TODO: 08.02.2020 delete
     public static long getCruiseId(HttpServletRequest request) {
-        try{
+        try {
             return Long.parseLong(request.getParameter("cruiseId"));
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             throw new UnreachableRequest();
         }
     }

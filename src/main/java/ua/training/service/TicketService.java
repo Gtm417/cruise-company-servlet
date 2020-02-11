@@ -3,9 +3,8 @@ package ua.training.service;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.TicketNotFound;
 import ua.training.exception.TicketsEmptyListException;
-import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.TicketDao;
-import ua.training.model.dto.TicketCruiseDTO;
+import ua.training.dao.DaoFactory;
+import ua.training.dao.TicketDao;
 import ua.training.model.entity.Ticket;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class TicketService {
     }
 
     public List<Ticket> showTicketsForBuy(long id) throws TicketsEmptyListException {
-        List<Ticket> tickets = ticketDao.getTicketsPriceByCruiseId(id);
+        List<Ticket> tickets = ticketDao.findAllByCruiseId(id);
         if (tickets.isEmpty()) {
             throw new TicketsEmptyListException("There is no tickets on this cruise");
         }
@@ -37,7 +36,7 @@ public class TicketService {
                 .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
     }
 
-    private long calcTicketPriceWithDiscount(Ticket ticket){
-        return ticket.getPrice() -  Math.round(((double)ticket.getPrice() * ticket.getDiscount()/ONE_HUNDRED_PERCENT));
+    private long calcTicketPriceWithDiscount(Ticket ticket) {
+        return ticket.getPrice() - Math.round(((double) ticket.getPrice() * ticket.getDiscount() / ONE_HUNDRED_PERCENT));
     }
 }
