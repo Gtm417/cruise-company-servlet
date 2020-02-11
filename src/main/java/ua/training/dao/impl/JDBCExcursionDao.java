@@ -1,12 +1,11 @@
 package ua.training.dao.impl;
 
-import ua.training.exception.DBConnectionException;
-import ua.training.exception.DuplicateDataBaseException;
 import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.ExcursionDao;
 import ua.training.dao.mapper.ExcursionMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.PortMapper;
+import ua.training.exception.DBConnectionException;
 import ua.training.model.entity.Excursion;
 import ua.training.model.entity.Port;
 
