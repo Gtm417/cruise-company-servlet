@@ -25,6 +25,7 @@
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/balance" class="button"> replenish</a>
+<a href="${pageContext.request.contextPath}/all-orders"> Orders</a>
 <c:if test="${notFoundCruise}">
     <label class="alert alert-info"> <fmt:message key="alert.wrong.input.data"/></label>
 </c:if>

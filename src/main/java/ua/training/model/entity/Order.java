@@ -10,6 +10,8 @@ public class Order {
     private Cruise cruise;
     private Ticket ticket;
     private long orderPrice;
+
+    // TODO: 09.02.2020 SET
     private List<Excursion> excursionList;
 
     public Order(Builder builder) {
