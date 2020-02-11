@@ -49,7 +49,6 @@ public class JDBCOrderDao implements OrderDao {
                 fillUserUpdatePrepareStatement(user, psUser);
                 fillOrderInsertPrepareStatement(order, psOrder);
                 long orderId = getOrderInsertGeneratedKey(psOrder);
-                System.out.println(orderId);
                 for (Excursion exc : order.getExcursionList()) {
                     fillExcursionInsertPrepareStatement(exc, orderId, psExcursion);
                 }
@@ -63,9 +62,10 @@ public class JDBCOrderDao implements OrderDao {
             throw new DBConnectionException(e);
         }
     }
+
     private long getOrderInsertGeneratedKey(PreparedStatement ps) throws SQLException {
         ResultSet rs = ps.getGeneratedKeys();
-        if(rs.next()){
+        if (rs.next()) {
             return rs.getLong(1);
         }
         throw new SQLException();

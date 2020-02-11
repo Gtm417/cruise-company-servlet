@@ -12,7 +12,6 @@ public class UserServiceTest {
     public void testRegex() {
         String regex = "[1-9]{1}[0-9]*";
         String name = "23123";
-        System.out.println(name.matches(regex));
         Assert.assertTrue(name.matches(regex));
     }
 
@@ -25,6 +24,5 @@ public class UserServiceTest {
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println(user);
     }
 }

@@ -1,6 +1,6 @@
 package ua.training.model.entity;
 
-import java.util.List;
+import java.util.Set;
 
 public class Order {
     private long id;
@@ -11,8 +11,7 @@ public class Order {
     private Ticket ticket;
     private long orderPrice;
 
-    // TODO: 09.02.2020 SET
-    private List<Excursion> excursionList;
+    private Set<Excursion> excursionList;
 
     public Order(Builder builder) {
         this.id = builder.id;
@@ -81,11 +80,11 @@ public class Order {
         this.orderPrice = orderPrice;
     }
 
-    public List<Excursion> getExcursionList() {
+    public Set<Excursion> getExcursionList() {
         return excursionList;
     }
 
-    public void setExcursionList(List<Excursion> excursionList) {
+    public void setExcursionList(Set<Excursion> excursionList) {
         this.excursionList = excursionList;
     }
 
@@ -112,7 +111,7 @@ public class Order {
         private Cruise cruise;
         private Ticket ticket;
         private long orderPrice;
-        private List<Excursion> excursionList;
+        private Set<Excursion> excursionList;
 
 
         public Builder id(long id) {
@@ -151,7 +150,7 @@ public class Order {
             return this;
         }
 
-        public Builder excursions(List<Excursion> excursions){
+        public Builder excursions(Set<Excursion> excursions) {
             this.excursionList = excursions;
             return this;
         }
