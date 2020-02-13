@@ -1,6 +1,6 @@
 package ua.training.web.command;
 
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.UserService;
 import ua.training.web.form.validation.Validator;
 
@@ -10,7 +10,7 @@ import static java.util.Objects.isNull;
 
 public class BalanceCommand implements Command {
 
-    public static final String VALIDATION_REGEX = "[0-9].{0,4}";
+    public static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
     public static final int VALIDATION_MAX_VALUE = 9999;
     public static final int VALIDATION_MIN_VALUE = 0;
     private final UserService userService;

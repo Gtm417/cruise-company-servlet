@@ -1,21 +1,11 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 public class User {
     private long id;
     private String login;
     private String password;
-
-
-    public enum ROLE {
-        USER, ADMIN
-    }
-
-    private ROLE role;
+    private Role role;
     private long balance;
-
-    public User() {
-
-    }
 
     public User(Builder builder) {
         this.id = builder.id;
@@ -23,6 +13,10 @@ public class User {
         this.password = builder.password;
         this.role = builder.role;
         this.balance = builder.balance;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
@@ -49,11 +43,11 @@ public class User {
         this.password = password;
     }
 
-    public ROLE getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(ROLE role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -74,15 +68,11 @@ public class User {
                 '}';
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
     public static class Builder {
         private long id;
         private String login;
         private String password;
-        private ROLE role;
+        private Role role;
         private long balance;
 
         public Builder id(long id) {
@@ -100,7 +90,7 @@ public class User {
             return this;
         }
 
-        public Builder role(ROLE role) {
+        public Builder role(Role role) {
             this.role = role;
             return this;
         }

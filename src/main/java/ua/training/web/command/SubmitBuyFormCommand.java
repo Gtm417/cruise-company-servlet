@@ -1,7 +1,7 @@
 package ua.training.web.command;
 
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Order;
+import ua.training.entity.Cruise;
+import ua.training.entity.Order;
 import ua.training.service.ExcursionService;
 import ua.training.web.verification.request.Verifier;
 

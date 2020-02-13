@@ -1,9 +1,9 @@
 package ua.training.web.command;
 
 import ua.training.exception.TicketNotFound;
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Order;
-import ua.training.model.entity.User;
+import ua.training.entity.Cruise;
+import ua.training.entity.Order;
+import ua.training.entity.User;
 import ua.training.service.TicketService;
 import ua.training.web.form.OrderForm;
 import ua.training.web.form.validation.Validator;

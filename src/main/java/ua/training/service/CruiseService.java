@@ -3,7 +3,7 @@ package ua.training.service;
 import ua.training.dao.CruiseDao;
 import ua.training.dao.DaoFactory;
 import ua.training.exception.CruiseNotFoundException;
-import ua.training.model.entity.Cruise;
+import ua.training.entity.Cruise;
 
 import java.util.List;
 

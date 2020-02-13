@@ -7,7 +7,7 @@ import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.UserMapper;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package ua.training.web.command;
 
 import ua.training.exception.EmptyOrderListException;
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.OrderService;
 import ua.training.web.handler.ExceptionHandler;
 

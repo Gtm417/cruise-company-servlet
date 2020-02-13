@@ -1,7 +1,7 @@
 package ua.training.web.filter;
 
 
-import ua.training.model.entity.User;
+import ua.training.entity.Role;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -59,9 +59,9 @@ public class AuthFilter implements Filter {
         if (isAccessedRequest) {
             filterChain.doFilter(request, response);
         } else if (session.getAttribute("login") != null) {
-            if (path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (User.ROLE.ADMIN)) {
+            if (path.contains(ADMIN_REQUEST) && session.getAttribute("role") == (Role.ADMIN)) {
                 filterChain.doFilter(request, response);
-            } else if (path.contains(USER_REQUEST) && session.getAttribute("role") == (User.ROLE.USER)) {
+            } else if (path.contains(USER_REQUEST) && session.getAttribute("role") == (Role.USER)) {
                 filterChain.doFilter(request, response);
             } else if (path.matches(".*/cruise-company/.*")) {
                 filterChain.doFilter(request, response);

@@ -23,7 +23,7 @@ public class ConnectionPoolHolder {
         ds.setMaxIdle(Integer.parseInt(bundle.getString("db.maxIdle")));
         ds.setInitialSize(Integer.parseInt(bundle.getString("db.initialSize")));
         ds.setMaxOpenPreparedStatements(Integer.parseInt(bundle.getString("db.maxOpenStatement")));
-        this.dataSource = ds;
+        dataSource = ds;
     }
 
     public static ConnectionPoolHolder pool() {
@@ -39,7 +39,7 @@ public class ConnectionPoolHolder {
     }
 
 
-    public final Connection getConnection() {
+    public  Connection getConnection() {
         // todo
         //logger.info("connect");
         try {

@@ -1,8 +1,8 @@
 package ua.training.web.command;
 
 
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.User;
+import ua.training.entity.Cruise;
+import ua.training.entity.Role;
 import ua.training.service.CruiseService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +20,12 @@ public class MainCommand implements Command {
         CommandUtility.resetSessionPurchaseData(request);
         List<Cruise> cruises = cruiseService.getAllCruises();
         request.setAttribute("cruises", cruises);
-        User.ROLE role = (User.ROLE) request.getSession().getAttribute("role");
+        Role role = (Role) request.getSession().getAttribute("role");
         return getMainPage(role);
     }
 
-    private String getMainPage(User.ROLE role) {
-        if (role == User.ROLE.USER) {
+    private String getMainPage(Role role) {
+        if (role == Role.USER) {
             return "user/main.jsp";
         }
         return "admin/main.jsp";

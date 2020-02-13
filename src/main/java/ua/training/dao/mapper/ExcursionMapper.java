@@ -1,10 +1,9 @@
 package ua.training.dao.mapper;
 
-import ua.training.model.entity.Excursion;
+import ua.training.entity.Excursion;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class ExcursionMapper implements ObjectMapper<Excursion> {
     @Override
@@ -17,9 +16,4 @@ public class ExcursionMapper implements ObjectMapper<Excursion> {
                 .build();
     }
 
-    @Override
-    public Excursion makeUnique(Map<Long, Excursion> cache, Excursion entity) {
-        cache.putIfAbsent(entity.getId(), entity);
-        return cache.get(entity.getId());
-    }
 }

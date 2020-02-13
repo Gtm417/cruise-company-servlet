@@ -4,8 +4,8 @@ import ua.training.dao.DaoFactory;
 import ua.training.dao.OrderDao;
 import ua.training.exception.EmptyOrderListException;
 import ua.training.exception.SaveOrderException;
-import ua.training.model.entity.Order;
-import ua.training.model.entity.User;
+import ua.training.entity.Order;
+import ua.training.entity.User;
 
 import java.util.List;
 

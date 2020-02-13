@@ -6,7 +6,7 @@ import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.TicketMapper;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.Ticket;
+import ua.training.entity.Ticket;
 
 import java.sql.*;
 import java.util.ArrayList;

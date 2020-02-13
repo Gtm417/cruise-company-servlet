@@ -1,6 +1,6 @@
 package ua.training.web.command.admin;
 
-import ua.training.model.entity.Cruise;
+import ua.training.entity.Cruise;
 import ua.training.service.CruiseService;
 import ua.training.web.command.Command;
 import ua.training.web.command.CommandUtility;

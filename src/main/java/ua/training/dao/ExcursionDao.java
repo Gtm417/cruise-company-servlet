@@ -1,6 +1,6 @@
 package ua.training.dao;
 
-import ua.training.model.entity.Excursion;
+import ua.training.entity.Excursion;
 
 import java.util.List;
 

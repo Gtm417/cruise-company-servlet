@@ -1,6 +1,6 @@
 package ua.training.dao;
 
-import ua.training.model.entity.Ticket;
+import ua.training.entity.Ticket;
 
 import java.util.List;
 

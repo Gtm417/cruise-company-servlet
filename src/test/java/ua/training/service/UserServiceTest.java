@@ -3,7 +3,7 @@ package ua.training.service;
 import org.junit.Assert;
 import org.junit.Test;
 import ua.training.exception.UserNotFoundException;
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.encoder.PasswordEncoder;
 
 public class UserServiceTest {

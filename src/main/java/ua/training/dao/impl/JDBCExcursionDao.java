@@ -6,8 +6,8 @@ import ua.training.dao.mapper.ExcursionMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.PortMapper;
 import ua.training.exception.DBConnectionException;
-import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Port;
+import ua.training.entity.Excursion;
+import ua.training.entity.Port;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

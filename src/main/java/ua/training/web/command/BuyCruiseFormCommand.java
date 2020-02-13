@@ -3,8 +3,8 @@ package ua.training.web.command;
 
 import ua.training.exception.CruiseNotFoundException;
 import ua.training.exception.TicketsEmptyListException;
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Ticket;
+import ua.training.entity.Cruise;
+import ua.training.entity.Ticket;
 import ua.training.service.CruiseService;
 import ua.training.service.TicketService;
 import ua.training.web.handler.ExceptionHandler;

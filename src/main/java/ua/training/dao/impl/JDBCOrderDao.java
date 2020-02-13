@@ -6,9 +6,10 @@ import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.OrderMapper;
 import ua.training.dao.mapper.TicketMapper;
+import ua.training.entity.*;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.SaveOrderException;
-import ua.training.model.entity.*;
+
 
 import java.sql.*;
 import java.util.ArrayList;

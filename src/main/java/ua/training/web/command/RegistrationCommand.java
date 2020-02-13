@@ -1,7 +1,7 @@
 package ua.training.web.command;
 
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.UserService;
 import ua.training.web.form.UserForm;
 import ua.training.web.form.validation.Validator;

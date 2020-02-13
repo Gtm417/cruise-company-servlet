@@ -5,7 +5,7 @@ import ua.training.dao.TicketDao;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.TicketNotFound;
 import ua.training.exception.TicketsEmptyListException;
-import ua.training.model.entity.Ticket;
+import ua.training.entity.Ticket;
 
 import java.util.List;
 

@@ -3,8 +3,8 @@ package ua.training.service;
 import ua.training.dao.DaoFactory;
 import ua.training.dao.ExcursionDao;
 import ua.training.exception.ExcursionNotFound;
-import ua.training.model.entity.Cruise;
-import ua.training.model.entity.Excursion;
+import ua.training.entity.Cruise;
+import ua.training.entity.Excursion;
 
 import java.util.List;
 import java.util.Set;

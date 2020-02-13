@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 public class Ship {
     private Long id;

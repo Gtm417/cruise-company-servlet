@@ -3,8 +3,8 @@ package ua.training.web.command;
 
 import ua.training.exception.ExcursionNotFound;
 import ua.training.exception.UnreachableRequest;
-import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Order;
+import ua.training.entity.Excursion;
+import ua.training.entity.Order;
 import ua.training.service.ExcursionService;
 import ua.training.web.handler.ExceptionHandler;
 import ua.training.web.verification.request.Verifier;

@@ -1,8 +1,8 @@
 package ua.training.dao;
 
 import ua.training.exception.SaveOrderException;
-import ua.training.model.entity.Order;
-import ua.training.model.entity.User;
+import ua.training.entity.Order;
+import ua.training.entity.User;
 
 import java.util.List;
 
