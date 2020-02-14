@@ -24,6 +24,7 @@ public class CruiseDescriptionCommand implements Command {
             request.setAttribute("errors", true);
             return "edit-description.jsp";
         }
+
         String descriptionRu = request.getParameter("descriptionRu");
         String descriptionEng = request.getParameter("descriptionEng");
 
@@ -34,12 +35,12 @@ public class CruiseDescriptionCommand implements Command {
     }
 
     private boolean validForm(HttpServletRequest request) {
-        return !validateParam(request.getParameter("descriptionEng")) &&
-                !validateParam(request.getParameter("descriptionRu"));
+        return validateParam(request.getParameter("descriptionEng")) &&
+                validateParam(request.getParameter("descriptionRu"));
     }
 
     private boolean validateParam(String param) {
-        return !Objects.isNull(param) && param.isEmpty();
+        return Objects.isNull(param) || !param.isEmpty();
     }
 
     private Validator<HttpServletRequest> getRequestValidator() {

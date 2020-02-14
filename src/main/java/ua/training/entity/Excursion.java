@@ -20,6 +20,10 @@ public class Excursion {
         this.port = builder.port;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public long getId() {
         return id;
     }
@@ -74,10 +78,6 @@ public class Excursion {
     @Override
     public int hashCode() {
         return Objects.hash(id, excursionName, duration, price);
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public static class Builder {

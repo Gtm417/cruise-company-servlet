@@ -32,17 +32,26 @@
     </thead>
 
     <tbody>
-    <c:forEach var="pass" items="${orders}">
-        <tr>
-            <td>${pass.cruise.cruiseName}</td>
-            <td>${pass.firstName}</td>
-            <td>${pass.secondName}</td>
-            <td>${pass.ticket.ticketName}</td>
-            <td>${pass.orderPrice}</td>
-        </tr>
-    </c:forEach>
+        <c:choose>
+            <c:when test="${users.isEmpty()}">
+                <h2><fmt:message key="alert.orders.list.is.empty"/></h2>
+            </c:when>
+                <c:otherwise>
+                    <c:forEach var="pass" items="${orders}">
+                        <tr>
+                            <td>${pass.cruise.cruiseName}</td>
+                            <td>${pass.firstName}</td>
+                            <td>${pass.secondName}</td>
+                            <td>${pass.ticket.ticketName}</td>
+                            <td>${pass.orderPrice}</td>
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+        </c:choose>
     </tbody>
+
 </table>
+<c:import url="pagination.jsp"/>
 </body>
 </html>
 

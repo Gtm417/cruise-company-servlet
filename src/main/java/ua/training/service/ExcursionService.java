@@ -2,9 +2,9 @@ package ua.training.service;
 
 import ua.training.dao.DaoFactory;
 import ua.training.dao.ExcursionDao;
-import ua.training.exception.ExcursionNotFound;
 import ua.training.entity.Cruise;
 import ua.training.entity.Excursion;
+import ua.training.exception.ExcursionNotFound;
 
 import java.util.List;
 import java.util.Set;
@@ -17,7 +17,6 @@ public class ExcursionService {
     }
 
     public List<Excursion> showAllExcursionsInCruise(Cruise cruise) {
-        //todo Exception if list empty
         return excursionDao.findAllExcursionsByCruiseId(cruise.getId());
     }
 

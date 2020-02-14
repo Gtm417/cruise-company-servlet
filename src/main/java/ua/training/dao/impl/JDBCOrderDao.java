@@ -1,6 +1,5 @@
 package ua.training.dao.impl;
 
-import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.OrderDao;
 import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
@@ -9,7 +8,7 @@ import ua.training.dao.mapper.TicketMapper;
 import ua.training.entity.*;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.SaveOrderException;
-
+import ua.training.persistance.ConnectionPoolHolder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class JDBCOrderDao implements OrderDao {
 
     public static final String INSERT_INTO_ORDER_EXCURSION = "INSERT INTO order_excursions(order_id, excursion_id) VALUES (?,?);";
     public static final String UPDATE_SHIP_BEFORE_ORDER = "UPDATE ships SET current_amount_of_passenger = ? WHERE id = ?;";
+    public static final String COUNT_QUERY = "SELECT COUNT(*) as count FROM orders WHERE user_id = ?";
     private final static String CREATE_NEW_ORDER = "INSERT INTO orders(cruise_id, user_id, ticket_id,first_name, second_name, price) values(?,?,?,?,?,?);";
     private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET  login = ?, password = ?, balance = ?, role = ?" +
             "WHERE id = ?";
@@ -28,13 +28,13 @@ public class JDBCOrderDao implements OrderDao {
     private static final String FIND_ALL_BY_USER_ID = "SELECT * from orders " +
             "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
             "INNER JOIN cruises ON orders.cruise_id = cruises.id " +
-            "WHERE orders.user_id = ?;";
-
+            "WHERE orders.user_id = ? LIMIT ?,?;";
     private final ConnectionPoolHolder connectionPoolHolder;
 
     public JDBCOrderDao(final ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
     }
+
 
     @Override
     public void buyCruiseChanges(User user, Order order) throws SaveOrderException {
@@ -125,15 +125,16 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public List<Order> findAllOrdersByUser(long id) {
+    public List<Order> findAllOrdersByUserWithOffsetAndLimit(int offset, int limit, long id) {
         List<Order> orders = new ArrayList<>();
         ObjectMapper<Order> orderMapper = new OrderMapper();
         ObjectMapper<Ticket> ticketMapper = new TicketMapper();
         ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_USER_ID)) {
             ps.setLong(1, id);
+            ps.setInt(2, offset);
+            ps.setInt(3, limit);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Order order = orderMapper.extractFromResultSet(rs);
@@ -145,5 +146,20 @@ public class JDBCOrderDao implements OrderDao {
             throw new DBConnectionException(e);
         }
         return orders;
+    }
+
+    @Override
+    public long countOrdersByUserId(long id) {
+        try (Connection connection = connectionPoolHolder.getConnection();
+             PreparedStatement ps = connection.prepareStatement(COUNT_QUERY)) {
+            ps.setLong(1, id);
+
+            ResultSet resultSet = ps.executeQuery();
+
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            //LOGGER.error("Exception during counting entities", e);
+            throw new DBConnectionException("Exception during counting orders", e);
+        }
     }
 }

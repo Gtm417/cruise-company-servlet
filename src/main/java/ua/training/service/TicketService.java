@@ -2,10 +2,10 @@ package ua.training.service;
 
 import ua.training.dao.DaoFactory;
 import ua.training.dao.TicketDao;
+import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.TicketNotFound;
 import ua.training.exception.TicketsEmptyListException;
-import ua.training.entity.Ticket;
 
 import java.util.List;
 

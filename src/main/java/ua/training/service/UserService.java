@@ -4,9 +4,9 @@ package ua.training.service;
 import lombok.NonNull;
 import ua.training.dao.DaoFactory;
 import ua.training.dao.UserDao;
+import ua.training.entity.User;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.UserNotFoundException;
-import ua.training.entity.User;
 import ua.training.service.encoder.PasswordEncoder;
 
 
@@ -28,7 +28,6 @@ public class UserService {
         }
     }
 
-
     public User findUserByLogin(String login) throws UserNotFoundException {
         return userDao.findByLogin(login)
                 .orElseThrow(() -> new UserNotFoundException("User not found with login: ", login));
@@ -40,7 +39,6 @@ public class UserService {
     }
 
     public boolean checkInputPassword(String inputPassword, String userPassword) {
-
         return userPassword.equals(passwordEncoder.encode(inputPassword));
     }
 }

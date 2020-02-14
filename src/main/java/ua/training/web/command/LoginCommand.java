@@ -1,7 +1,7 @@
 package ua.training.web.command;
 
-import ua.training.exception.UserNotFoundException;
 import ua.training.entity.User;
+import ua.training.exception.UserNotFoundException;
 import ua.training.service.UserService;
 import ua.training.web.form.UserForm;
 import ua.training.web.form.validation.Validator;
@@ -40,19 +40,12 @@ public class LoginCommand implements Command {
             return exceptionHandler.handling(request);
         }
 
-        if (CommandUtility.checkUserIsLogged(request, user.getLogin())) {
-            return "WEB-INF/error.jsp";
-        }
-
         if (userService.checkInputPassword(userForm.getPassword(), user.getPassword())) {
             CommandUtility.setUserInSession(request, user);
             return "redirect:main";
         }
+
         request.getSession().setAttribute("exception", true);
         return "/login.jsp";
-
-
     }
-
-
 }

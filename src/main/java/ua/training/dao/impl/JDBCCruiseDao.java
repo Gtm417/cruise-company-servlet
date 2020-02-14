@@ -1,13 +1,13 @@
 package ua.training.dao.impl;
 
-import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.CruiseDao;
 import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.ShipMapper;
-import ua.training.exception.DBConnectionException;
 import ua.training.entity.Cruise;
 import ua.training.entity.Ship;
+import ua.training.exception.DBConnectionException;
+import ua.training.persistance.ConnectionPoolHolder;
 
 import java.sql.*;
 import java.util.ArrayList;

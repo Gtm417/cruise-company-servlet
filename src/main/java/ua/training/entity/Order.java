@@ -24,6 +24,10 @@ public class Order {
         this.excursionList = builder.excursionList;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public long getId() {
         return id;
     }
@@ -86,10 +90,6 @@ public class Order {
 
     public void setExcursionList(Set<Excursion> excursionList) {
         this.excursionList = excursionList;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

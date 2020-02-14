@@ -129,7 +129,7 @@
 </table>
 <form action="${pageContext.request.contextPath}/buy-submit">
     <button class="btn btn-success" value="Submit">Submit</button>
-    <input hidden name="resultPrice" value="${resultPrice}">
+<%--    <input hidden name="resultPrice" value="${resultPrice}">--%>
 </form>
 
 </body>

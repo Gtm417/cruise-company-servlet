@@ -1,8 +1,8 @@
 package ua.training.web.command.admin;
 
-import ua.training.exception.DuplicateDataBaseException;
 import ua.training.entity.Cruise;
 import ua.training.entity.Ticket;
+import ua.training.exception.DuplicateDataBaseException;
 import ua.training.service.TicketService;
 import ua.training.web.command.Command;
 import ua.training.web.command.CommandUtility;

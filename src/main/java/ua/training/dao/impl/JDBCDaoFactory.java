@@ -1,6 +1,7 @@
 package ua.training.dao.impl;
 
 import ua.training.dao.*;
+import ua.training.persistance.ConnectionPoolHolder;
 
 
 public class JDBCDaoFactory extends DaoFactory {

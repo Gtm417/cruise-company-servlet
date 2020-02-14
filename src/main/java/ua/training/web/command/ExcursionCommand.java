@@ -1,10 +1,10 @@
 package ua.training.web.command;
 
 
-import ua.training.exception.ExcursionNotFound;
-import ua.training.exception.UnreachableRequest;
 import ua.training.entity.Excursion;
 import ua.training.entity.Order;
+import ua.training.exception.ExcursionNotFound;
+import ua.training.exception.UnreachableRequest;
 import ua.training.service.ExcursionService;
 import ua.training.web.handler.ExceptionHandler;
 import ua.training.web.verification.request.Verifier;
@@ -24,6 +24,7 @@ public class ExcursionCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         if (getVerifier().verify(request)) {
+            //todo return 404
             throw new UnreachableRequest();
         }
 

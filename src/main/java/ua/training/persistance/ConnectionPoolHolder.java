@@ -1,4 +1,4 @@
-package ua.training.dao;
+package ua.training.persistance;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import ua.training.exception.DBConnectionException;
@@ -16,9 +16,9 @@ public class ConnectionPoolHolder {
         ResourceBundle bundle = ResourceBundle.getBundle("database");
         BasicDataSource ds = new BasicDataSource();
         ds.setUrl(bundle.getString("db.url"));
-        ds.setUsername("db.root");
-        ds.setPassword("db.password");
-        ds.setDriverClassName("db.driver");
+        ds.setUsername(bundle.getString("db.user"));
+        ds.setPassword(bundle.getString("db.password"));
+        ds.setDriverClassName(bundle.getString("db.driver"));
         ds.setMinIdle(Integer.parseInt(bundle.getString("db.minIdle")));
         ds.setMaxIdle(Integer.parseInt(bundle.getString("db.maxIdle")));
         ds.setInitialSize(Integer.parseInt(bundle.getString("db.initialSize")));
@@ -39,7 +39,7 @@ public class ConnectionPoolHolder {
     }
 
 
-    public  Connection getConnection() {
+    public Connection getConnection() {
         // todo
         //logger.info("connect");
         try {

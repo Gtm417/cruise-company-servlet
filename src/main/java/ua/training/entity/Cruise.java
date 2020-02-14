@@ -26,6 +26,10 @@ public class Cruise {
         this.descriptionRu = builder.descriptionRu;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public Long getId() {
         return id;
     }
@@ -96,10 +100,6 @@ public class Cruise {
 
     public void setDescriptionRu(String descriptionRu) {
         this.descriptionRu = descriptionRu;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

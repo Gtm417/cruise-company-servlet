@@ -1,11 +1,10 @@
 package ua.training.web.command;
 
 
-import ua.training.exception.AccessDenied;
 import ua.training.entity.Cruise;
 import ua.training.entity.User;
+import ua.training.exception.AccessDenied;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
@@ -15,7 +14,6 @@ public class CommandUtility {
     static void setUserInSession(HttpServletRequest request,
                                  User user) {
         HttpSession session = request.getSession();
-        ServletContext context = request.getServletContext();
         loginUserInContext(request, user.getLogin());
         session.setAttribute("role", user.getRole());
         session.setAttribute("login", user.getLogin());
@@ -29,13 +27,6 @@ public class CommandUtility {
         request.getSession().getServletContext()
                 .setAttribute("loggedUsers", loggedUsers);
 
-    }
-
-    static boolean checkUserIsLogged(HttpServletRequest request, String userName) {
-        HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
-                .getAttribute("loggedUsers");
-
-        return loggedUsers.stream().anyMatch(userName::equals);
     }
 
     static void deleteUserFromContext(HttpServletRequest request, String userName) {

@@ -15,6 +15,10 @@ public class Port {
         this.cruises = builder.cruises;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public long getId() {
         return id;
     }
@@ -45,10 +49,6 @@ public class Port {
 
     public void setCruises(List<Cruise> cruises) {
         this.cruises = cruises;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

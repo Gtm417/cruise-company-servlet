@@ -15,6 +15,10 @@ public class Ship {
         this.cruise = builder.cruise;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,10 +57,6 @@ public class Ship {
 
     public void setCruise(Cruise cruise) {
         this.cruise = cruise;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

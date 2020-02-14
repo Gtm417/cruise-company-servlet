@@ -3,6 +3,7 @@ package ua.training.web.handler;
 import javax.servlet.http.HttpServletRequest;
 
 public class ExceptionHandler {
+    // for logging
     private Exception exception;
     private String page;
 

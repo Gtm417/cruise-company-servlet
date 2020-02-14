@@ -1,10 +1,10 @@
 package ua.training.web.command;
 
 
-import ua.training.exception.CruiseNotFoundException;
-import ua.training.exception.TicketsEmptyListException;
 import ua.training.entity.Cruise;
 import ua.training.entity.Ticket;
+import ua.training.exception.CruiseNotFoundException;
+import ua.training.exception.TicketsEmptyListException;
 import ua.training.service.CruiseService;
 import ua.training.service.TicketService;
 import ua.training.web.handler.ExceptionHandler;
@@ -26,6 +26,7 @@ public class BuyCruiseFormCommand implements Command {
         if (request.getSession().getAttribute("cruise") != null) {
             return "buy.jsp";
         }
+
         long cruiseId = Long.parseLong(request.getParameter("cruiseId"));
         Cruise cruise;
         List<Ticket> cruiseTickets;
@@ -36,6 +37,7 @@ public class BuyCruiseFormCommand implements Command {
             ExceptionHandler exceptionHandler = new ExceptionHandler(e, "buy.jsp");
             return exceptionHandler.handling(request);
         }
+
         if (cruiseService.checkAmountPassenger(cruise)) {
             request.setAttribute("noPlaces", true);
         }
