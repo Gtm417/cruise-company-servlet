@@ -58,9 +58,15 @@
 </ul>
 <%--<form id="buy" action="${pageContext.request.contextPath}/buy" method="post" >--%>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.ticket.list.is.empty"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.cruise.not.found"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
+<c:if test="${noPlaces == true}">
+    <label class="alert alert-info"> <fmt:message key="alert.no.place"/></label>
+</c:if>
+<c:if test="${errors}">
+    <p>Not Valid</p>
+</c:if>
 <div class="form-group">
     <table>
         <thead class="thead-dark">

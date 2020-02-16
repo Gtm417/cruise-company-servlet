@@ -3,11 +3,17 @@ package ua.training.web.command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class LogOutCommand implements Command {
+public class LogOutCommand extends MultipleMethodCommand {
+
     @Override
-    public String execute(HttpServletRequest request) {
+    protected String performGet(HttpServletRequest request) {
         CommandUtility.deleteUserFromContext(request, String.valueOf(request.getSession().getAttribute("login")));
         request.getSession().invalidate();
-        return "redirect:index.jsp";
+        return "redirect:index";
+    }
+
+    @Override
+    protected String performPost(HttpServletRequest request) {
+        return null;
     }
 }

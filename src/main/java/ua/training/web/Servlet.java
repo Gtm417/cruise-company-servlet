@@ -57,7 +57,7 @@ public class Servlet extends HttpServlet {
                 new LogOutCommand());
 
         commands.put(LOGIN_COMMAND,
-                new LoginCommand(userService, userRequestFormMapper, userValidator));
+                new LoginCommand(userService, userRequestFormMapper));
 
         commands.put(REGISTRATION_COMMAND,
                 new RegistrationCommand(userService, userRequestFormMapper, userValidator));
@@ -68,17 +68,17 @@ public class Servlet extends HttpServlet {
         commands.put(BALANCE_COMMAND,
                 new BalanceCommand(userService));
 
-        commands.put(BUY_FORM_COMMAND,
-                new BuyCruiseFormCommand(ticketService, cruiseService));
+//        commands.put(BUY_FORM_COMMAND,
+//                new BuyCruiseFormCommand());
 
         commands.put(BUY_COMMAND,
-                new BuyCruiseCommand(ticketService, new OrderFormValidator()));
+                new BuyCruiseCommand(ticketService, cruiseService, new OrderFormValidator()));
 
         commands.put(BUY_SUBMIT_COMMAND,
-                new SubmitBuyCommand(orderService, buySubmitVerifier));
+                new SubmitBuyCommand(orderService, excursionService, buySubmitVerifier));
 
-        commands.put(BUY_SUBMIT_FORM_COMMAND,
-                new SubmitBuyFormCommand(excursionService, buySubmitVerifier));
+//        commands.put(BUY_SUBMIT_FORM_COMMAND,
+//                new SubmitBuyFormCommand(excursionService, buySubmitVerifier));
 
         commands.put(ADD_EXCURSION_COMMAND,
                 excursionCommand);

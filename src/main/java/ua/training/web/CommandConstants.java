@@ -2,7 +2,6 @@ package ua.training.web;
 
 public interface CommandConstants {
     String INDEX_COMMAND = "index";
-    String BUY_SUBMIT_FORM_COMMAND = "buy-submit-form";
     String ADD_EXCURSION_COMMAND = "add-excursion";
     String REMOVE_EXCURSION_COMMAND = "remove-excursion";
     String ADMIN_EDIT_CRUISE_COMMAND = "admin/edit-cruise";
@@ -20,4 +19,5 @@ public interface CommandConstants {
     String BUY_FORM_COMMAND = "buy-form";
     String BUY_COMMAND = "buy";
     String BUY_SUBMIT_COMMAND = "buy-submit";
+    String BUY_SUBMIT_FORM_COMMAND = "buy-submit-form";
 }

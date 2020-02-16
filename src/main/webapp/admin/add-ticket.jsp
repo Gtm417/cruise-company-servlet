@@ -16,7 +16,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.wrong.password.or.login"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.ticket.already.exist"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <c:if test="${sessionScope.success == true}">

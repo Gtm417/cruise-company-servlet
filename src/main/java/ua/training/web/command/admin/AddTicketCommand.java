@@ -4,8 +4,8 @@ import ua.training.entity.Cruise;
 import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.service.TicketService;
-import ua.training.web.command.Command;
 import ua.training.web.command.CommandUtility;
+import ua.training.web.command.MultipleMethodCommand;
 import ua.training.web.form.TicketForm;
 import ua.training.web.form.validation.Validator;
 import ua.training.web.handler.ExceptionHandler;
@@ -14,23 +14,30 @@ import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AddTicketCommand implements Command {
+public class AddTicketCommand extends MultipleMethodCommand {
+
     private final TicketService ticketService;
 
-    private final Validator<TicketForm> requestValidator;
+    private final Validator<TicketForm> validator;
 
-    public AddTicketCommand(TicketService ticketService, Validator<TicketForm> requestValidator) {
+    public AddTicketCommand(TicketService ticketService, Validator<TicketForm> validator) {
         this.ticketService = ticketService;
-        this.requestValidator = requestValidator;
+        this.validator = validator;
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    protected String performGet(HttpServletRequest request) {
+        CommandUtility.checkCruiseInSession(request);
+        return "add-ticket.jsp";
+    }
+
+    @Override
+    protected String performPost(HttpServletRequest request) {
         CommandUtility.checkCruiseInSession(request);
 
         TicketForm ticketForm = getRequestMapper().mapToForm(request);
 
-        if (!requestValidator.validate(ticketForm)) {
+        if (!validator.validate(ticketForm)) {
             request.setAttribute("errors", true);
             return "add-ticket.jsp";
         }
@@ -51,7 +58,6 @@ public class AddTicketCommand implements Command {
         return request -> new TicketForm(request.getParameter("ticketName"),
                 request.getParameter("price"),
                 request.getParameter("discount"));
-
     }
 
     private MapperFormToEntity<Ticket, TicketForm> getFormEntityMapper(HttpServletRequest request) {
@@ -62,6 +68,4 @@ public class AddTicketCommand implements Command {
                 .cruise((Cruise) request.getSession().getAttribute("cruise"))
                 .build();
     }
-
-
 }

@@ -11,7 +11,7 @@ import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RegistrationCommand implements Command {
+public class RegistrationCommand extends MultipleMethodCommand {
     private final UserService userService;
     private final RequestFormMapper<UserForm> userRequestFormMapper;
     private final Validator<UserForm> userValidator;
@@ -24,12 +24,17 @@ public class RegistrationCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    protected String performGet(HttpServletRequest request) {
+        return "registration.jsp";
+    }
 
+    @Override
+    protected String performPost(HttpServletRequest request) {
         UserForm userForm = userRequestFormMapper.mapToForm(request);
+
         if (userValidator.validate(userForm)) {
             request.setAttribute("errors", true);
-            return "/registration.jsp";
+            return "registration.jsp";
         }
 
         try {

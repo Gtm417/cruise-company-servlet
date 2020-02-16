@@ -8,6 +8,10 @@ import ua.training.entity.User;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.UserNotFoundException;
 import ua.training.service.encoder.PasswordEncoder;
+import ua.training.web.form.UserForm;
+
+import java.util.Objects;
+import java.util.Optional;
 
 
 public class UserService {
@@ -19,6 +23,12 @@ public class UserService {
         this.userDao = DaoFactory.getInstance().createUserDao();
     }
 
+    public User login(UserForm userForm) throws UserNotFoundException {
+        return findUserByLogin(userForm.getLogin())
+                .filter(user -> Objects.equals(user.getPassword(), passwordEncoder.encode(userForm.getPassword())))
+                .orElseThrow(() -> new UserNotFoundException("User not found with login: ", userForm.getLogin()));
+    }
+
     public boolean saveNewUser(@NonNull User user) throws DuplicateDataBaseException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         try {
@@ -28,9 +38,9 @@ public class UserService {
         }
     }
 
-    public User findUserByLogin(String login) throws UserNotFoundException {
-        return userDao.findByLogin(login)
-                .orElseThrow(() -> new UserNotFoundException("User not found with login: ", login));
+    public Optional<User> findUserByLogin(String login) {
+        return userDao.findByLogin(login);
+
     }
 
     public boolean addBalance(User user, long value) {
@@ -38,7 +48,4 @@ public class UserService {
         return userDao.update(user);
     }
 
-    public boolean checkInputPassword(String inputPassword, String userPassword) {
-        return userPassword.equals(passwordEncoder.encode(inputPassword));
-    }
 }

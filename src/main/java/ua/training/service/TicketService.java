@@ -5,7 +5,6 @@ import ua.training.dao.TicketDao;
 import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.exception.TicketNotFound;
-import ua.training.exception.TicketsEmptyListException;
 
 import java.util.List;
 
@@ -23,16 +22,12 @@ public class TicketService {
         ticketDao.create(ticket);
     }
 
-    public List<Ticket> showTicketsForBuy(long id) throws TicketsEmptyListException {
-        List<Ticket> tickets = ticketDao.findAllByCruiseId(id);
-        if (tickets.isEmpty()) {
-            throw new TicketsEmptyListException("There is no tickets on this cruise");
-        }
-        return tickets;
+    public List<Ticket> findAllTicketsForBuy(long id) {
+        return ticketDao.findAllByCruiseId(id);
     }
 
-    public Ticket findTicketById(long ticketId) throws TicketNotFound {
-        return ticketDao.findById(ticketId)
+    public Ticket findTicketByIdAndCruise(long ticketId, long cruiseId) throws TicketNotFound {
+        return ticketDao.findByIdAndCruiseId(ticketId, cruiseId)
                 .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
     }
 

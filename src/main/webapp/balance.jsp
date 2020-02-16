@@ -24,10 +24,10 @@
     <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
-<c:if test="${exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.wrong.password.or.login"/></label>
+
+<c:if test="${errors}">
+    <p>Not Valid</p>
 </c:if>
-<c:remove var="exception" scope="session"/>
 <form method="post" action="${pageContext.request.contextPath}/balance">
 
     <%--    <input type="number" required name="balance"><br/>--%>
