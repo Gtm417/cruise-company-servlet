@@ -16,8 +16,6 @@ public interface CommandConstants {
     String REGISTRATION_COMMAND = "registration";
     String MAIN_COMMAND = "main";
     String BALANCE_COMMAND = "balance";
-    String BUY_FORM_COMMAND = "buy-form";
     String BUY_COMMAND = "buy";
     String BUY_SUBMIT_COMMAND = "buy-submit";
-    String BUY_SUBMIT_FORM_COMMAND = "buy-submit-form";
 }
