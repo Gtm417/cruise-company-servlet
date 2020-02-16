@@ -25,6 +25,10 @@
     <label class="alert alert-info"> <fmt:message key="alert.user.already.exist"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
+
+<c:if test="${errors}">
+    <p>Not Valid</p>
+</c:if>
 <form method="post" action="${pageContext.request.contextPath}/registration">
 
     <input type="text" required name="name"><br/>

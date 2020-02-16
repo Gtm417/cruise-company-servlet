@@ -19,14 +19,14 @@
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
 <a href="${pageContext.request.contextPath}/balance.jsp"> Replenish</a>
-<a href="${pageContext.request.contextPath}/all-orders"> Orders</a>
+<a href="${pageContext.request.contextPath}/all-orders?page=1&size=5"> Orders</a>
 
 <button></button>
 
-<c:if test="${sessionScope.notFoundCruise}">
-    <label class="alert alert-info"> <fmt:message key="alert.wrong.input.data"/></label>
+<c:if test="${sessionScope.exception == true}">
+    <label class="alert alert-info"> <fmt:message key="alert.cruise.not.found"/></label>
 </c:if>
-<c:remove var="notFoundCruise" scope="session"/>
+<c:remove var="exception" scope="session"/>
 <c:if test="${sessionScope.notAllData}">
     <label class="alert alert-info"> <fmt:message key="alert.not.all.data"/></label>
 </c:if>
@@ -47,13 +47,13 @@
             <td>${cruise.descriptionEng}</td>
             <td>${cruise.descriptionRu}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/buy-form" method="post">
+                <form action="${pageContext.request.contextPath}/buy" method="get">
                     <input hidden name="cruiseId" value="${cruise.id}">
                     <input class="button" type="submit" value="Buy">
                 </form>
             </td>
             <td>
-                <form action="${pageContext.request.contextPath}/admin/edit-cruise" method="post">
+                <form action="${pageContext.request.contextPath}/admin/edit-cruise" method="get">
                     <input hidden name="cruiseId" value="${cruise.id}">
                     <input class="button" type="submit" value="Edit">
                 </form>

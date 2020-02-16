@@ -1,10 +1,9 @@
 package ua.training.dao.mapper;
 
-import ua.training.model.entity.Order;
+import ua.training.entity.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class OrderMapper implements ObjectMapper<Order> {
 
@@ -18,9 +17,5 @@ public class OrderMapper implements ObjectMapper<Order> {
                 .build();
     }
 
-    @Override
-    public Order makeUnique(Map<Long, Order> cache, Order entity) {
-        cache.putIfAbsent(entity.getId(), entity);
-        return cache.get(entity.getId());
-    }
+
 }

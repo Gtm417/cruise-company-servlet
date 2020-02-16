@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 import java.util.Objects;
 
@@ -18,6 +18,10 @@ public class Excursion {
         this.duration = builder.duration;
         this.price = builder.price;
         this.port = builder.port;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
@@ -74,10 +78,6 @@ public class Excursion {
     @Override
     public int hashCode() {
         return Objects.hash(id, excursionName, duration, price);
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public static class Builder {

@@ -29,11 +29,16 @@
 </c:if>
 <c:remove var="success" scope="session"/>
 
+<c:if test="${errors}">
+    <p>Not Valid</p>
+</c:if>
 <form method="post" action="${pageContext.request.contextPath}/login">
+
 
     <input type="text" name="name"><br/>
     <input type="password" name="pass"><br/><br/>
     <input class="button" type="submit" value="Войти">
+
 
 </form>
 <br/>

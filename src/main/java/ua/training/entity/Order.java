@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 import java.util.Set;
 
@@ -22,6 +22,10 @@ public class Order {
         this.ticket = builder.ticket;
         this.orderPrice = builder.orderPrice;
         this.excursionList = builder.excursionList;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
@@ -86,10 +90,6 @@ public class Order {
 
     public void setExcursionList(Set<Excursion> excursionList) {
         this.excursionList = excursionList;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

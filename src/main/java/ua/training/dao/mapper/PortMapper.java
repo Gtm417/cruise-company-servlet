@@ -1,10 +1,9 @@
 package ua.training.dao.mapper;
 
-import ua.training.model.entity.Port;
+import ua.training.entity.Port;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class PortMapper implements ObjectMapper<Port> {
     @Override
@@ -15,9 +14,4 @@ public class PortMapper implements ObjectMapper<Port> {
                 .build();
     }
 
-    @Override
-    public Port makeUnique(Map<Long, Port> cache, Port entity) {
-        cache.putIfAbsent(entity.getId(), entity);
-        return cache.get(entity.getId());
-    }
 }

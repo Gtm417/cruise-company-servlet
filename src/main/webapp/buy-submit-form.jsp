@@ -127,9 +127,9 @@
     </c:forEach>
     </tbody>
 </table>
-<form action="${pageContext.request.contextPath}/buy-submit">
+<form action="${pageContext.request.contextPath}/buy-submit" method="post">
     <button class="btn btn-success" value="Submit">Submit</button>
-    <input hidden name="resultPrice" value="${resultPrice}">
+<%--    <input hidden name="resultPrice" value="${resultPrice}">--%>
 </form>
 
 </body>

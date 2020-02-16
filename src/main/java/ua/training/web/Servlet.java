@@ -32,11 +32,12 @@ import static ua.training.web.CommandConstants.*;
 
 
 public class Servlet extends HttpServlet {
+
+
     private Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig servletConfig) {
-        PasswordEncoder passwordEncoder = new PasswordEncoder();
-        UserService userService = new UserService(passwordEncoder);
+        UserService userService = new UserService(new PasswordEncoder());
         CruiseService cruiseService = new CruiseService();
         ExcursionService excursionService = new ExcursionService();
         OrderService orderService = new OrderService();
@@ -49,53 +50,57 @@ public class Servlet extends HttpServlet {
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
 
-        commands.put(LOGOUT,
+        commands.put(INDEX_COMMAND,
+                new StartPageCommand());
+
+        commands.put(LOGOUT_COMMAND,
                 new LogOutCommand());
 
-        commands.put(LOGIN,
-                new LoginCommand(userService, userRequestFormMapper, userValidator));
+        commands.put(LOGIN_COMMAND,
+                new LoginCommand(userService, userRequestFormMapper));
 
-        commands.put(REGISTRATION,
+        commands.put(REGISTRATION_COMMAND,
                 new RegistrationCommand(userService, userRequestFormMapper, userValidator));
 
-        commands.put(MAIN,
+        commands.put(MAIN_COMMAND,
                 new MainCommand(cruiseService));
 
-        commands.put(BALANCE,
+        commands.put(BALANCE_COMMAND,
                 new BalanceCommand(userService));
 
-        commands.put(BUY_FORM,
-                new BuyCruiseFormCommand(ticketService, cruiseService));
+//        commands.put(BUY_FORM_COMMAND,
+//                new BuyCruiseFormCommand());
 
-        commands.put(BUY,
-                new BuyCruiseCommand(ticketService, new OrderFormValidator()));
+        commands.put(BUY_COMMAND,
+                new BuyCruiseCommand(ticketService, cruiseService, new OrderFormValidator()));
 
-        commands.put(BUY_SUBMIT,
-                new SubmitBuyCommand(orderService, buySubmitVerifier));
+        commands.put(BUY_SUBMIT_COMMAND,
+                new SubmitBuyCommand(orderService, excursionService, buySubmitVerifier));
 
-        commands.put(BUY_SUBMIT_FORM,
-                new SubmitBuyFormCommand(excursionService, buySubmitVerifier));
+//        commands.put(BUY_SUBMIT_FORM_COMMAND,
+//                new SubmitBuyFormCommand(excursionService, buySubmitVerifier));
 
-        commands.put(ADD_EXCURSION,
+        commands.put(ADD_EXCURSION_COMMAND,
                 excursionCommand);
 
-        commands.put(REMOVE_EXCURSION,
+        commands.put(REMOVE_EXCURSION_COMMAND,
                 excursionCommand);
 
-        commands.put(ADMIN_EDIT_CRUISE,
+        commands.put(ADMIN_EDIT_CRUISE_COMMAND,
                 new CruiseEditCommand(cruiseService));
 
-        commands.put(ADMIN_EDIT_DESCRIPTION,
+        commands.put(ADMIN_EDIT_DESCRIPTION_COMMAND,
                 new CruiseDescriptionCommand(cruiseService));
 
-        commands.put(ADMIN_ADD_TICKET,
+        commands.put(ADMIN_ADD_TICKET_COMMAND,
                 new AddTicketCommand(ticketService, new TicketFormValidator()));
 
-        commands.put(ADMIN_ALL_PASSENGERS,
+        commands.put(ADMIN_ALL_PASSENGERS_COMMAND,
                 new AllPassengersCommand(orderService));
 
-        commands.put(ALL_ORDERS,
+        commands.put(ALL_ORDERS_COMMAND,
                 new AllOrdersCommand(orderService));
+
     }
 
 
@@ -114,12 +119,12 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String path = request.getRequestURI();
-        path = path.replaceAll(DEFAULT_PATH_REGEX, EMPTY_STRING);
+        path = path.replaceAll(".*/cruise-company/", "");
         Command command = commands.getOrDefault(path,
                 (r) -> "/WEB-INF/404.jsp");
         String page = command.execute(request);
-        if (page.contains(REDIRECT)) {
-            response.sendRedirect(page.replace(REDIRECT, CRUISE_COMPANY_DEFAULT_PATH));
+        if (page.contains(REDIRECT_COMMAND)) {
+            response.sendRedirect(page.replace(REDIRECT_COMMAND, CRUISE_COMPANY_DEFAULT_PATH));
         } else {
             request.getRequestDispatcher(page).forward(request, response);
         }

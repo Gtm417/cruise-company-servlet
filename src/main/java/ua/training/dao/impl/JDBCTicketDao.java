@@ -1,12 +1,12 @@
 package ua.training.dao.impl;
 
-import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.TicketDao;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.TicketMapper;
+import ua.training.entity.Ticket;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.Ticket;
+import ua.training.persistance.ConnectionPoolHolder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class JDBCTicketDao implements TicketDao {
     private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM tickets WHERE cruise_id = ?";
     private static final String INSERT_TICKET = "INSERT INTO tickets(ticket_name, discount, price, discount_price ,cruise_id) VALUES (?,?,?,?,?)";
-    private static final String FIND_BY_ID = "SELECT id, ticket_name, price, discount, discount_price FROM tickets WHERE id = ?";
+    private static final String FIND_BY_ID_AND_CRUISE = "SELECT * FROM tickets WHERE id = ? AND cruise_id = ?";
 
 
     private final ConnectionPoolHolder connectionPoolHolder;
@@ -48,11 +48,12 @@ public class JDBCTicketDao implements TicketDao {
     }
 
     @Override
-    public Optional<Ticket> findById(long id) {
+    public Optional<Ticket> findByIdAndCruiseId(long id, long cruiseId) {
         ObjectMapper<Ticket> ticketMapper = new TicketMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
-             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
+             PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_AND_CRUISE)) {
             ps.setLong(1, id);
+            ps.setLong(2, cruiseId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.of(ticketMapper.extractFromResultSet(rs));

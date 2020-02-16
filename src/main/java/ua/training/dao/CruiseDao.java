@@ -1,6 +1,6 @@
 package ua.training.dao;
 
-import ua.training.model.entity.Cruise;
+import ua.training.entity.Cruise;
 
 
 public interface CruiseDao extends GenericDao<Cruise> {

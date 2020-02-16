@@ -1,10 +1,9 @@
 package ua.training.dao.mapper;
 
-import ua.training.model.entity.Ticket;
+import ua.training.entity.Ticket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class TicketMapper implements ObjectMapper<Ticket> {
     @Override
@@ -18,9 +17,4 @@ public class TicketMapper implements ObjectMapper<Ticket> {
                 .build();
     }
 
-    @Override
-    public Ticket makeUnique(Map<Long, Ticket> cache, Ticket entity) {
-        cache.putIfAbsent(entity.getId(), entity);
-        return cache.get(entity.getId());
-    }
 }

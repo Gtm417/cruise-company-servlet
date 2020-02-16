@@ -25,9 +25,9 @@
 </h2>
 
 <br/>
-<a href="${pageContext.request.contextPath}/login.jsp"> <fmt:message key="button.login"/></a>
+<a href="${pageContext.request.contextPath}/login"> <fmt:message key="button.login"/></a>
 <br>
-<a href="${pageContext.request.contextPath}/registration.jsp"> <fmt:message key="button.registration"/></a>
+<a href="${pageContext.request.contextPath}/registration"> <fmt:message key="button.registration"/></a>
 <br>
 
 </body>

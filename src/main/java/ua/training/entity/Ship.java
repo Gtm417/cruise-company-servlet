@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 public class Ship {
     private Long id;
@@ -13,6 +13,10 @@ public class Ship {
         this.currentPassengerAmount = builder.currentPassengerAmount;
         this.maxPassengerAmount = builder.maxPassengerAmount;
         this.cruise = builder.cruise;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Long getId() {
@@ -53,10 +57,6 @@ public class Ship {
 
     public void setCruise(Cruise cruise) {
         this.cruise = cruise;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

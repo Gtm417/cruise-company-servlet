@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 import java.util.List;
 
@@ -13,6 +13,10 @@ public class Port {
         this.portName = builder.portName;
         this.excursions = builder.excursions;
         this.cruises = builder.cruises;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
@@ -45,10 +49,6 @@ public class Port {
 
     public void setCruises(List<Cruise> cruises) {
         this.cruises = cruises;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

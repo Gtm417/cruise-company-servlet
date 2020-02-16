@@ -1,10 +1,9 @@
 package ua.training.dao.mapper;
 
-import ua.training.model.entity.Cruise;
+import ua.training.entity.Cruise;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class CruiseMapper implements ObjectMapper<Cruise> {
 
@@ -19,10 +18,4 @@ public class CruiseMapper implements ObjectMapper<Cruise> {
                 .build();
     }
 
-    @Override
-    public Cruise makeUnique(Map<Long, Cruise> cache,
-                             Cruise cruise) {
-        cache.putIfAbsent(cruise.getId(), cruise);
-        return cache.get(cruise.getId());
-    }
 }

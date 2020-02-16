@@ -1,22 +1,22 @@
 package ua.training.dao.impl;
 
-import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.ExcursionDao;
 import ua.training.dao.mapper.ExcursionMapper;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.PortMapper;
+import ua.training.entity.Excursion;
+import ua.training.entity.Port;
 import ua.training.exception.DBConnectionException;
-import ua.training.model.entity.Excursion;
-import ua.training.model.entity.Port;
+import ua.training.persistance.ConnectionPoolHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class JDBCExcursionDao implements ExcursionDao {
     private final static String FIND_ALL_EXCURSION_FOR_CRUISE = "SELECT excursions.id,excursion_name,price,duration, ports.id, port_name FROM ports_cruises " +
@@ -57,7 +57,6 @@ public class JDBCExcursionDao implements ExcursionDao {
         List<Excursion> excursions = new ArrayList<>();
         ObjectMapper<Excursion> excursionMapper = new ExcursionMapper();
         ObjectMapper<Port> portMapper = new PortMapper();
-        HashMap<Long, Port> ports = new HashMap<>();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_EXCURSION_FOR_CRUISE)) {
             ps.setLong(1, cruiseId);
@@ -72,6 +71,11 @@ public class JDBCExcursionDao implements ExcursionDao {
             throw new DBConnectionException(e);
         }
         return excursions;
+    }
+
+    @Override
+    public void saveExcursionsToOrder(Set<Excursion> excursionList, long orderId) {
+
     }
 
 

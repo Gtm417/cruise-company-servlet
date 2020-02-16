@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.training.entity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +24,10 @@ public class Cruise {
         this.arrivalDate = builder.arrivalDate;
         this.descriptionEng = builder.descriptionEng;
         this.descriptionRu = builder.descriptionRu;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public Long getId() {
@@ -96,10 +100,6 @@ public class Cruise {
 
     public void setDescriptionRu(String descriptionRu) {
         this.descriptionRu = descriptionRu;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

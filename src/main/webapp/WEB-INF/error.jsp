@@ -11,8 +11,6 @@
 <body>
 <h2>
     Error Page<br/>
-    <i>Error <%= exception %>
-    </i>
 </h2>
 
 

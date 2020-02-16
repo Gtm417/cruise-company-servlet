@@ -5,4 +5,7 @@ public class DBConnectionException extends RuntimeException {
         super(cause);
     }
 
+    public DBConnectionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

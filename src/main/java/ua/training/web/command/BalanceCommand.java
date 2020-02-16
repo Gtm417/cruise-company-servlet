@@ -1,6 +1,6 @@
 package ua.training.web.command;
 
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.UserService;
 import ua.training.web.form.validation.Validator;
 
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Objects.isNull;
 
-public class BalanceCommand implements Command {
+public class BalanceCommand extends MultipleMethodCommand {
 
-    public static final String VALIDATION_REGEX = "[0-9].{0,4}";
+    public static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
     public static final int VALIDATION_MAX_VALUE = 9999;
     public static final int VALIDATION_MIN_VALUE = 0;
     private final UserService userService;
@@ -20,7 +20,12 @@ public class BalanceCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
+    protected String performGet(HttpServletRequest request) {
+        return "balance.jsp";
+    }
+
+    @Override
+    protected String performPost(HttpServletRequest request) {
         if (!getValidator().validate(request)) {
             request.setAttribute("errors", true);
             return "balance.jsp";
@@ -37,9 +42,10 @@ public class BalanceCommand implements Command {
     private boolean validBalanceForm(HttpServletRequest request) {
         String balance = request.getParameter("balance");
         if (isNull(balance) || !balance.matches(VALIDATION_REGEX)) {
-            return false;
+
+            return true;
         }
         long balanceValue = Long.parseLong(balance);
-        return balanceValue < VALIDATION_MIN_VALUE || balanceValue > VALIDATION_MAX_VALUE;
+        return balanceValue > VALIDATION_MIN_VALUE && balanceValue < VALIDATION_MAX_VALUE;
     }
 }

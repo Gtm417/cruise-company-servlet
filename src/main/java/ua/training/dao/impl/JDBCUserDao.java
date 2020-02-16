@@ -1,13 +1,13 @@
 package ua.training.dao.impl;
 
 
-import ua.training.dao.ConnectionPoolHolder;
 import ua.training.dao.UserDao;
 import ua.training.dao.mapper.ObjectMapper;
 import ua.training.dao.mapper.UserMapper;
+import ua.training.entity.User;
 import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
-import ua.training.model.entity.User;
+import ua.training.persistance.ConnectionPoolHolder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class JDBCUserDao implements UserDao {
     private final static String FIND_ALL_USERS = "select * from cruise_company_servlet.users";
     private final static String FIND_USER_BY_LOGIN = "select * from cruise_company_servlet.users where login = ?";
     private final static String SAVE_USER = "insert into cruise_company_servlet.users(login, password) values(?,?)";
-    private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET id = ?, login = ?, password = ?, balance = ?, role = ?" +
+    private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET login = ?, password = ?, balance = ?, role = ?" +
             "WHERE id = ?";
 
     private final ConnectionPoolHolder connectionPoolHolder;
@@ -76,12 +76,11 @@ public class JDBCUserDao implements UserDao {
     public boolean update(User entity) {
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement pst = connection.prepareStatement(UPDATE_USER)) {
-            pst.setLong(1, entity.getId());
-            pst.setString(2, entity.getLogin());
-            pst.setString(3, entity.getPassword());
-            pst.setLong(4, entity.getBalance());
-            pst.setString(5, entity.getRole().name());
-            pst.setLong(6, entity.getId());
+            pst.setString(1, entity.getLogin());
+            pst.setString(2, entity.getPassword());
+            pst.setLong(3, entity.getBalance());
+            pst.setString(4, entity.getRole().name());
+            pst.setLong(5, entity.getId());
             return pst.executeUpdate() != 0;
         } catch (SQLException ex) {
             throw new DBConnectionException(ex);

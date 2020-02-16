@@ -1,13 +1,11 @@
 package ua.training.web.command;
 
-import ua.training.exception.EmptyOrderListException;
-import ua.training.model.entity.User;
+import ua.training.entity.User;
 import ua.training.service.OrderService;
-import ua.training.web.handler.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AllOrdersCommand implements Command {
+public class AllOrdersCommand extends MultipleMethodCommand implements Pagination {
     private final OrderService orderService;
 
     public AllOrdersCommand(OrderService orderService) {
@@ -15,14 +13,26 @@ public class AllOrdersCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request) {
-        try {
-            request.setAttribute("orders", orderService.showAllUserOrders(
-                    ((User) request.getSession().getAttribute("user")).getId()));
-        } catch (EmptyOrderListException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "all-orders.jsp");
-            return exceptionHandler.handling(request);
+    protected String performGet(HttpServletRequest request) {
+        String sizeParam = request.getParameter("size");
+        String pageParam = request.getParameter("page");
+        if (!validatePaginationParams(sizeParam, pageParam)) {
+            return "WEB-INF/404.jsp";
         }
+
+        int page = Integer.parseInt(pageParam);
+        int size = Integer.parseInt(sizeParam);
+        long userId = ((User) request.getSession().getAttribute("user")).getId();
+
+        paginate(page, size, orderService.countAllOrders(userId), request, "all-orders");
+
+        request.setAttribute("orders", orderService.showAllUserOrders(page, size, userId));
+
         return "all-orders.jsp";
+    }
+
+    @Override
+    protected String performPost(HttpServletRequest request) {
+        return null;
     }
 }
