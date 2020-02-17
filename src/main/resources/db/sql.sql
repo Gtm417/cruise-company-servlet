@@ -1,12 +1,13 @@
-
-CREATE DATABASE  IF NOT EXISTS `cruise_company_servlet` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `cruise_company_servlet`;
-
 -- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cruise_company_servlet
 -- ------------------------------------------------------
 -- Server version	8.0.18
+
+
+CREATE DATABASE  IF NOT EXISTS `cruise_company_servlet` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `cruise_company_servlet`;
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,7 +48,7 @@ CREATE TABLE `cruises` (
 
 LOCK TABLES `cruises` WRITE;
 /*!40000 ALTER TABLE `cruises` DISABLE KEYS */;
-INSERT INTO `cruises` VALUES (1,'Costa Cruise','2019-12-16','2019-12-16',1,'First','Первый'),(2,'name1','2020-01-17','2020-01-09',2,'Normal cruise','Нормальный круиз'),(3,'Titanic','2020-01-24','2020-01-18',3,'Not good enough cruise','Не очень хороший круиз');
+INSERT INTO `cruises` VALUES (1,'Costa Cruise','2019-12-16','2019-12-16',1,'First','Первый'),(2,'Carnival','2020-01-17','2020-01-09',2,'Normal cruise','Нормальный круиз'),(3,'Titanic','2020-01-24','2020-01-18',3,'Not good enough cruise','Не очень хороший круиз');
 /*!40000 ALTER TABLE `cruises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +105,7 @@ CREATE TABLE `order_excursions` (
 
 LOCK TABLES `order_excursions` WRITE;
 /*!40000 ALTER TABLE `order_excursions` DISABLE KEYS */;
-INSERT INTO `order_excursions` VALUES (214,5),(216,5),(216,5),(216,5),(216,5),(215,7),(215,8),(215,8),(216,8),(216,8),(214,9),(215,9),(214,11),(216,11);
+INSERT INTO `order_excursions` VALUES (229,5),(230,5),(229,6),(229,8),(229,11);
 /*!40000 ALTER TABLE `order_excursions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +131,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `cruise_order_fk` FOREIGN KEY (`cruise_id`) REFERENCES `cruises` (`id`),
   CONSTRAINT `ticekts_order_fk` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`),
   CONSTRAINT `user_order_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +140,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (194,1,2,1,'Tymofii','dadada',0),(195,1,2,1,'dasdad','dsadasda',0),(196,1,2,1,'tw','ete',0),(198,1,2,1,'Test55','Test55',0),(199,1,1,1,'Test55','Test55',0),(200,1,2,1,'dasda','dada',0),(203,1,2,1,'alex','Alex',0),(204,1,2,1,'Tima','Tima',1200),(205,1,12,1,'Tymofii','Hodik',1200),(206,1,12,1,'dasda','dasdasd',1300),(214,1,12,1,'Tymofii','Hodik',1200),(215,1,12,1,'Tymofii','Hodik',1300),(216,1,12,1,'Tymofii','Hodik',1600);
+INSERT INTO `orders` VALUES (194,1,17,1,'Tymofii','Hodik',1000),(195,1,17,1,'Alexrey','Hodik',1200),(196,1,17,1,'Maxim','Maxim',1300),(226,1,12,1,'Tymofii','Hodik',1200),(227,1,12,1,'Alexey','Hodik',1000),(228,1,12,1,'Maxim','Maxim',2000),(229,1,12,1,'Egor','Egor',1300),(230,1,12,1,'Artur','Artur',1000);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +156,7 @@ CREATE TABLE `ports` (
   `port_name` varchar(55) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `port_name_UNIQUE` (`port_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +192,7 @@ CREATE TABLE `ports_cruises` (
 
 LOCK TABLES `ports_cruises` WRITE;
 /*!40000 ALTER TABLE `ports_cruises` DISABLE KEYS */;
-INSERT INTO `ports_cruises` VALUES (1,2),(1,3);
+INSERT INTO `ports_cruises` VALUES (1,2),(1,3),(1,1),(2,1),(2,2),(3,2),(3,1);
 /*!40000 ALTER TABLE `ports_cruises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +211,7 @@ CREATE TABLE `ships` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ship_name_UNIQUE` (`ship_name`),
   CONSTRAINT `check_passengers` CHECK ((`current_amount_of_passenger` <= `max_amount_of_passenger`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +220,7 @@ CREATE TABLE `ships` (
 
 LOCK TABLES `ships` WRITE;
 /*!40000 ALTER TABLE `ships` DISABLE KEYS */;
-INSERT INTO `ships` VALUES (1,83,100,'Costa'),(2,0,5000,'Titanic'),(3,0,100000,'test');
+INSERT INTO `ships` VALUES (1,87,100,'Costa'),(2,5000,5000,'Titanic'),(3,0,100000,'Las de Porto');
 /*!40000 ALTER TABLE `ships` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +242,7 @@ CREATE TABLE `tickets` (
   UNIQUE KEY `name_cruise` (`ticket_name`,`cruise_id`),
   KEY `cruise_ticket_fk_idx` (`cruise_id`),
   CONSTRAINT `cruise_tickets_fk` FOREIGN KEY (`cruise_id`) REFERENCES `cruises` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +251,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-INSERT INTO `tickets` VALUES (1,'VIP',10,1000,900,1),(2,'Casual',10,500,450,1),(3,'Low ',10,150,135,1),(18,'TEST',10,100,90,1),(20,'TEST',10,100,90,2);
+INSERT INTO `tickets` VALUES (1,'VIP',20,1000,800,1),(2,'CASUAL',50,500,250,1),(3,'LOW',0,150,150,1),(20,'LOW',10,100,90,2),(21,'PRESIDENT',0,10000,10000,2),(22,'VIP',10,3000,2700,2);
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -269,8 +270,9 @@ CREATE TABLE `users` (
   `role` enum('USER','ADMIN') NOT NULL DEFAULT 'USER',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idusers_UNIQUE` (`id`),
-  UNIQUE KEY `login_UNIQUE` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `login_UNIQUE` (`login`),
+  CONSTRAINT `users_chk_1` CHECK ((`balance` >= _utf8mb4'0'))
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +281,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Tima','Tima',50,'USER'),(2,'t','t',43410,'ADMIN'),(12,'Admin','e3afed0047b08059d0fada10f400c1e5',43500,'ADMIN'),(14,'User','8f9bfe9d1345237cb3b2b205864da075',0,'USER'),(15,'Admin1','e3afed0047b08059d0fada10f400c1e5',0,'ADMIN'),(16,'Test27','a969756bfdec9ed5479fc41e6fbf4e53',0,'USER'),(17,'Tima123','3f474a79328cfb1a62f89abb88806fe2',0,'USER');
+INSERT INTO `users` VALUES (12,'Admin','e3afed0047b08059d0fada10f400c1e5',22700,'ADMIN'),(17,'Tima123','3f474a79328cfb1a62f89abb88806fe2',10000,'USER');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -292,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-02-11 11:26:44
+-- Dump completed on 2020-02-17 12:17:21
