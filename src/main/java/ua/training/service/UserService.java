@@ -26,7 +26,7 @@ public class UserService {
     public User login(UserForm userForm) throws UserNotFoundException {
         return findUserByLogin(userForm.getLogin())
                 .filter(user -> Objects.equals(user.getPassword(), passwordEncoder.encode(userForm.getPassword())))
-                .orElseThrow(() -> new UserNotFoundException("User not found with login: ", userForm.getLogin()));
+                .orElseThrow(() -> new UserNotFoundException("User not found with login: " + userForm.getLogin()));
     }
 
     public boolean saveNewUser(@NonNull User user) throws DuplicateDataBaseException {

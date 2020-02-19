@@ -28,7 +28,7 @@ public class TicketService {
 
     public Ticket findTicketByIdAndCruise(long ticketId, long cruiseId) throws TicketNotFound {
         return ticketDao.findByIdAndCruiseId(ticketId, cruiseId)
-                .orElseThrow(() -> new TicketNotFound("ticket not found with id: ", ticketId));
+                .orElseThrow(() -> new TicketNotFound("ticket not found with id: " + ticketId));
     }
 
     private long calcTicketPriceWithDiscount(Ticket ticket) {

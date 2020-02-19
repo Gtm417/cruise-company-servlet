@@ -25,7 +25,7 @@ public class CruiseService {
 
     public Cruise findById(long id) throws CruiseNotFoundException {
         return cruiseDao.findById(id)
-                .orElseThrow(() -> new CruiseNotFoundException("Cruise not found with id: ", id));
+                .orElseThrow(() -> new CruiseNotFoundException("Cruise not found with id: " + id));
     }
 
     public boolean updateCruise(Cruise cruise) {

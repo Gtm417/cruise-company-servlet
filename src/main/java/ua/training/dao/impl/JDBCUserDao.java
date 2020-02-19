@@ -42,7 +42,7 @@ public class JDBCUserDao implements UserDao {
             pst.setString(2, entity.getPassword());
             return pst.executeUpdate() != 0;
         } catch (SQLException ex) {
-            throw new DuplicateDataBaseException("User is already exist", entity);
+            throw new DuplicateDataBaseException("User is already exist: " + entity.getLogin());
         }
     }
 

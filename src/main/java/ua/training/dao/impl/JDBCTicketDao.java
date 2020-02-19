@@ -40,7 +40,7 @@ public class JDBCTicketDao implements TicketDao {
             extractPrepareStatement(entity, ps);
             return true;
         } catch (SQLIntegrityConstraintViolationException ex) {
-            throw new DuplicateDataBaseException("Cruise already has such ticket", entity);
+            throw new DuplicateDataBaseException("Cruise already has such ticket" + entity.getId());
         } catch (SQLException e) {
             throw new DBConnectionException(e);
         }
