@@ -9,6 +9,9 @@ import ua.training.web.form.validation.Validator;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
+import static ua.training.web.AttributeConstants.ERRORS_REQUEST_ATTR;
+import static ua.training.web.PageConstants.EDIT_DESCRIPTION_JSP;
+
 public class CruiseDescriptionCommand extends MultipleMethodCommand {
 
     private final CruiseService cruiseService;
@@ -20,15 +23,15 @@ public class CruiseDescriptionCommand extends MultipleMethodCommand {
     @Override
     protected String performGet(HttpServletRequest request) {
         CommandUtility.checkCruiseInSession(request);
-        return "edit-description.jsp";
+        return EDIT_DESCRIPTION_JSP;
     }
 
     @Override
     protected String performPost(HttpServletRequest request) {
         Cruise cruise = CommandUtility.checkCruiseInSession(request);
         if (!getRequestValidator().validate(request)) {
-            request.setAttribute("errors", true);
-            return "edit-description.jsp";
+            request.setAttribute(ERRORS_REQUEST_ATTR, true);
+            return EDIT_DESCRIPTION_JSP;
         }
 
         String descriptionRu = request.getParameter("descriptionRu");
@@ -37,7 +40,7 @@ public class CruiseDescriptionCommand extends MultipleMethodCommand {
         cruise.setDescriptionEng(descriptionEng);
         cruise.setDescriptionRu(descriptionRu);
         cruiseService.updateCruise(cruise);
-        return "edit-description.jsp";
+        return EDIT_DESCRIPTION_JSP;
     }
 
     private boolean validForm(HttpServletRequest request) {

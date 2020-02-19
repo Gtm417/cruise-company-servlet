@@ -15,11 +15,7 @@ public class CruiseService {
     }
 
     public List<Cruise> getAllCruises() {
-        try {
-            return cruiseDao.findAll();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        return cruiseDao.findAll();
     }
 
 

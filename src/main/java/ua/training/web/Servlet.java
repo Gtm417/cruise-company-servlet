@@ -28,11 +28,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static ua.training.web.AttributeConstants.LOGGED_USERS_ATTR;
 import static ua.training.web.CommandConstants.*;
+import static ua.training.web.PageConstants.CRUISE_COMPANY_PATTERN;
+import static ua.training.web.PageConstants.PAGE_404_JSP;
 
 
 public class Servlet extends HttpServlet {
-
 
     private Map<String, Command> commands = new HashMap<>();
 
@@ -48,58 +50,37 @@ public class Servlet extends HttpServlet {
         Verifier buySubmitVerifier = new BuySubmitRequestVerifier();
 
         servletConfig.getServletContext()
-                .setAttribute("loggedUsers", new HashSet<String>());
+                .setAttribute(LOGGED_USERS_ATTR, new HashSet<String>());
 
-        commands.put(INDEX_COMMAND,
-                new StartPageCommand());
+        commands.put(INDEX_COMMAND, new StartPageCommand());
 
-        commands.put(LOGOUT_COMMAND,
-                new LogOutCommand());
+        commands.put(LOGOUT_COMMAND, new LogOutCommand());
 
-        commands.put(LOGIN_COMMAND,
-                new LoginCommand(userService, userRequestFormMapper));
+        commands.put(LOGIN_COMMAND, new LoginCommand(userService, userRequestFormMapper));
 
-        commands.put(REGISTRATION_COMMAND,
-                new RegistrationCommand(userService, userRequestFormMapper, userValidator));
+        commands.put(REGISTRATION_COMMAND, new RegistrationCommand(userService, userRequestFormMapper, userValidator));
 
-        commands.put(MAIN_COMMAND,
-                new MainCommand(cruiseService));
+        commands.put(MAIN_COMMAND, new MainCommand(cruiseService));
 
-        commands.put(BALANCE_COMMAND,
-                new BalanceCommand(userService));
+        commands.put(BALANCE_COMMAND, new BalanceCommand(userService));
 
-//        commands.put(BUY_FORM_COMMAND,
-//                new BuyCruiseFormCommand());
+        commands.put(BUY_COMMAND, new BuyCruiseCommand(ticketService, cruiseService, new OrderFormValidator()));
 
-        commands.put(BUY_COMMAND,
-                new BuyCruiseCommand(ticketService, cruiseService, new OrderFormValidator()));
+        commands.put(BUY_SUBMIT_COMMAND, new SubmitBuyCommand(orderService, excursionService, buySubmitVerifier));
 
-        commands.put(BUY_SUBMIT_COMMAND,
-                new SubmitBuyCommand(orderService, excursionService, buySubmitVerifier));
+        commands.put(ADD_EXCURSION_COMMAND, excursionCommand);
 
-//        commands.put(BUY_SUBMIT_FORM_COMMAND,
-//                new SubmitBuyFormCommand(excursionService, buySubmitVerifier));
+        commands.put(REMOVE_EXCURSION_COMMAND, excursionCommand);
 
-        commands.put(ADD_EXCURSION_COMMAND,
-                excursionCommand);
+        commands.put(ADMIN_EDIT_CRUISE_COMMAND, new CruiseEditCommand(cruiseService));
 
-        commands.put(REMOVE_EXCURSION_COMMAND,
-                excursionCommand);
+        commands.put(ADMIN_EDIT_DESCRIPTION_COMMAND, new CruiseDescriptionCommand(cruiseService));
 
-        commands.put(ADMIN_EDIT_CRUISE_COMMAND,
-                new CruiseEditCommand(cruiseService));
+        commands.put(ADMIN_ADD_TICKET_COMMAND, new AddTicketCommand(ticketService, new TicketFormValidator()));
 
-        commands.put(ADMIN_EDIT_DESCRIPTION_COMMAND,
-                new CruiseDescriptionCommand(cruiseService));
+        commands.put(ADMIN_ALL_PASSENGERS_COMMAND, new AllPassengersCommand(orderService));
 
-        commands.put(ADMIN_ADD_TICKET_COMMAND,
-                new AddTicketCommand(ticketService, new TicketFormValidator()));
-
-        commands.put(ADMIN_ALL_PASSENGERS_COMMAND,
-                new AllPassengersCommand(orderService));
-
-        commands.put(ALL_ORDERS_COMMAND,
-                new AllOrdersCommand(orderService));
+        commands.put(ALL_ORDERS_COMMAND, new AllOrdersCommand(orderService, new Pagination()));
 
     }
 
@@ -119,9 +100,9 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String path = request.getRequestURI();
-        path = path.replaceAll(".*/cruise-company/", "");
+        path = path.replaceAll(CRUISE_COMPANY_PATTERN, "");
         Command command = commands.getOrDefault(path,
-                (r) -> "/WEB-INF/404.jsp");
+                (r) -> PAGE_404_JSP);
         String page = command.execute(request);
         if (page.contains(REDIRECT_COMMAND)) {
             response.sendRedirect(page.replace(REDIRECT_COMMAND, CRUISE_COMPANY_DEFAULT_PATH));

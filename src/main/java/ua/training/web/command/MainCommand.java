@@ -6,7 +6,12 @@ import ua.training.service.CruiseService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class MainCommand extends MultipleMethodCommand {
+import static ua.training.web.AttributeConstants.CRUISES_REQUEST_ATTR;
+import static ua.training.web.AttributeConstants.LOGGED_USERS_ATTR;
+import static ua.training.web.PageConstants.ADMIN_MAIN_JSP;
+import static ua.training.web.PageConstants.USER_MAIN_JSP;
+
+public class MainCommand implements Command {
     private final CruiseService cruiseService;
 
     public MainCommand(CruiseService cruiseService) {
@@ -14,21 +19,16 @@ public class MainCommand extends MultipleMethodCommand {
     }
 
     @Override
-    protected String performGet(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         CommandUtility.resetSessionPurchaseData(request);
-        request.setAttribute("cruises", cruiseService.getAllCruises());
-        return getMainPageByRole((Role) request.getSession().getAttribute("role"));
-    }
-
-    @Override
-    protected String performPost(HttpServletRequest request) {
-        return null;
+        request.setAttribute(CRUISES_REQUEST_ATTR, cruiseService.getAllCruises());
+        return getMainPageByRole((Role) request.getSession().getAttribute(LOGGED_USERS_ATTR));
     }
 
     private String getMainPageByRole(Role role) {
         if (role == Role.USER) {
-            return "user/main.jsp";
+            return USER_MAIN_JSP;
         }
-        return "admin/main.jsp";
+        return ADMIN_MAIN_JSP;
     }
 }

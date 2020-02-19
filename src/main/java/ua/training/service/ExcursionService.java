@@ -22,7 +22,7 @@ public class ExcursionService {
 
     public Excursion findById(long id) throws ExcursionNotFound {
         return excursionDao.findById(id)
-                .orElseThrow(() -> new ExcursionNotFound("Excursion Not Found with id: ", id));
+                .orElseThrow(() -> new ExcursionNotFound("Excursion Not Found with id: " + id));
     }
 
     public long getTotalSumExcursionSet(Set<Excursion> excursions) {

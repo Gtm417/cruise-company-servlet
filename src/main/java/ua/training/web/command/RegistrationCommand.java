@@ -11,6 +11,12 @@ import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static ua.training.web.AttributeConstants.ERRORS_REQUEST_ATTR;
+import static ua.training.web.AttributeConstants.SUCCESS_SESSION_ATTR;
+import static ua.training.web.CommandConstants.LOGIN_COMMAND;
+import static ua.training.web.CommandConstants.REDIRECT_COMMAND;
+import static ua.training.web.PageConstants.REGISTRATION_JSP;
+
 public class RegistrationCommand extends MultipleMethodCommand {
     private final UserService userService;
     private final RequestFormMapper<UserForm> userRequestFormMapper;
@@ -25,7 +31,7 @@ public class RegistrationCommand extends MultipleMethodCommand {
 
     @Override
     protected String performGet(HttpServletRequest request) {
-        return "registration.jsp";
+        return REGISTRATION_JSP;
     }
 
     @Override
@@ -33,18 +39,18 @@ public class RegistrationCommand extends MultipleMethodCommand {
         UserForm userForm = userRequestFormMapper.mapToForm(request);
 
         if (userValidator.validate(userForm)) {
-            request.setAttribute("errors", true);
-            return "registration.jsp";
+            request.setAttribute(ERRORS_REQUEST_ATTR, true);
+            return REGISTRATION_JSP;
         }
 
         try {
             userService.saveNewUser(getFormEntityMapper().mapToEntity(userForm));
         } catch (DuplicateDataBaseException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "registration.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, REGISTRATION_JSP);
             return exceptionHandler.handling(request);
         }
-        request.getSession().setAttribute("success", true);
-        return "redirect:login";
+        request.getSession().setAttribute(SUCCESS_SESSION_ATTR, true);
+        return REDIRECT_COMMAND + LOGIN_COMMAND;
     }
 
     private MapperFormToEntity<User, UserForm> getFormEntityMapper() {

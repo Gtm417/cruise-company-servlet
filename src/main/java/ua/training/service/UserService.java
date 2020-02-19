@@ -34,9 +34,8 @@ public class UserService {
         return userDao.create(user);
     }
 
-    public Optional<User> findUserByLogin(String login) {
+    private Optional<User> findUserByLogin(String login) {
         return userDao.findByLogin(login);
-
     }
 
     public boolean addBalance(User user, long value) {

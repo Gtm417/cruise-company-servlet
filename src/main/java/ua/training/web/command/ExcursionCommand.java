@@ -11,9 +11,11 @@ import ua.training.web.verification.request.Verifier;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
-import static ua.training.web.CommandConstants.REDIRECT_COMMAND;
+import static ua.training.web.AttributeConstants.SESSION_ORDER_ATTR;
+import static ua.training.web.CommandConstants.*;
+import static ua.training.web.PageConstants.PAGE_404_JSP;
 
-public class ExcursionCommand extends MultipleMethodCommand {
+public class ExcursionCommand implements Command {
 
     private final ExcursionService excursionService;
 
@@ -22,38 +24,32 @@ public class ExcursionCommand extends MultipleMethodCommand {
     }
 
     @Override
-    protected String performGet(HttpServletRequest request) {
-        return null;
-    }
-
-    @Override
-    protected String performPost(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         if (getVerifier().verify(request)) {
-            return "WEB-INF/404.jsp";
+            return PAGE_404_JSP;
         }
 
-        Order order = ((Order) request.getSession().getAttribute("order"));
+        Order order = ((Order) request.getSession().getAttribute(SESSION_ORDER_ATTR));
         Excursion excursion;
         try {
             excursion = excursionService.findById(Long.parseLong(request.getParameter("id")));
         } catch (ExcursionNotFound ex) {
-            //todo log
-            ExceptionHandler exceptionHandler = new ExceptionHandler(ex, "buy-submit", REDIRECT_COMMAND);
+            ExceptionHandler exceptionHandler = new ExceptionHandler(ex, BUY_SUBMIT_COMMAND, REDIRECT_COMMAND);
             return exceptionHandler.handling(request);
         }
 
-        if (request.getRequestURI().contains("remove-excursion")) {
+        if (request.getRequestURI().contains(REMOVE_EXCURSION_COMMAND)) {
             order.getExcursionList().remove(excursion);
-            return "redirect:buy-submit";
+            return REDIRECT_COMMAND + BUY_SUBMIT_COMMAND;
         }
 
         order.getExcursionList().add(excursion);
-        return "redirect:buy-submit";
+        return REDIRECT_COMMAND + BUY_SUBMIT_COMMAND;
     }
 
     private Verifier getVerifier() {
         return request ->
-                Objects.isNull(request.getSession().getAttribute("order"));
+                Objects.isNull(request.getSession().getAttribute(SESSION_ORDER_ATTR));
     }
 
 }

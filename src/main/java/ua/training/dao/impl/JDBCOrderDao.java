@@ -1,7 +1,7 @@
 package ua.training.dao.impl;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import ua.training.dao.OrderDao;
 import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
@@ -94,7 +94,7 @@ public class JDBCOrderDao implements OrderDao {
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-                throw new SaveOrderException("Transaction rollback. Cannot save order to database");
+                throw new SaveOrderException("Transaction rollback. Cannot save order to database cause  " + e.getMessage());
             }
         } catch (SQLException e) {
             throw new DBConnectionException(e);

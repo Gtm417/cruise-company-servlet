@@ -1,16 +1,14 @@
 package ua.training.web.command;
 
+import ua.training.web.PageConstants;
+
 import javax.servlet.http.HttpServletRequest;
 
-public class StartPageCommand extends MultipleMethodCommand {
+public class StartPageCommand implements Command {
 
     @Override
-    protected String performGet(HttpServletRequest request) {
-        return "index.jsp";
+    public String execute(HttpServletRequest request) {
+        return PageConstants.INDEX_JSP;
     }
 
-    @Override
-    protected String performPost(HttpServletRequest request) {
-        return null;
-    }
 }
