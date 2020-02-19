@@ -39,9 +39,6 @@ public class Ticket {
         return ticketName;
     }
 
-    public void setTicketName(String ticketName) {
-        this.ticketName = ticketName;
-    }
 
     public long getPrice() {
         return price;
@@ -55,9 +52,6 @@ public class Ticket {
         return discount;
     }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
 
     public Cruise getCruise() {
         return cruise;

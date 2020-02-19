@@ -27,28 +27,12 @@ public class Ship {
         this.id = id;
     }
 
-    public String getShipName() {
-        return shipName;
-    }
-
-    public void setShipName(String shipName) {
-        this.shipName = shipName;
-    }
-
     public int getCurrentPassengerAmount() {
         return currentPassengerAmount;
     }
 
-    public void setCurrentPassengerAmount(int currentPassengerAmount) {
-        this.currentPassengerAmount = currentPassengerAmount;
-    }
-
     public int getMaxPassengerAmount() {
         return maxPassengerAmount;
-    }
-
-    public void setMaxPassengerAmount(int maxPassengerAmount) {
-        this.maxPassengerAmount = maxPassengerAmount;
     }
 
     public Cruise getCruise() {

@@ -10,9 +10,9 @@ import static java.util.Objects.isNull;
 
 public class BalanceCommand extends MultipleMethodCommand {
 
-    public static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
-    public static final int VALIDATION_MAX_VALUE = 9999;
-    public static final int VALIDATION_MIN_VALUE = 0;
+    private static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
+    private static final int VALIDATION_MAX_VALUE = 9999;
+    private static final int VALIDATION_MIN_VALUE = 0;
     private final UserService userService;
 
     public BalanceCommand(UserService userService) {

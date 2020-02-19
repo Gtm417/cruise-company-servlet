@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import static ua.training.web.CommandConstants.REDIRECT_COMMAND;
 
 public class ExceptionHandler {
-    public static final String DEFAULT_REQUEST_TYPE = "forward";
+    private static final String DEFAULT_REQUEST_TYPE = "forward";
 
     // for logging
     private Exception exception;

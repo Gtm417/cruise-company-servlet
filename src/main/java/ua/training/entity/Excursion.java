@@ -9,9 +9,6 @@ public class Excursion {
     private long price;
     private Port port;
 
-    public Excursion() {
-    }
-
     public Excursion(Builder builder) {
         this.id = builder.id;
         this.excursionName = builder.excursionName;

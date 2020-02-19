@@ -31,11 +31,7 @@ public class UserService {
 
     public boolean saveNewUser(@NonNull User user) throws DuplicateDataBaseException {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        try {
-            return userDao.create(user);
-        } catch (DuplicateDataBaseException ex) {
-            throw new DuplicateDataBaseException(ex);
-        }
+        return userDao.create(user);
     }
 
     public Optional<User> findUserByLogin(String login) {

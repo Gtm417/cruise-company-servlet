@@ -1,5 +1,7 @@
 package ua.training.dao.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.training.dao.OrderDao;
 import ua.training.dao.mapper.CruiseMapper;
 import ua.training.dao.mapper.ObjectMapper;
@@ -17,26 +19,52 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ua.training.dao.TableConstants.*;
+
 public class JDBCOrderDao implements OrderDao {
 
-    private static final String FIND_USER_BALANCE_BY_ID = "SELECT balance FROM users WHERE id =?";
-    private static final String FIND_SHIP_PASSENGER_AMOUNT_BY_ID = "SELECT current_amount_of_passenger FROM ships WHERE id = ?;";
-    private static final String INSERT_INTO_ORDER_EXCURSION = "INSERT INTO order_excursions(order_id, excursion_id) VALUES (?,?);";
-    private static final String UPDATE_SHIP_BEFORE_ORDER = "UPDATE ships SET current_amount_of_passenger = ? WHERE id = ?;";
-    private static final String COUNT_QUERY = "SELECT COUNT(*) as count FROM orders WHERE user_id = ?";
-    private final static String CREATE_NEW_ORDER = "INSERT INTO orders(cruise_id, user_id, ticket_id, first_name, second_name, price) values(?,?,?,?,?,?);";
-    private final static String UPDATE_USER = "UPDATE users SET  balance = ? WHERE id = ?";
-    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * from orders " +
-            "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
-            "WHERE orders.cruise_id = ?;";
+    private static final String FIND_USER_BALANCE_BY_ID = "SELECT " + USERS_BALANCE_COLUMN + " FROM " + USERS_TABLE + " WHERE " + ID + " = ?";
+
+    private static final String FIND_SHIP_PASSENGER_AMOUNT_BY_ID = "SELECT " + SHIP_CURRENT_AMOUNT_OF_PASSENGER_COLUMN + " FROM " + SHIPS_TABLE +
+            " WHERE " + ID + "= ?;";
+
+    private static final String INSERT_INTO_ORDER_EXCURSION = "INSERT INTO " +
+            ORDER_EXCURSIONS_TABLE + "(" + ORDER_EXCURSIONS_ORDER_ID_COLUMN + ", " + ORDERS_EXCURSIONS_EXCURSION_ID + ") " +
+            "VALUES (?,?);";
+
+    private static final String UPDATE_SHIP_BEFORE_ORDER = "UPDATE " + SHIPS_TABLE + " SET " + SHIP_CURRENT_AMOUNT_OF_PASSENGER_COLUMN + " = ? " +
+            "WHERE " + ID + "= ?;";
+
+    private static final String COUNT_QUERY = "SELECT COUNT(*) as count FROM " + ORDERS_TABLE + " WHERE " + ORDERS_USER_ID_COLUMN + " = ?";
+
+    private final static String CREATE_NEW_ORDER = "INSERT INTO " + ORDERS_TABLE +
+            "(" + ORDERS_CRUISE_ID_COLUMN + ", " + ORDERS_USER_ID_COLUMN + ", " + ORDERS_TICKET_ID_COLUMN + ", "
+            + ORDERS_FIRST_NAME_COLUMN + ", " + ORDER_SECOND_NAME_COLUMN + ", " + PRICE_COLUMN + ") " +
+            "values(?,?,?,?,?,?);";
+    private final static String UPDATE_USER = "UPDATE " + USERS_TABLE + " SET  " + USERS_BALANCE_COLUMN + " = ? WHERE " + ID + " = ?";
+
+    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * from " + ORDERS_TABLE +
+            " INNER JOIN " + TICKETS_TABLE + " ON " + ORDERS_TICKET_ID_COLUMN + " = " + TICKETS_ID_COLUMN + " " +
+            " WHERE " + ORDERS_CRUISE_ID_COLUMN + " = ?;";
+
     private static final String FIND_ALL_BY_USER_ID = "SELECT * from orders " +
-            "INNER JOIN tickets ON orders.ticket_id = tickets.id " +
-            "INNER JOIN cruises ON orders.cruise_id = cruises.id " +
-            "WHERE orders.user_id = ? LIMIT ?,?;";
+            "INNER JOIN " + TICKETS_TABLE + " ON " + ORDERS_TICKET_ID_COLUMN + " = " + TICKETS_ID_COLUMN + " " +
+            "INNER JOIN " + CRUISES_TABLE + " ON " + ORDERS_CRUISE_ID_COLUMN + " = " + CRUISES_ID_COLUMN +
+            " WHERE " + ORDERS_USER_ID_COLUMN + " = ? LIMIT ?,?;";
+
+
+    private static final Logger LOGGER = LogManager.getLogger(JDBCOrderDao.class);
+
     private final ConnectionPoolHolder connectionPoolHolder;
+    private ObjectMapper<Order> orderMapper;
+    private ObjectMapper<Ticket> ticketMapper;
+    private ObjectMapper<Cruise> cruiseMapper;
 
     public JDBCOrderDao(final ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
+        this.cruiseMapper = new CruiseMapper();
+        this.orderMapper = new OrderMapper();
+        this.ticketMapper = new TicketMapper();
     }
 
 
@@ -55,18 +83,18 @@ public class JDBCOrderDao implements OrderDao {
                 long shipId = order.getCruise().getShip().getId();
                 long userId = order.getUser().getId();
 
-                fillShipUpdatePrepareStatement(shipId, selectOneLongValueByIdFromStatement(shipId, psShipSelect), psShipUpdate);
-                fillUserUpdatePrepareStatement(userId, selectOneLongValueByIdFromStatement(userId, psUserSelect), order, psUserUpdate);
-                fillOrderInsertPrepareStatement(order, psOrder);
+                executeShipUpdatePrepareStatement(shipId, selectOneLongValueByIdFromStatement(shipId, psShipSelect), psShipUpdate);
+                executeUserUpdatePrepareStatement(userId, selectOneLongValueByIdFromStatement(userId, psUserSelect), order, psUserUpdate);
+                executeOrderInsertPrepareStatement(order, psOrder);
 
                 long orderId = getOrderInsertGeneratedKey(psOrder);
                 for (Excursion exc : order.getExcursionList()) {
-                    fillExcursionInsertPrepareStatement(exc, orderId, psExcursion);
+                    executeExcursionInsertPrepareStatement(exc, orderId, psExcursion);
                 }
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-                throw new SaveOrderException("Cannot save order to database");
+                throw new SaveOrderException("Transaction rollback. Cannot save order to database");
             }
         } catch (SQLException e) {
             throw new DBConnectionException(e);
@@ -79,7 +107,7 @@ public class JDBCOrderDao implements OrderDao {
         if (rs.next()) {
             return rs.getLong(1);
         }
-        throw new SQLException();
+        throw new SQLException("Value not found cause wrong id");
     }
 
     private long getOrderInsertGeneratedKey(PreparedStatement ps) throws SQLException {
@@ -87,10 +115,10 @@ public class JDBCOrderDao implements OrderDao {
         if (rs.next()) {
             return rs.getLong(1);
         }
-        throw new SQLException();
+        throw new SQLException("Something went wrong when try to get GeneratedKeys");
     }
 
-    private void fillOrderInsertPrepareStatement(Order order, PreparedStatement psOrder) throws SQLException {
+    private void executeOrderInsertPrepareStatement(Order order, PreparedStatement psOrder) throws SQLException {
         psOrder.setLong(1, order.getCruise().getId());
         psOrder.setLong(2, order.getUser().getId());
         psOrder.setLong(3, order.getTicket().getId());
@@ -100,19 +128,19 @@ public class JDBCOrderDao implements OrderDao {
         psOrder.executeUpdate();
     }
 
-    private void fillUserUpdatePrepareStatement(long userId, long userBalance, Order order, PreparedStatement psUser) throws SQLException {
+    private void executeUserUpdatePrepareStatement(long userId, long userBalance, Order order, PreparedStatement psUser) throws SQLException {
         psUser.setLong(1, userBalance - order.getOrderPrice());
         psUser.setLong(2, userId);
         psUser.executeUpdate();
     }
 
-    private void fillExcursionInsertPrepareStatement(Excursion excursion, long orderId, PreparedStatement psUser) throws SQLException {
+    private void executeExcursionInsertPrepareStatement(Excursion excursion, long orderId, PreparedStatement psUser) throws SQLException {
         psUser.setLong(1, orderId);
         psUser.setLong(2, excursion.getId());
         psUser.executeUpdate();
     }
 
-    private void fillShipUpdatePrepareStatement(long shipId, long currentPassengerAmount, PreparedStatement psUser) throws SQLException {
+    private void executeShipUpdatePrepareStatement(long shipId, long currentPassengerAmount, PreparedStatement psUser) throws SQLException {
         psUser.setLong(1, ++currentPassengerAmount);
         psUser.setLong(2, shipId);
         psUser.executeUpdate();
@@ -121,8 +149,6 @@ public class JDBCOrderDao implements OrderDao {
     @Override
     public List<Order> findAllOrdersByCruise(long id) {
         List<Order> orders = new ArrayList<>();
-        ObjectMapper<Order> orderMapper = new OrderMapper();
-        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
 
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_CRUISE_ID)) {
@@ -142,9 +168,6 @@ public class JDBCOrderDao implements OrderDao {
     @Override
     public List<Order> findAllOrdersByUserWithOffsetAndLimit(int offset, int limit, long id) {
         List<Order> orders = new ArrayList<>();
-        ObjectMapper<Order> orderMapper = new OrderMapper();
-        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
-        ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_USER_ID)) {
             ps.setLong(1, id);
@@ -173,7 +196,7 @@ public class JDBCOrderDao implements OrderDao {
 
             return resultSet.next() ? resultSet.getInt(1) : 0;
         } catch (SQLException e) {
-            //LOGGER.error("Exception during counting entities", e);
+            LOGGER.error("Exception during counting entities", e);
             throw new DBConnectionException("Exception during counting orders", e);
         }
     }

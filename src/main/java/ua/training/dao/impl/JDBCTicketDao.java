@@ -13,16 +13,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static ua.training.dao.TableConstants.*;
+
 public class JDBCTicketDao implements TicketDao {
-    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM tickets WHERE cruise_id = ?";
-    private static final String INSERT_TICKET = "INSERT INTO tickets(ticket_name, discount, price, discount_price ,cruise_id) VALUES (?,?,?,?,?)";
-    private static final String FIND_BY_ID_AND_CRUISE = "SELECT * FROM tickets WHERE id = ? AND cruise_id = ?";
+    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + TICKETS_CRUISE_ID + " = ?";
+
+    private static final String INSERT_TICKET = "INSERT INTO " + TICKETS_TABLE + "(" + TICKET_NAME_COLUMN + ", " + TICKETS_DISCOUNT_COLUMN + ", " +
+            PRICE_COLUMN + ", " + TICKETS_DISCOUNT_PRICE_COLUMN + ", " + TICKETS_CRUISE_ID +
+            ") VALUES (?,?,?,?,?)";
+
+    private static final String FIND_BY_ID_AND_CRUISE = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + ID + " = ? AND " + TICKETS_CRUISE_ID + " = ?";
 
 
     private final ConnectionPoolHolder connectionPoolHolder;
+    private ObjectMapper<Ticket> ticketMapper;
 
     public JDBCTicketDao(ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
+        this.ticketMapper = new TicketMapper();
     }
 
     @Override
@@ -49,7 +57,6 @@ public class JDBCTicketDao implements TicketDao {
 
     @Override
     public Optional<Ticket> findByIdAndCruiseId(long id, long cruiseId) {
-        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_AND_CRUISE)) {
             ps.setLong(1, id);
@@ -67,7 +74,6 @@ public class JDBCTicketDao implements TicketDao {
     @Override
     public List<Ticket> findAllByCruiseId(long id) {
         List<Ticket> tickets = new ArrayList<>();
-        ObjectMapper<Ticket> ticketMapper = new TicketMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_BY_CRUISE_ID)) {
             ps.setLong(1, id);

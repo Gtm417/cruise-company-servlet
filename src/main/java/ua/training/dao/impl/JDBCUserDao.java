@@ -9,18 +9,24 @@ import ua.training.exception.DBConnectionException;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.persistance.ConnectionPoolHolder;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
+
+import static ua.training.dao.TableConstants.*;
 
 
 public class JDBCUserDao implements UserDao {
-    private final static String FIND_ALL_USERS = "select * from cruise_company_servlet.users";
-    private final static String FIND_USER_BY_LOGIN = "select * from cruise_company_servlet.users where login = ?";
-    private final static String SAVE_USER = "insert into cruise_company_servlet.users(login, password) values(?,?)";
-    private final static String UPDATE_USER = "UPDATE cruise_company_servlet.users SET login = ?, password = ?, balance = ?, role = ?" +
-            "WHERE id = ?";
+    private final static String FIND_USER_BY_LOGIN = "select * from " + USERS_TABLE + " where " + USERS_LOGIN_COLUMN + " = ?";
+
+    private final static String SAVE_USER = "insert into " + USERS_TABLE + "(" + USERS_LOGIN_COLUMN + ", " + USERS_PASSWORD_COLUMN + ") " +
+            "values(?,?)";
+
+    private final static String UPDATE_USER = "UPDATE "+ USERS_TABLE + " SET " + USERS_LOGIN_COLUMN + " = ?, "
+            + USERS_PASSWORD_COLUMN + " = ?, " + USERS_BALANCE_COLUMN + " = ?, " + USERS_ROLE_COLUMN + " = ?" +
+            "WHERE "+ ID + " = ?";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
@@ -54,22 +60,6 @@ public class JDBCUserDao implements UserDao {
         } catch (SQLException ex) {
             throw new DBConnectionException(ex);
         }
-    }
-
-    @Override
-    public List<User> findAll() {
-        List<User> resultList = new ArrayList<>();
-        ObjectMapper<User> mapper = new UserMapper();
-        try (Connection connection = connectionPoolHolder.getConnection();
-             Statement ps = connection.createStatement()) {
-            ResultSet rs = ps.executeQuery(FIND_ALL_USERS);
-            while (rs.next()) {
-                resultList.add(mapper.extractFromResultSet(rs));
-            }
-        } catch (SQLException e) {
-            throw new DBConnectionException(e);
-        }
-        return resultList;
     }
 
     @Override

@@ -31,26 +31,6 @@ public class Port {
         return portName;
     }
 
-    public void setPortName(String portName) {
-        this.portName = portName;
-    }
-
-    public List<Excursion> getExcursions() {
-        return excursions;
-    }
-
-    public void setExcursions(List<Excursion> excursions) {
-        this.excursions = excursions;
-    }
-
-    public List<Cruise> getCruises() {
-        return cruises;
-    }
-
-    public void setCruises(List<Cruise> cruises) {
-        this.cruises = cruises;
-    }
-
     @Override
     public String toString() {
         return "Port{" +

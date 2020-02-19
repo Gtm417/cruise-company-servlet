@@ -31,6 +31,8 @@ public class BuyCruiseCommand extends MultipleMethodCommand {
     protected String performGet(HttpServletRequest request) {
 
         if (request.getSession().getAttribute("cruise") != null) {
+            Cruise cruise = (Cruise) request.getSession().getAttribute("cruise");
+            cruise.setTickets(ticketService.findAllTicketsForBuy(cruise.getId()));
             return "buy.jsp";
         }
 

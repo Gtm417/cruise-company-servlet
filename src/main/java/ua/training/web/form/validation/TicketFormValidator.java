@@ -4,11 +4,11 @@ import ua.training.web.form.TicketForm;
 
 public class TicketFormValidator implements Validator<TicketForm> {
 
-    public static final String NUMBER_REGEX = "([1-9][0-9]{0,3})";
-    public static final String TICKET_NAME_REGEX = "[A-Z].{2,10}";
-    public static final long MIN_VALUE_FOR_MONEY = 0;
-    public static final int MIN_VALUE_PERCENT = 0;
-    public static final int MAX_VALUE_PERCENT = 100;
+    private static final String NUMBER_REGEX = "([1-9][0-9]{0,3})";
+    private static final String TICKET_NAME_REGEX = "[A-Z].{2,10}";
+    private static final long MIN_VALUE_FOR_MONEY = 0;
+    private static final int MIN_VALUE_PERCENT = 0;
+    private static final int MAX_VALUE_PERCENT = 100;
 
 
     @Override

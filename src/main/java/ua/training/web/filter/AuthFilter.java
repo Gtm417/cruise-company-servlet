@@ -15,7 +15,7 @@ import static ua.training.web.CommandConstants.INDEX_COMMAND;
 
 public class AuthFilter implements Filter {
 
-    public static final String ACCESS_DENIED_PAGE = "/WEB-INF/access-denied.jsp";
+    private static final String ACCESS_DENIED_PAGE = "/WEB-INF/access-denied.jsp";
     private static final String LOGIN_REQUEST = "/login";
     private static final String INDEX_REQUEST = "/index";
     private static final String REGISTRATION_REQUEST = "/registration";

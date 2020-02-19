@@ -40,16 +40,8 @@ public class Order {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getSecondName() {
         return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
     }
 
     public User getUser() {
@@ -88,9 +80,6 @@ public class Order {
         return excursionList;
     }
 
-    public void setExcursionList(Set<Excursion> excursionList) {
-        this.excursionList = excursionList;
-    }
 
     @Override
     public String toString() {

@@ -1,14 +1,18 @@
 package ua.training.persistance;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
 import ua.training.exception.DBConnectionException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import org.apache.logging.log4j.Logger;
 
 
 public class ConnectionPoolHolder {
+    private static final Logger LOGGER = LogManager.getLogger(ConnectionPoolHolder.class);
+
     private static volatile ConnectionPoolHolder pool;
     private BasicDataSource dataSource;
 
@@ -30,7 +34,7 @@ public class ConnectionPoolHolder {
         if (pool == null) {
             synchronized (ConnectionPoolHolder.class) {
                 if (pool == null) {
-                    //logger.info("connection pool created");
+                    LOGGER.info("connection pool created");
                     pool = new ConnectionPoolHolder();
                 }
             }
@@ -40,12 +44,11 @@ public class ConnectionPoolHolder {
 
 
     public Connection getConnection() {
-        // todo
-        //logger.info("connect");
+        LOGGER.info("connect");
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {
-            //logger.info("connection error", e);
+            LOGGER.info("connection error", e);
             throw new DBConnectionException(e);
         }
     }

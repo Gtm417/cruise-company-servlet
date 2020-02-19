@@ -8,7 +8,4 @@ public class UserNotFoundException extends Exception {
         this.login = login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
 }
