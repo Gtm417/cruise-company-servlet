@@ -16,7 +16,6 @@ public class CruiseEditCommand implements Command {
     private final CruiseService cruiseService;
 
     public CruiseEditCommand(CruiseService cruiseService) {
-
         this.cruiseService = cruiseService;
     }
 

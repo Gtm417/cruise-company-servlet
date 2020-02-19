@@ -7,7 +7,7 @@ import ua.training.service.CruiseService;
 import javax.servlet.http.HttpServletRequest;
 
 import static ua.training.web.AttributeConstants.CRUISES_REQUEST_ATTR;
-import static ua.training.web.AttributeConstants.LOGGED_USERS_ATTR;
+import static ua.training.web.AttributeConstants.SESSION_ROLE_ATTR;
 import static ua.training.web.PageConstants.ADMIN_MAIN_JSP;
 import static ua.training.web.PageConstants.USER_MAIN_JSP;
 
@@ -22,7 +22,7 @@ public class MainCommand implements Command {
     public String execute(HttpServletRequest request) {
         CommandUtility.resetSessionPurchaseData(request);
         request.setAttribute(CRUISES_REQUEST_ATTR, cruiseService.getAllCruises());
-        return getMainPageByRole((Role) request.getSession().getAttribute(LOGGED_USERS_ATTR));
+        return getMainPageByRole((Role) request.getSession().getAttribute(SESSION_ROLE_ATTR));
     }
 
     private String getMainPageByRole(Role role) {

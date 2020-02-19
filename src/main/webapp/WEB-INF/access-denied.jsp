@@ -20,6 +20,7 @@
 <c:if test="${notAllData}">
     <h1><fmt:message key="alert.not.enough.data"/></h1>
 </c:if>
+<h1>AccessDenied</h1>
 <a href="${pageContext.request.contextPath}/main" class="button"></a>
 </body>
 </html>
