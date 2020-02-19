@@ -29,7 +29,7 @@ public class JDBCOrderDao implements OrderDao {
             " WHERE " + ID + "= ?;";
 
     private static final String INSERT_INTO_ORDER_EXCURSION = "INSERT INTO " +
-            ORDER_EXCURSIONS_TABLE + "(" + ORDER_EXCURSIONS_ORDER_ID_COLUMN + ", " + ORDERS_EXCURSIONS_EXCURSION_ID + ") " +
+            ORDER_EXCURSIONS_TABLE + "(" + ORDERS_EXCURSIONS_ORDER_ID_COLUMN + ", " + ORDERS_EXCURSIONS_EXCURSION_ID_COLUMN + ") " +
             "VALUES (?,?);";
 
     private static final String UPDATE_SHIP_BEFORE_ORDER = "UPDATE " + SHIPS_TABLE + " SET " + SHIP_CURRENT_AMOUNT_OF_PASSENGER_COLUMN + " = ? " +

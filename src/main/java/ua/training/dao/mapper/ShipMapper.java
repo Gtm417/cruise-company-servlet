@@ -4,6 +4,7 @@ import ua.training.entity.Ship;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static ua.training.dao.TableConstants.*;
 
 public class ShipMapper implements ObjectMapper<Ship> {

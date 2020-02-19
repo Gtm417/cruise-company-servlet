@@ -4,6 +4,7 @@ import ua.training.entity.Excursion;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static ua.training.dao.TableConstants.*;
 
 public class ExcursionMapper implements ObjectMapper<Excursion> {

@@ -19,14 +19,13 @@ import static ua.training.web.PageConstants.PAGE_404_JSP;
 
 public class AuthFilter implements Filter {
 
+    public static final String CRUISE_COMPANY_REGEX_PATTERN = ".*/cruise-company/.*";
     private static final String LOGIN_REQUEST = "/login";
     private static final String INDEX_REQUEST = "/index";
     private static final String REGISTRATION_REQUEST = "/registration";
     private static final String LOGOUT_REQUEST = "/logout";
     private static final String ERROR_REQUEST = "/error.jsp";
     private static final String ADMIN_REQUEST = "/admin";
-    public static final String CRUISE_COMPANY_REGEX_PATTERN = ".*/cruise-company/.*";
-
 
     @Override
     public void init(FilterConfig filterConfig) {

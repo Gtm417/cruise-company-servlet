@@ -4,6 +4,7 @@ import ua.training.entity.Ticket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static ua.training.dao.TableConstants.*;
 
 public class TicketMapper implements ObjectMapper<Ticket> {

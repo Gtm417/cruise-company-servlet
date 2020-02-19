@@ -4,7 +4,9 @@ import ua.training.entity.Port;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static ua.training.dao.TableConstants.*;
+
+import static ua.training.dao.TableConstants.PORTS_ID_COLUMN;
+import static ua.training.dao.TableConstants.PORT_NAME_COLUMN;
 
 public class PortMapper implements ObjectMapper<Port> {
     @Override

@@ -16,13 +16,13 @@ import java.util.Optional;
 import static ua.training.dao.TableConstants.*;
 
 public class JDBCTicketDao implements TicketDao {
-    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + TICKETS_CRUISE_ID + " = ?";
+    private static final String FIND_ALL_BY_CRUISE_ID = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + TICKETS_CRUISE_ID_COLUMN + " = ?";
 
     private static final String INSERT_TICKET = "INSERT INTO " + TICKETS_TABLE + "(" + TICKET_NAME_COLUMN + ", " + TICKETS_DISCOUNT_COLUMN + ", " +
-            PRICE_COLUMN + ", " + TICKETS_DISCOUNT_PRICE_COLUMN + ", " + TICKETS_CRUISE_ID +
+            PRICE_COLUMN + ", " + TICKETS_DISCOUNT_PRICE_COLUMN + ", " + TICKETS_CRUISE_ID_COLUMN +
             ") VALUES (?,?,?,?,?)";
 
-    private static final String FIND_BY_ID_AND_CRUISE = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + ID + " = ? AND " + TICKETS_CRUISE_ID + " = ?";
+    private static final String FIND_BY_ID_AND_CRUISE = "SELECT * FROM " + TICKETS_TABLE + " WHERE " + ID + " = ? AND " + TICKETS_CRUISE_ID_COLUMN + " = ?";
 
 
     private final ConnectionPoolHolder connectionPoolHolder;

@@ -38,8 +38,8 @@ public interface TableConstants {
     String SHIP_CURRENT_AMOUNT_OF_PASSENGER_COLUMN = "current_amount_of_passenger";
     String SHIP_MAX_AMOUNT_OF_PASSENGER_COLUMN = "max_amount_of_passenger";
 
-    String ORDER_EXCURSIONS_ORDER_ID_COLUMN = "order_id";
-    String ORDERS_EXCURSIONS_EXCURSION_ID = "excursion_id";
+    String ORDERS_EXCURSIONS_ORDER_ID_COLUMN = "order_id";
+    String ORDERS_EXCURSIONS_EXCURSION_ID_COLUMN = "excursion_id";
 
     String ORDERS_ID_COLUMN = "orders.id";
     String ORDERS_USER_ID_COLUMN = "user_id";
@@ -50,7 +50,7 @@ public interface TableConstants {
     String ORDERS_PRICE_COLUMN = "orders.price";
 
     String TICKETS_ID_COLUMN = "tickets.id";
-    String TICKETS_CRUISE_ID = "tickets.cruise_id";
+    String TICKETS_CRUISE_ID_COLUMN = "tickets.cruise_id";
     String TICKET_NAME_COLUMN = "ticket_name";
     String TICKETS_DISCOUNT_COLUMN = "discount";
     String TICKETS_DISCOUNT_PRICE_COLUMN = "discount_price";
@@ -60,7 +60,6 @@ public interface TableConstants {
     String USERS_LOGIN_COLUMN = "login";
     String USERS_PASSWORD_COLUMN = "password";
     String USERS_ROLE_COLUMN = "role";
-
 
 
 }

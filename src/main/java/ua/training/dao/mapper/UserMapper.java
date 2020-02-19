@@ -5,6 +5,7 @@ import ua.training.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static ua.training.dao.TableConstants.*;
 
 public class UserMapper implements ObjectMapper<User> {

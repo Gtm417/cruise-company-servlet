@@ -28,7 +28,7 @@ public class JDBCExcursionDao implements ExcursionDao {
             EXCURSIONS_DURATION_COLUMN + ", " +
             PORTS_ID_COLUMN + ", " +
             PORT_NAME_COLUMN +
-            " FROM " + PORTS_CRUISES_TABLE  +
+            " FROM " + PORTS_CRUISES_TABLE +
             " inner join " + EXCURSIONS_TABLE + " ON " + PORTS_CRUISES_PORT_ID_COLUMN + " = " + EXCURSIONS_PORT_ID_COLUMN +
             " inner join " + PORTS_TABLE + " ON " + PORTS_CRUISES_PORT_ID_COLUMN + " = " + PORTS_ID_COLUMN +
             " WHERE " + PORTS_CRUISES_CRUISE_ID_COLUMN + " = ?";
@@ -42,7 +42,7 @@ public class JDBCExcursionDao implements ExcursionDao {
 
     public JDBCExcursionDao(ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
-        this.excursionMapper =  new ExcursionMapper();
+        this.excursionMapper = new ExcursionMapper();
         this.portMapper = new PortMapper();
     }
 

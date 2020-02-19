@@ -24,9 +24,9 @@ public class JDBCUserDao implements UserDao {
     private final static String SAVE_USER = "insert into " + USERS_TABLE + "(" + USERS_LOGIN_COLUMN + ", " + USERS_PASSWORD_COLUMN + ") " +
             "values(?,?)";
 
-    private final static String UPDATE_USER = "UPDATE "+ USERS_TABLE + " SET " + USERS_LOGIN_COLUMN + " = ?, "
+    private final static String UPDATE_USER = "UPDATE " + USERS_TABLE + " SET " + USERS_LOGIN_COLUMN + " = ?, "
             + USERS_PASSWORD_COLUMN + " = ?, " + USERS_BALANCE_COLUMN + " = ?, " + USERS_ROLE_COLUMN + " = ?" +
-            "WHERE "+ ID + " = ?";
+            "WHERE " + ID + " = ?";
 
     private final ConnectionPoolHolder connectionPoolHolder;
 
