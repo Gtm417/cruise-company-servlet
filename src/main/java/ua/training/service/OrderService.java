@@ -1,6 +1,5 @@
 package ua.training.service;
 
-import ua.training.dao.DaoFactory;
 import ua.training.dao.OrderDao;
 import ua.training.entity.Order;
 import ua.training.entity.User;
@@ -11,12 +10,12 @@ import java.util.List;
 public class OrderService {
     private final OrderDao orderDao;
 
-    public OrderService() {
-        this.orderDao = DaoFactory.getInstance().createOrderDao();
+    public OrderService(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     public void buyCruise(Order order) throws SaveOrderException {
-        orderDao.buyCruiseChanges(order);
+        orderDao.buyInTransaction(order);
     }
 
     public List<Order> showAllPassengersOnCruise(long id) {
@@ -28,7 +27,7 @@ public class OrderService {
         return orderDao.findAllOrdersByUserWithOffsetAndLimit(offset, size, id);
     }
 
-    public long countAllOrders(long id) {
+    public int countAllOrders(long id) {
         return orderDao.countOrdersByUserId(id);
     }
 

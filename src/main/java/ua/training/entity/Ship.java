@@ -31,6 +31,10 @@ public class Ship {
         return currentPassengerAmount;
     }
 
+    public void setCurrentPassengerAmount(int currentPassengerAmount) {
+        this.currentPassengerAmount = currentPassengerAmount;
+    }
+
     public int getMaxPassengerAmount() {
         return maxPassengerAmount;
     }

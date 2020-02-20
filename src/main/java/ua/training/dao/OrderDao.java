@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface OrderDao extends GenericDao<Order> {
 
-    void buyCruiseChanges(Order order) throws SaveOrderException;
+    void buyInTransaction(Order order) throws SaveOrderException;
 
     List<Order> findAllOrdersByCruise(long id);
 
     List<Order> findAllOrdersByUserWithOffsetAndLimit(int offset, int limit, long id);
 
-    long countOrdersByUserId(long id);
+    int countOrdersByUserId(long id);
 }

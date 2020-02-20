@@ -1,6 +1,5 @@
 package ua.training.service;
 
-import ua.training.dao.DaoFactory;
 import ua.training.dao.TicketDao;
 import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
@@ -13,8 +12,8 @@ public class TicketService {
 
     private final TicketDao ticketDao;
 
-    public TicketService() {
-        this.ticketDao = DaoFactory.getInstance().createTicketDao();
+    public TicketService(TicketDao ticketDao) {
+        this.ticketDao = ticketDao;
     }
 
     public void addNewTicket(Ticket ticket) throws DuplicateDataBaseException {

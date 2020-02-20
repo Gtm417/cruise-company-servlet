@@ -1,8 +1,8 @@
 package ua.training.web;
 
 
+import ua.training.dao.DaoFactory;
 import ua.training.service.*;
-import ua.training.service.encoder.PasswordEncoder;
 import ua.training.web.command.*;
 import ua.training.web.command.admin.AddTicketCommand;
 import ua.training.web.command.admin.AllPassengersCommand;
@@ -39,18 +39,17 @@ public class Servlet extends HttpServlet {
     private Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig servletConfig) {
-        UserService userService = new UserService(new PasswordEncoder());
-        CruiseService cruiseService = new CruiseService();
-        ExcursionService excursionService = new ExcursionService();
-        OrderService orderService = new OrderService();
-        TicketService ticketService = new TicketService();
+        UserService userService = new UserService(new PasswordEncoderService(), DaoFactory.getInstance().createUserDao());
+        CruiseService cruiseService = new CruiseService(DaoFactory.getInstance().createCruiseDao());
+        ExcursionService excursionService = new ExcursionService(DaoFactory.getInstance().createExcursionDao());
+        OrderService orderService = new OrderService(DaoFactory.getInstance().createOrderDao());
+        TicketService ticketService = new TicketService(DaoFactory.getInstance().createTicketDao());
         RequestFormMapper<UserForm> userRequestFormMapper = new UserRequestFormMapper();
         ExcursionCommand excursionCommand = new ExcursionCommand(excursionService);
         Validator<UserForm> userValidator = new UserFormValidator();
         Verifier buySubmitVerifier = new BuySubmitRequestVerifier();
 
-        servletConfig.getServletContext()
-                .setAttribute(LOGGED_USERS_ATTR, new HashSet<String>());
+        servletConfig.getServletContext().setAttribute(LOGGED_USERS_ATTR, new HashSet<String>());
 
         commands.put(INDEX_COMMAND, new StartPageCommand());
 

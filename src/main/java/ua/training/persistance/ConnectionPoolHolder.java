@@ -48,7 +48,7 @@ public class ConnectionPoolHolder {
 
 
     public Connection getConnection() {
-        LOGGER.info("connect");
+        LOGGER.debug("connect");
         try {
             return this.dataSource.getConnection();
         } catch (SQLException e) {

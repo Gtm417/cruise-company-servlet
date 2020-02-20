@@ -1,4 +1,4 @@
-package ua.training.service.encoder;
+package ua.training.service;
 
 
 import org.apache.log4j.LogManager;
@@ -8,8 +8,8 @@ import ua.training.exception.PasswordEncodeException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordEncoder {
-    private static final Logger LOGGER = LogManager.getLogger(PasswordEncoder.class);
+public class PasswordEncoderService {
+    private static final Logger LOGGER = LogManager.getLogger(PasswordEncoderService.class);
 
     public String encode(String password) {
         try {

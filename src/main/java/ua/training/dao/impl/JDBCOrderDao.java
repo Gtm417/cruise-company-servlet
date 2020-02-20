@@ -69,7 +69,7 @@ public class JDBCOrderDao implements OrderDao {
 
 
     @Override
-    public void buyCruiseChanges(Order order) throws SaveOrderException {
+    public void buyInTransaction(Order order) throws SaveOrderException {
         try (Connection connection = connectionPoolHolder.getConnection()) {
             try (PreparedStatement psUserUpdate = connection.prepareStatement(UPDATE_USER);
                  PreparedStatement psUserSelect = connection.prepareStatement(FIND_USER_BALANCE_BY_ID);
@@ -187,7 +187,7 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public long countOrdersByUserId(long id) {
+    public int countOrdersByUserId(long id) {
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(COUNT_QUERY)) {
             ps.setLong(1, id);

@@ -1,6 +1,5 @@
 package ua.training.service;
 
-import ua.training.dao.DaoFactory;
 import ua.training.dao.ExcursionDao;
 import ua.training.entity.Cruise;
 import ua.training.entity.Excursion;
@@ -12,8 +11,8 @@ import java.util.Set;
 public class ExcursionService {
     private final ExcursionDao excursionDao;
 
-    public ExcursionService() {
-        this.excursionDao = DaoFactory.getInstance().createExcursionDao();
+    public ExcursionService(ExcursionDao excursionDao) {
+        this.excursionDao = excursionDao;
     }
 
     public List<Excursion> showAllExcursionsInCruise(Cruise cruise) {

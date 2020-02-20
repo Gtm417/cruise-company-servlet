@@ -1,7 +1,6 @@
 package ua.training.service;
 
 import ua.training.dao.CruiseDao;
-import ua.training.dao.DaoFactory;
 import ua.training.entity.Cruise;
 import ua.training.exception.CruiseNotFoundException;
 
@@ -10,8 +9,8 @@ import java.util.List;
 public class CruiseService {
     private final CruiseDao cruiseDao;
 
-    public CruiseService() {
-        this.cruiseDao = DaoFactory.getInstance().createCruiseDao();
+    public CruiseService(CruiseDao cruiseDao) {
+        this.cruiseDao = cruiseDao;
     }
 
     public List<Cruise> getAllCruises() {
