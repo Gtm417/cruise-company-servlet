@@ -10,44 +10,45 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page isELIgnored="false" %>
 
+<html lang="${param.lang}">
 
-<html>
 <head>
-    <title>Passengers</title>
+    <title>Orders</title>
 </head>
 <body>
-<c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.orders.list.is.empty"/></label>
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
-<c:remove var="exception" scope="session"/>
+
+<fmt:setBundle basename="message"/>
 <table class="table table-striped table-responsive-md btn-table">
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> Cruise name</th>
-        <th scope="col"> First name</th>
-        <th scope="col"> Second name</th>
-        <th scope="col"> Ticket name</th>
-        <th scope="col"> Price</th>
+        <th scope="col"><fmt:message key="table.order.cruise"/></th>
+        <th scope="col"><fmt:message key="table.order.first.name"/></th>
+        <th scope="col"><fmt:message key="table.order.second.name"/></th>
+        <th scope="col"><fmt:message key="table.order.ticket"/></th>
+        <th scope="col"><fmt:message key="table.order.price"/></th>
     </tr>
     </thead>
 
     <tbody>
-        <c:choose>
-            <c:when test="${users.isEmpty()}">
-                <h2><fmt:message key="alert.orders.list.is.empty"/></h2>
-            </c:when>
-                <c:otherwise>
-                    <c:forEach var="pass" items="${orders}">
-                        <tr>
-                            <td>${pass.cruise.cruiseName}</td>
-                            <td>${pass.firstName}</td>
-                            <td>${pass.secondName}</td>
-                            <td>${pass.ticket.ticketName}</td>
-                            <td>${pass.orderPrice}</td>
-                        </tr>
-                    </c:forEach>
-                </c:otherwise>
-        </c:choose>
+    <c:choose>
+        <c:when test="${orders.isEmpty()}">
+            <h2><fmt:message key="alert.orders.list.is.empty"/></h2>
+        </c:when>
+        <c:otherwise>
+            <c:forEach var="pass" items="${orders}">
+                <tr>
+                    <td>${pass.cruise.cruiseName}</td>
+                    <td>${pass.firstName}</td>
+                    <td>${pass.secondName}</td>
+                    <td>${pass.ticket.ticketName}</td>
+                    <td>${pass.orderPrice}</td>
+                </tr>
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
     </tbody>
 
 </table>

@@ -21,7 +21,7 @@
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
 <h2>
-    <fmt:message key="label.hello.coffee"/>
+    <fmt:message key="label.hello.cruise"/>
 </h2>
 
 <br/>

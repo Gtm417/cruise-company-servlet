@@ -11,10 +11,8 @@ import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static ua.training.web.AttributeConstants.ERRORS_REQUEST_ATTR;
-import static ua.training.web.AttributeConstants.SUCCESS_SESSION_ATTR;
-import static ua.training.web.CommandConstants.LOGIN_COMMAND;
-import static ua.training.web.CommandConstants.REDIRECT_COMMAND;
+import static ua.training.web.AttributeConstants.*;
+import static ua.training.web.CommandConstants.*;
 import static ua.training.web.PageConstants.REGISTRATION_JSP;
 
 public class RegistrationCommand extends MultipleMethodCommand {
@@ -31,6 +29,9 @@ public class RegistrationCommand extends MultipleMethodCommand {
 
     @Override
     protected String performGet(HttpServletRequest request) {
+        if (request.getSession().getAttribute(SESSION_USER_ATTR) != null) {
+            return REDIRECT_COMMAND + LOGOUT_COMMAND;
+        }
         return REGISTRATION_JSP;
     }
 

@@ -19,4 +19,5 @@ public interface AttributeConstants {
     String EXCEPTION_SESSION_ATTR = "exception";
     String ORDERS_REQUEST_ATTR = "orders";
     String CRUISE_REQUEST_ATTR = "cruise";
+    String SESSION_REQUEST_LANG_ATTR = "lang";
 }

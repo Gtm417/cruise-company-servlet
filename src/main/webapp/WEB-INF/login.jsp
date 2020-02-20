@@ -29,20 +29,15 @@
 </c:if>
 <c:remove var="success" scope="session"/>
 
-<c:if test="${errors}">
-    <p>Not Valid</p>
-</c:if>
 <form method="post" action="${pageContext.request.contextPath}/login">
-
-
-    <input type="text" name="name"><br/>
-    <input type="password" name="pass"><br/><br/>
-    <input class="button" type="submit" value="Войти">
-
-
+    <label for="name"> <fmt:message key="label.login"/></label>
+    <input id="name" type="text" name="name"><br/>
+    <label for="password"> <fmt:message key="label.password"/></label>
+    <input id="password" type="password" name="pass"><br/><br/>
+    <input class="button" type="submit" value="<fmt:message key="button.login"/>">
 </form>
 <br/>
-<a href="${pageContext.request.contextPath}/logout"><fmt:message key="button.logout"/> </a>
+<a href="${pageContext.request.contextPath}/index"><fmt:message key="button.back"/> </a>
 
 </body>
 </html>

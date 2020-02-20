@@ -24,7 +24,6 @@ public class AuthFilter implements Filter {
     private static final String INDEX_REQUEST = "/index";
     private static final String REGISTRATION_REQUEST = "/registration";
     private static final String LOGOUT_REQUEST = "/logout";
-    private static final String ERROR_REQUEST = "/error.jsp";
     private static final String ADMIN_REQUEST = "/admin";
 
     @Override
@@ -44,8 +43,7 @@ public class AuthFilter implements Filter {
         String path = req.getRequestURI();
 
         boolean isAccessedRequest = path.contains(LOGIN_REQUEST) || path.contains(LOGOUT_REQUEST)
-                || path.contains(REGISTRATION_REQUEST) || path.contains(INDEX_REQUEST)
-                || path.contains(ERROR_REQUEST);
+                || path.contains(REGISTRATION_REQUEST) || path.contains(INDEX_REQUEST);
 
 
         if ((session.getAttribute(SESSION_USER_ATTR)) == null && !isAccessedRequest) {

@@ -4,7 +4,6 @@ import ua.training.entity.Cruise;
 import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.service.TicketService;
-import ua.training.web.PageConstants;
 import ua.training.web.command.CommandUtility;
 import ua.training.web.command.MultipleMethodCommand;
 import ua.training.web.form.TicketForm;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static ua.training.web.AttributeConstants.*;
 import static ua.training.web.PageConstants.ADD_TICKET_JSP;
+import static ua.training.web.PageConstants.ADMIN_ADD_TICKET_JSP;
 
 public class AddTicketCommand extends MultipleMethodCommand {
 
@@ -49,7 +49,7 @@ public class AddTicketCommand extends MultipleMethodCommand {
         try {
             ticketService.addNewTicket(getFormEntityMapper(request).mapToEntity(ticketForm));
         } catch (DuplicateDataBaseException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e, PageConstants.ADMIN_ADD_TICKET_JSP);
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, ADMIN_ADD_TICKET_JSP);
             return exceptionHandler.handling(request);
         }
         request.getSession().setAttribute(SUCCESS_SESSION_ATTR, true);

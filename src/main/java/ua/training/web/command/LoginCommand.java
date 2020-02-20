@@ -23,6 +23,7 @@ public class LoginCommand extends MultipleMethodCommand {
 
     @Override
     protected String performGet(HttpServletRequest request) {
+        request.getSession().invalidate();
         return LOGIN_JSP;
     }
 
