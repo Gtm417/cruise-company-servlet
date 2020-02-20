@@ -1,4 +1,3 @@
-<
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -30,10 +29,11 @@
     <p>Not Valid</p>
 </c:if>
 <form method="post" action="${pageContext.request.contextPath}/registration">
-
-    <input type="text" required name="name"><br/>
-    <input type="password" required name="pass"><br/><br/>
-    <input class="button" type="submit" value="Войти">
+    <label for="name"> <fmt:message key="label.login"/></label>
+    <input id="name" type="text" required pattern="^[A-Za-z0-9_-]{3,16}$" name="name"><br/>
+    <label for="password"> <fmt:message key="label.password"/></label>
+    <input id="password" type="password" required pattern="^[A-Za-z0-9_-]{5,18}$" name="pass"><br/><br/>
+    <input class="button" type="submit" value="<fmt:message key="button.registration"/>">
 
 </form>
 

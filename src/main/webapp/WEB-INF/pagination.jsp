@@ -9,11 +9,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="text"/>
+
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
+</c:if>
+<fmt:setBundle basename="message"/>
 <html>
 <head>
-
     <title>Pagination</title>
 </head>
 <body>
@@ -21,7 +23,6 @@
     <ul class="pagination">
         <c:if test="${page ne 1}">
             <li class="page-item"><a class="page-link"
-<%--                                     href="${pageContext.request.contextPath}/${command}?page=${page - 1}&size=${size}"><fmt:message--%>
                                      href="${pageContext.request.contextPath}/${command}?page=${page - 1}&size=${size}"><fmt:message
                     key="pagination.prev"/></a>
             </li>

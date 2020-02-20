@@ -16,18 +16,23 @@
     <title>Passengers</title>
 </head>
 <body>
-<c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.passenger.list.is.empty"/></label>
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
 </c:if>
-<c:remove var="exception" scope="session"/>
+
+<fmt:setBundle basename="message"/>
+<ul>
+    <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
+    <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
+</ul>
 <table class="table table-striped table-responsive-md btn-table">
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> Cruise name</th>
-        <th scope="col"> First name</th>
-        <th scope="col"> Second name</th>
-        <th scope="col"> Ticket name</th>
-        <th scope="col"> Price</th>
+        <th scope="col"><fmt:message key="table.order.cruise"/></th>
+        <th scope="col"><fmt:message key="table.order.first.name"/></th>
+        <th scope="col"><fmt:message key="table.order.second.name"/></th>
+        <th scope="col"><fmt:message key="table.order.ticket"/></th>
+        <th scope="col"><fmt:message key="table.order.price"/></th>
     </tr>
     </thead>
 
@@ -50,5 +55,7 @@
     </c:choose>
     </tbody>
 </table>
+<a aria-pressed="true" class="btn button" role="button" href="${pageContext.request.contextPath}/main"> <fmt:message
+        key="button.main"/></a
 </body>
 </html>

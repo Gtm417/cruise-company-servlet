@@ -29,11 +29,11 @@
     <p>Not Valid</p>
 </c:if>
 <form method="post" action="${pageContext.request.contextPath}/balance">
-
-    <%--    <input type="number" required name="balance"><br/>--%>
-    <input type="text" name="balance"><br/>
-    <input class="button" type="submit" value="Replenish">
-
+    <input type="number" min="100" max="10000" step="100" placeholder="0" required class="form-control"
+           name="balance"><br/>
+    <input class="button" type="submit" value="<fmt:message key="button.replenish.balance"/>">
 </form>
+<a aria-pressed="true" class="btn button" role="button" href="${pageContext.request.contextPath}/main"> <fmt:message
+        key="button.main"/></a
 </body>
 </html>

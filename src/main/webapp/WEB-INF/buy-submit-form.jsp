@@ -27,110 +27,115 @@
 
 </ul>
 <c:if test="${sessionScope.exception == true}">
-    <label class="alert alert-info"> <fmt:message key="alert.not.enough.money"/></label>
+    <label class="alert alert-info"> <fmt:message key="alert.excursion.not.found"/></label>
 </c:if>
 <c:remove var="exception" scope="session"/>
 <h1>Receipt</h1>
 
-<table cellspacing="0">
+<table>
     <tr>
-        <td>First name</td>
+        <td><fmt:message key="table.order.first.name"/></td>
         <td>${sessionScope.order.firstName}</td>
     </tr>
     <tr>
-        <td>Second name</td>
+        <td><fmt:message key="table.order.second.name"/></td>
         <td>${sessionScope.order.secondName}</td>
     </tr>
     <tr>
-        <td>Cruise</td>
+        <td><fmt:message key="table.order.cruise"/></td>
         <td>${sessionScope.cruise.cruiseName}</td>
     </tr>
     <tr>
-        <td>Ticket Name</td>
+        <td><fmt:message key="table.order.ticket"/></td>
         <td>${sessionScope.order.ticket.ticketName}</td>
     </tr>
     <tr>
-        <td>Ticket Price</td>
+        <td><fmt:message key="table.order.price"/></td>
         <td>${sessionScope.order.ticket.price} <fmt:message key="currency.info"/></td>
         <td></td>
     </tr>
     <tr>
-        <td>Ticket Discount</td>
+        <td><fmt:message key="label.ticket.discount"/></td>
         <td>${sessionScope.order.ticket.discount}%</td>
     </tr>
     <tr>
         <td>Total</td>
-        <%--        <td>${sessionScope.order.orderPrice}</td>--%>
-        <td>${resultPrice} <fmt:message key="currency.info"/></td>
+        <td>${sessionScope.order.orderPrice} <fmt:message key="currency.info"/></td>
+        <%--        <td>${resultPrice} <fmt:message key="currency.info"/></td>--%>
     </tr>
 </table>
 
 <table>
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> port</th>
-        <th scope="col"> Name</th>
-        <th scope="col"> duration</th>
-        <th scope="col"> price</th>
+        <th scope="col"><fmt:message key="table.excursion.port"/></th>
+        <th scope="col"><fmt:message key="table.excursion.name"/></th>
+        <th scope="col"><fmt:message key="table.excursion.duration"/></th>
+        <th scope="col"><fmt:message key="table.excursion.price"/></th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="excursion" items="${excursions}">
-        <tr>
-            <td>${excursion.port.portName}</td>
-            <td>${excursion.excursionName}</td>
-            <td>${excursion.duration}</td>
-            <td>${excursion.price}</td>
-            <td>
-                <form action="${pageContext.request.contextPath}/add-excursion" method="post">
-                        <%--                    <input hidden name="excursionName" value = "${excursion.excursionName}"/>--%>
-                    <input hidden name="id" value="${excursion.id}"/>
-                        <%--                    <input hidden name="duration" value = "${excursion.duration}"/>--%>
-                        <%--                    <input hidden name="price" value = "${excursion.price}"/>--%>
-                        <%--                    <input hidden name="portId" value = "${excursion.port.id}"/>--%>
-                        <%--                    <input hidden name="portName" value = "${excursion.port.portName}"/>--%>
-                    <button class="btn btn-success">Add</button>
-                </form>
-            </td>
-        </tr>
+    <c:choose>
+        <c:when test="${excursions.isEmpty()}">
+            <h2><fmt:message key="alert.excursion.list.not.found"/></h2>
+        </c:when>
+        <c:otherwise>
+            <c:forEach var="excursion" items="${excursions}">
+                <tr>
+                    <td>${excursion.port.portName}</td>
+                    <td>${excursion.excursionName}</td>
+                    <td>${excursion.duration}</td>
+                    <td>${excursion.price}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/add-excursion" method="post">
+                            <input hidden name="id" value="${excursion.id}"/>
+                            <button class="btn btn-success"><fmt:message key="button.add"/></button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
 
-
-    </c:forEach>
     </tbody>
 </table>
 <table>
     <thead class="thead-dark">
     <tr>
-        <th scope="col"> port</th>
-        <th scope="col"> Name</th>
-        <th scope="col"> price</th>
+        <th scope="col"><fmt:message key="table.excursion.port"/></th>
+        <th scope="col"><fmt:message key="table.excursion.name"/></th>
+        <th scope="col"><fmt:message key="table.excursion.price"/></th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="selectedExcursion" items="${sessionScope.order.excursionList}">
-        <tr>
-            <td>${selectedExcursion.port.portName}</td>
-            <td>${selectedExcursion.excursionName}</td>
-            <td>${selectedExcursion.price}</td>
-            <td>
-                <form action="${pageContext.request.contextPath}/remove-excursion" method="post">
-                    <input hidden name="excursionName" value="${selectedExcursion.excursionName}"/>
-                    <input hidden name="id" value="${selectedExcursion.id}"/>
-                    <input hidden name="duration" value="${selectedExcursion.duration}"/>
-                    <input hidden name="price" value="${selectedExcursion.price}"/>
-                    <input hidden name="portId" value="${selectedExcursion.port.id}"/>
-                    <input hidden name="portName" value="${selectedExcursion.port.portName}"/>
-                    <button class="btn btn-danger">Remove</button>
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <c:choose>
+        <c:when test="${sessionScope.order.excursionList.isEmpty()}">
+            <p><fmt:message key="alert.selected.excursions.not.found"/></p>
+        </c:when>
+        <c:otherwise>
+            <c:forEach var="selectedExcursion" items="${sessionScope.order.excursionList}">
+                <tr>
+                    <td>${selectedExcursion.port.portName}</td>
+                    <td>${selectedExcursion.excursionName}</td>
+                    <td>${selectedExcursion.price}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/remove-excursion" method="post">
+                            <input hidden name="id" value="${selectedExcursion.id}"/>
+                            <button class="btn btn-danger"><fmt:message key="button.remove"/></button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
+
     </tbody>
 </table>
 <form action="${pageContext.request.contextPath}/buy-submit" method="post">
-    <button class="btn btn-success" value="Submit">Submit</button>
-<%--    <input hidden name="resultPrice" value="${resultPrice}">--%>
+    <input class="button" type="submit" value="<fmt:message key="button.submit"/>">
 </form>
 
+<a aria-pressed="true" class="btn" role="button" href="${pageContext.request.contextPath}/main"> <fmt:message
+        key="button.main"/></a
 </body>
 </html>

@@ -13,7 +13,13 @@
 <head>
     <title>Access denied</title>
 </head>
+
 <body>
+<c:if test="${not empty param.lang}">
+    <fmt:setLocale value="${param.lang}" scope="session"/>
+</c:if>
+
+<fmt:setBundle basename="message"/>
 <c:if test="${cruiseNotFound}">
     <h1><fmt:message key="alert.wrong.input.data"/></h1>
 </c:if>

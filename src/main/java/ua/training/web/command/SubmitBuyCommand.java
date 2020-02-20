@@ -36,7 +36,6 @@ public class SubmitBuyCommand extends MultipleMethodCommand {
         order.setOrderPrice(order.getTicket().getPriceWithDiscount()
                 + excursionService.getTotalSumExcursionSet(order.getExcursionList()));
 
-        request.setAttribute(RESULT_PRICE_REQUEST_ATTR, order.getOrderPrice());
         request.setAttribute(EXCURSIONS_REQUEST_ATTR,
                 excursionService.showAllExcursionsInCruise(order.getCruise()));
 
@@ -60,7 +59,7 @@ public class SubmitBuyCommand extends MultipleMethodCommand {
             LOGGER.info(e.getMessage());
             return UNSUCCESS_BUY_JSP;
         }
-        return SUCCESS_BUY_JSP;
+        return SUCCESS_JSP;
     }
 
 
