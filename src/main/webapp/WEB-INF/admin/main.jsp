@@ -18,7 +18,7 @@
     <li><a href="?lang=en"><fmt:message key="label.lang.en"/></a></li>
     <li><a href="?lang=ru"><fmt:message key="label.lang.ru"/></a></li>
 </ul>
-<a href="${pageContext.request.contextPath}/balance.jsp"> Replenish</a>
+<a href="${pageContext.request.contextPath}/balance"> Replenish</a>
 <a href="${pageContext.request.contextPath}/all-orders?page=1&size=5"> Orders</a>
 
 <button></button>

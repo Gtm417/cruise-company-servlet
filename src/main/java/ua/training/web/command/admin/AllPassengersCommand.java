@@ -2,12 +2,15 @@ package ua.training.web.command.admin;
 
 import ua.training.entity.Cruise;
 import ua.training.service.OrderService;
+import ua.training.web.PageConstants;
+import ua.training.web.command.Command;
 import ua.training.web.command.CommandUtility;
-import ua.training.web.command.MultipleMethodCommand;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AllPassengersCommand extends MultipleMethodCommand {
+import static ua.training.web.AttributeConstants.PASSENGERS_REQUEST_ATTR;
+
+public class AllPassengersCommand implements Command {
     private final OrderService orderService;
 
     public AllPassengersCommand(OrderService orderService) {
@@ -16,14 +19,9 @@ public class AllPassengersCommand extends MultipleMethodCommand {
 
 
     @Override
-    protected String performGet(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         Cruise cruise = CommandUtility.checkCruiseInSession(request);
-        request.setAttribute("passengers", orderService.showAllPassengersOnCruise(cruise.getId()));
-        return "all-passengers.jsp";
-    }
-
-    @Override
-    protected String performPost(HttpServletRequest request) {
-        return null;
+        request.setAttribute(PASSENGERS_REQUEST_ATTR, orderService.showAllPassengersOnCruise(cruise.getId()));
+        return PageConstants.ALL_PASSENGERS_JSP;
     }
 }

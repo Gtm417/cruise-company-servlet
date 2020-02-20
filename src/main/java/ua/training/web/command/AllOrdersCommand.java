@@ -2,37 +2,41 @@ package ua.training.web.command;
 
 import ua.training.entity.User;
 import ua.training.service.OrderService;
+import ua.training.web.PageConstants;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AllOrdersCommand extends MultipleMethodCommand implements Pagination {
-    private final OrderService orderService;
+import static ua.training.web.AttributeConstants.ORDERS_REQUEST_ATTR;
+import static ua.training.web.AttributeConstants.SESSION_USER_ATTR;
+import static ua.training.web.CommandConstants.ALL_ORDERS_COMMAND;
+import static ua.training.web.PageConstants.PAGE_404_JSP;
 
-    public AllOrdersCommand(OrderService orderService) {
+public class AllOrdersCommand implements Command {
+    private final OrderService orderService;
+    private final Pagination pagination;
+
+    public AllOrdersCommand(OrderService orderService, Pagination pagination) {
         this.orderService = orderService;
+        this.pagination = pagination;
     }
 
     @Override
-    protected String performGet(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) {
         String sizeParam = request.getParameter("size");
         String pageParam = request.getParameter("page");
-        if (!validatePaginationParams(sizeParam, pageParam)) {
-            return "WEB-INF/404.jsp";
+        if (!pagination.validatePaginationParams(sizeParam, pageParam)) {
+            return PAGE_404_JSP;
         }
 
         int page = Integer.parseInt(pageParam);
         int size = Integer.parseInt(sizeParam);
-        long userId = ((User) request.getSession().getAttribute("user")).getId();
+        long userId = ((User) request.getSession().getAttribute(SESSION_USER_ATTR)).getId();
 
-        paginate(page, size, orderService.countAllOrders(userId), request, "all-orders");
+        pagination.paginate(page, size, orderService.countAllOrders(userId), request, ALL_ORDERS_COMMAND);
 
-        request.setAttribute("orders", orderService.showAllUserOrders(page, size, userId));
+        request.setAttribute(ORDERS_REQUEST_ATTR, orderService.showAllUserOrders(page, size, userId));
 
-        return "all-orders.jsp";
+        return PageConstants.ALL_ORDERS_JSP;
     }
 
-    @Override
-    protected String performPost(HttpServletRequest request) {
-        return null;
-    }
 }

@@ -9,20 +9,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static ua.training.web.AttributeConstants.SESSION_ROLE_ATTR;
+import static ua.training.web.AttributeConstants.SESSION_USER_ATTR;
 import static ua.training.web.CommandConstants.CRUISE_COMPANY_DEFAULT_PATH;
 import static ua.training.web.CommandConstants.INDEX_COMMAND;
+import static ua.training.web.PageConstants.ACCESS_DENIED_PAGE;
+import static ua.training.web.PageConstants.PAGE_404_JSP;
 
 
 public class AuthFilter implements Filter {
 
-    public static final String ACCESS_DENIED_PAGE = "/WEB-INF/access-denied.jsp";
+    public static final String CRUISE_COMPANY_REGEX_PATTERN = ".*/cruise-company/.*";
     private static final String LOGIN_REQUEST = "/login";
     private static final String INDEX_REQUEST = "/index";
     private static final String REGISTRATION_REQUEST = "/registration";
     private static final String LOGOUT_REQUEST = "/logout";
     private static final String ERROR_REQUEST = "/error.jsp";
     private static final String ADMIN_REQUEST = "/admin";
-
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -45,7 +48,7 @@ public class AuthFilter implements Filter {
                 || path.contains(ERROR_REQUEST);
 
 
-        if ((session.getAttribute("user")) == null && !isAccessedRequest) {
+        if ((session.getAttribute(SESSION_USER_ATTR)) == null && !isAccessedRequest) {
             res.sendRedirect(CRUISE_COMPANY_DEFAULT_PATH + INDEX_COMMAND);
             return;
         }
@@ -53,13 +56,13 @@ public class AuthFilter implements Filter {
             filterChain.doFilter(request, response);
             return;
         }
-        if (session.getAttribute("user") != null) {
-            if (path.contains(ADMIN_REQUEST) && session.getAttribute("role") != (Role.ADMIN)) {
+        if (session.getAttribute(SESSION_USER_ATTR) != null) {
+            if (path.contains(ADMIN_REQUEST) && session.getAttribute(SESSION_ROLE_ATTR) != (Role.ADMIN)) {
                 req.getRequestDispatcher(ACCESS_DENIED_PAGE).forward(request, response);
-            } else if (path.matches(".*/cruise-company/.*")) {
+            } else if (path.matches(CRUISE_COMPANY_REGEX_PATTERN)) {
                 filterChain.doFilter(request, response);
             } else {
-                req.getRequestDispatcher("/WEB-INF/404.jsp").forward(request, response);
+                req.getRequestDispatcher(PAGE_404_JSP).forward(request, response);
             }
         }
     }

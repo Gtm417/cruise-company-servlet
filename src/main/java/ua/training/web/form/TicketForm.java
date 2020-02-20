@@ -31,7 +31,4 @@ public class TicketForm {
         return discount;
     }
 
-    public void setDiscount(String discount) {
-        this.discount = discount;
-    }
 }

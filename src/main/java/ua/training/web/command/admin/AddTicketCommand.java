@@ -4,6 +4,7 @@ import ua.training.entity.Cruise;
 import ua.training.entity.Ticket;
 import ua.training.exception.DuplicateDataBaseException;
 import ua.training.service.TicketService;
+import ua.training.web.PageConstants;
 import ua.training.web.command.CommandUtility;
 import ua.training.web.command.MultipleMethodCommand;
 import ua.training.web.form.TicketForm;
@@ -13,6 +14,9 @@ import ua.training.web.mapper.MapperFormToEntity;
 import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static ua.training.web.AttributeConstants.*;
+import static ua.training.web.PageConstants.ADD_TICKET_JSP;
 
 public class AddTicketCommand extends MultipleMethodCommand {
 
@@ -28,7 +32,7 @@ public class AddTicketCommand extends MultipleMethodCommand {
     @Override
     protected String performGet(HttpServletRequest request) {
         CommandUtility.checkCruiseInSession(request);
-        return "add-ticket.jsp";
+        return ADD_TICKET_JSP;
     }
 
     @Override
@@ -38,20 +42,18 @@ public class AddTicketCommand extends MultipleMethodCommand {
         TicketForm ticketForm = getRequestMapper().mapToForm(request);
 
         if (!validator.validate(ticketForm)) {
-            request.setAttribute("errors", true);
-            return "add-ticket.jsp";
+            request.setAttribute(ERRORS_REQUEST_ATTR, true);
+            return ADD_TICKET_JSP;
         }
 
         try {
             ticketService.addNewTicket(getFormEntityMapper(request).mapToEntity(ticketForm));
         } catch (DuplicateDataBaseException e) {
-            e.printStackTrace();
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "admin/add-ticket.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, PageConstants.ADMIN_ADD_TICKET_JSP);
             return exceptionHandler.handling(request);
-
         }
-        request.getSession().setAttribute("success", true);
-        return "add-ticket.jsp";
+        request.getSession().setAttribute(SUCCESS_SESSION_ATTR, true);
+        return ADD_TICKET_JSP;
     }
 
     private RequestFormMapper<TicketForm> getRequestMapper() {
@@ -65,7 +67,7 @@ public class AddTicketCommand extends MultipleMethodCommand {
                 .ticketName(form.getName())
                 .price(Long.parseLong(form.getPrice()))
                 .discount(Integer.parseInt(form.getDiscount()))
-                .cruise((Cruise) request.getSession().getAttribute("cruise"))
+                .cruise((Cruise) request.getSession().getAttribute(SESSION_CRUISE_ATTR))
                 .build();
     }
 }

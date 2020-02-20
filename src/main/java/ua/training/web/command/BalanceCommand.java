@@ -2,17 +2,20 @@ package ua.training.web.command;
 
 import ua.training.entity.User;
 import ua.training.service.UserService;
+import ua.training.web.PageConstants;
 import ua.training.web.form.validation.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static java.util.Objects.isNull;
+import static ua.training.web.AttributeConstants.ERRORS_REQUEST_ATTR;
+import static ua.training.web.AttributeConstants.SESSION_USER_ATTR;
 
 public class BalanceCommand extends MultipleMethodCommand {
 
-    public static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
-    public static final int VALIDATION_MAX_VALUE = 9999;
-    public static final int VALIDATION_MIN_VALUE = 0;
+    private static final String VALIDATION_REGEX = "([1-9][0-9]{0,3})";
+    private static final int VALIDATION_MAX_VALUE = 9999;
+    private static final int VALIDATION_MIN_VALUE = 0;
     private final UserService userService;
 
     public BalanceCommand(UserService userService) {
@@ -21,18 +24,18 @@ public class BalanceCommand extends MultipleMethodCommand {
 
     @Override
     protected String performGet(HttpServletRequest request) {
-        return "balance.jsp";
+        return PageConstants.BALANCE_JSP;
     }
 
     @Override
     protected String performPost(HttpServletRequest request) {
         if (!getValidator().validate(request)) {
-            request.setAttribute("errors", true);
-            return "balance.jsp";
+            request.setAttribute(ERRORS_REQUEST_ATTR, true);
+            return PageConstants.BALANCE_JSP;
         }
-        userService.addBalance((User) request.getSession().getAttribute("user"),
+        userService.addBalance((User) request.getSession().getAttribute(SESSION_USER_ATTR),
                 Long.parseLong(request.getParameter("balance")));
-        return "success-replenish.jsp";
+        return PageConstants.SUCCESS_REPLENISH_JSP;
     }
 
     private Validator<HttpServletRequest> getValidator() {

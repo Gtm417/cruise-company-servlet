@@ -16,27 +16,38 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
+import static ua.training.dao.TableConstants.*;
+
 
 public class JDBCExcursionDao implements ExcursionDao {
-    private final static String FIND_ALL_EXCURSION_FOR_CRUISE = "SELECT excursions.id,excursion_name,price,duration, ports.id, port_name FROM ports_cruises " +
-            "inner join excursions ON ports_cruises.port_id = excursions.port_id " +
-            "inner join ports ON ports_cruises.port_id = ports.id " +
-            "WHERE cruise_id = ?";
-    private final static String FIND_EXCURSION_BY_ID = "SELECT * FROM excursions " +
-            "INNER JOIN ports ON excursions.port_id = ports.id " +
-            "WHERE (excursions.id = ?)";
+    private final static String FIND_ALL_EXCURSION_FOR_CRUISE = "SELECT " +
+            EXCURSIONS_ID_COLUMN + ", " +
+            EXCURSION_NAME_COLUMN + ", " +
+            PRICE_COLUMN + "," +
+            EXCURSIONS_DURATION_COLUMN + ", " +
+            PORTS_ID_COLUMN + ", " +
+            PORT_NAME_COLUMN +
+            " FROM " + PORTS_CRUISES_TABLE +
+            " inner join " + EXCURSIONS_TABLE + " ON " + PORTS_CRUISES_PORT_ID_COLUMN + " = " + EXCURSIONS_PORT_ID_COLUMN +
+            " inner join " + PORTS_TABLE + " ON " + PORTS_CRUISES_PORT_ID_COLUMN + " = " + PORTS_ID_COLUMN +
+            " WHERE " + PORTS_CRUISES_CRUISE_ID_COLUMN + " = ?";
+    private final static String FIND_EXCURSION_BY_ID = "SELECT * FROM " + EXCURSIONS_TABLE +
+            " INNER JOIN " + PORTS_TABLE + " ON " + EXCURSIONS_PORT_ID_COLUMN + " = " + PORTS_ID_COLUMN +
+            " WHERE (" + EXCURSIONS_ID_COLUMN + " = ?)";
 
     private final ConnectionPoolHolder connectionPoolHolder;
+    private ObjectMapper<Excursion> excursionMapper;
+    private ObjectMapper<Port> portMapper;
 
     public JDBCExcursionDao(ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
+        this.excursionMapper = new ExcursionMapper();
+        this.portMapper = new PortMapper();
     }
 
     @Override
     public Optional<Excursion> findById(long id) {
-        ObjectMapper<Excursion> excursionMapper = new ExcursionMapper();
-        ObjectMapper<Port> portMapper = new PortMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_EXCURSION_BY_ID)) {
             ps.setLong(1, id);
@@ -55,8 +66,7 @@ public class JDBCExcursionDao implements ExcursionDao {
     @Override
     public List<Excursion> findAllExcursionsByCruiseId(long cruiseId) {
         List<Excursion> excursions = new ArrayList<>();
-        ObjectMapper<Excursion> excursionMapper = new ExcursionMapper();
-        ObjectMapper<Port> portMapper = new PortMapper();
+
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_ALL_EXCURSION_FOR_CRUISE)) {
             ps.setLong(1, cruiseId);
@@ -72,11 +82,5 @@ public class JDBCExcursionDao implements ExcursionDao {
         }
         return excursions;
     }
-
-    @Override
-    public void saveExcursionsToOrder(Set<Excursion> excursionList, long orderId) {
-
-    }
-
 
 }

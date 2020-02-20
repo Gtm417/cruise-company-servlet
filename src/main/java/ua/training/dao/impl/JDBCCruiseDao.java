@@ -14,21 +14,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static ua.training.dao.TableConstants.*;
+
 public class JDBCCruiseDao implements CruiseDao {
-    private static final String FIND_ALL_QUERY = "SELECT * FROM cruises inner join ships ON cruises.id = ships.id;";
-    private static final String FIND_BY_ID = "SELECT * FROM cruises INNER JOIN ships ON cruises.ship_id = ships.id WHERE cruises.id = ?";
-    private static final String UPDATE_CRUISE = "UPDATE cruises SET cruise_name = ?, " +
-            "description_eng = ?, description_ru = ?, departure_date = ?, arrival_date = ? WHERE id = ?";
+
+    private static final String FIND_ALL_QUERY = "SELECT * FROM " + CRUISES_TABLE + " INNER JOIN " + SHIPS_TABLE + " ON " + CRUISES_ID_COLUMN + " = " + SHIPS_ID_COLUMN + ";";
+    private static final String FIND_BY_ID = "SELECT * FROM " + CRUISES_TABLE + " INNER JOIN " + SHIPS_TABLE + " ON " + CRUISES_SHIP_ID + " = " + SHIPS_ID_COLUMN + " WHERE " + CRUISES_ID_COLUMN + " = ?";
+    private static final String UPDATE_CRUISE = "UPDATE " + CRUISES_TABLE + " SET " + CRUISES_NAME_COLUMN + " = ?, " +
+            CRUISE_DESCRIPTION_ENG_COLUMN + " = ?, " + CRUISE_DESCRIPTION_RU_COLUMN + " = ?, " + CRUISE_DEPARTURE_DATE_COLUMN + " = ?, " + CRUISE_ARRIVAL_DATE + " = ? WHERE ID = ?";
+
     private final ConnectionPoolHolder connectionPoolHolder;
+    private ObjectMapper<Cruise> cruiseMapper;
+    private ObjectMapper<Ship> shipMapper;
 
     public JDBCCruiseDao(final ConnectionPoolHolder connectionPoolHolder) {
         this.connectionPoolHolder = connectionPoolHolder;
+        this.cruiseMapper = new CruiseMapper();
+        this.shipMapper = new ShipMapper();
     }
 
     @Override
     public Optional<Cruise> findById(long id) {
-        ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-        ObjectMapper<Ship> shipMapper = new ShipMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              PreparedStatement ps = connection.prepareStatement(FIND_BY_ID)) {
             ps.setLong(1, id);
@@ -47,8 +53,6 @@ public class JDBCCruiseDao implements CruiseDao {
     @Override
     public List<Cruise> findAll() {
         List<Cruise> resultList = new ArrayList<>();
-        ObjectMapper<Cruise> cruiseMapper = new CruiseMapper();
-        ObjectMapper<Ship> shipMapper = new ShipMapper();
         try (Connection connection = connectionPoolHolder.getConnection();
              Statement pst = connection.createStatement()) {
             ResultSet rs = pst.executeQuery(FIND_ALL_QUERY);

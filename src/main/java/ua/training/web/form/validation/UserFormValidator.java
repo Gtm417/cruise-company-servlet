@@ -5,8 +5,8 @@ import ua.training.web.form.UserForm;
 
 public class UserFormValidator implements Validator<UserForm> {
 
-    public static final String LOGIN_REGEX = "^[A-Za-z0-9_-]{3,16}$";
-    public static final String PASSWORD_REGEX = "^[A-Za-z0-9_-]{5,18}$";
+    private static final String LOGIN_REGEX = "^[A-Za-z0-9_-]{3,16}$";
+    private static final String PASSWORD_REGEX = "^[A-Za-z0-9_-]{5,18}$";
 
 
     @Override

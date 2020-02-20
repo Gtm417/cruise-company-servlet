@@ -4,8 +4,12 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.util.HashSet;
 
+import static ua.training.web.AttributeConstants.LOGGED_USERS_ATTR;
+import static ua.training.web.AttributeConstants.SESSION_LOGIN_ATTR;
+
 
 public class SessionListener implements HttpSessionListener {
+
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
 
@@ -15,10 +19,10 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HashSet<String> loggedUsers = (HashSet<String>) httpSessionEvent
                 .getSession().getServletContext()
-                .getAttribute("loggedUsers");
-        String userName = (String) httpSessionEvent.getSession()
-                .getAttribute("userName");
-        loggedUsers.remove(userName);
-        httpSessionEvent.getSession().setAttribute("loggedUsers", loggedUsers);
+                .getAttribute(LOGGED_USERS_ATTR);
+        String login = (String) httpSessionEvent.getSession()
+                .getAttribute(SESSION_LOGIN_ATTR);
+        loggedUsers.remove(login);
+        httpSessionEvent.getSession().setAttribute(LOGGED_USERS_ATTR, loggedUsers);
     }
 }

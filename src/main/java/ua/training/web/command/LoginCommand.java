@@ -8,6 +8,10 @@ import ua.training.web.mapper.RequestFormMapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static ua.training.web.AttributeConstants.SESSION_USER_ATTR;
+import static ua.training.web.CommandConstants.*;
+import static ua.training.web.PageConstants.LOGIN_JSP;
+
 public class LoginCommand extends MultipleMethodCommand {
     private final UserService userService;
     private final RequestFormMapper<UserForm> userRequestFormMapper;
@@ -19,14 +23,13 @@ public class LoginCommand extends MultipleMethodCommand {
 
     @Override
     protected String performGet(HttpServletRequest request) {
-
-        return "login.jsp";
+        return LOGIN_JSP;
     }
 
     @Override
     protected String performPost(HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") != null) {
-            return "redirect:logout";
+        if (request.getSession().getAttribute(SESSION_USER_ATTR) != null) {
+            return REDIRECT_COMMAND + LOGOUT_COMMAND;
         }
 
         UserForm userForm = userRequestFormMapper.mapToForm(request);
@@ -34,9 +37,9 @@ public class LoginCommand extends MultipleMethodCommand {
         try {
             CommandUtility.setUserInSession(request, userService.login(userForm));
         } catch (UserNotFoundException e) {
-            ExceptionHandler exceptionHandler = new ExceptionHandler(e, "login.jsp");
+            ExceptionHandler exceptionHandler = new ExceptionHandler(e, LOGIN_JSP);
             return exceptionHandler.handling(request);
         }
-        return "redirect:main";
+        return REDIRECT_COMMAND + MAIN_COMMAND;
     }
 }
