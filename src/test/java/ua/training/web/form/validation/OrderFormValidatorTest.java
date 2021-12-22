@@ -25,7 +25,7 @@ public class OrderFormValidatorTest {
     public void validateEmpty() {
 
         OrderForm orderForm = new OrderForm("", "", "");
-        assertTrue(validator.validate(orderForm));
+        assertFalse(validator.validate(orderForm));
     }
 
     @Test
